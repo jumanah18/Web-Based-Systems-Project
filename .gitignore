@@ -1,0 +1,41 @@
+# aws in case we use it
+.aws/
+aws-config.json
+*.pem
+*.key
+credentials
+secrets.json
+
+#secrets
+.env
+.env.local
+config.php
+database.php
+db_connect.php
+
+# js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+#php ?
+vendor/
+composer.lock
+
+# temp
+dist/
+build/
+*.log
+*.tmp
+*.bak
+*.sql
+#os
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+#ide
+.project
+.settings/
+.buildpath
