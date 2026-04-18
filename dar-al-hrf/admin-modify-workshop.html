@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Modify Workshop</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-page { min-height: calc(100vh - 68px); background: var(--cream); padding: 48px 24px 80px; }
+    .admin-container { max-width: 1100px; margin: 0 auto; }
+    .admin-page-header { margin-bottom: 36px; }
+    .admin-breadcrumb { font-size: 12px; color: #888; margin-bottom: 10px; }
+    .admin-breadcrumb a { color: var(--gold); font-weight: 700; text-decoration: none; }
+    .admin-breadcrumb a:hover { text-decoration: underline; }
+    .admin-page-header h1 { font-size: 28px; font-weight: 700; color: var(--green); }
+    .admin-page-header p { font-size: 14px; color: #666; margin-top: 6px; }
+
+    .workshops-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+      margin-bottom: 48px;
+    }
+    .workshop-admin-card {
+      background: var(--white); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(36,60,33,0.09); border: 1.5px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .workshop-admin-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .wac-img { height: 170px; overflow: hidden; }
+    .wac-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .workshop-admin-card:hover .wac-img img { transform: scale(1.05); }
+    .wac-body { padding: 18px; }
+    .wac-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+    .wac-title { font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 3px; line-height: 1.3; }
+    .wac-title-ar { font-family: 'Noto Naskh Arabic', serif; font-size: 13px; color: #888; margin-bottom: 10px; }
+    .wac-meta { font-size: 12px; color: #666; margin-bottom: 4px; }
+    .wac-price { font-size: 16px; font-weight: 700; color: var(--green); margin: 10px 0 14px; }
+    .wac-price small { font-size: 10px; font-weight: 400; color: #aaa; }
+    .wac-btn {
+      display: block; width: 100%; text-align: center; background: var(--gold); color: var(--white);
+      border: none; border-radius: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 10px; cursor: pointer; transition: background 0.2s;
+    }
+    .wac-btn:hover { background: #b8960f; }
+
+    /* Edit Modal */
+    .edit-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 500; align-items: center; justify-content: center; padding: 20px;
+    }
+    .edit-overlay.open { display: flex; }
+    .edit-modal {
+      background: var(--white); border-radius: 12px; width: 100%; max-width: 660px;
+      max-height: 90vh; overflow-y: auto; padding: 36px 40px;
+      border-top: 4px solid var(--gold); position: relative;
+    }
+    .edit-modal-close {
+      position: absolute; top: 16px; right: 16px; background: none; border: none;
+      font-size: 22px; cursor: pointer; color: #aaa; line-height: 1;
+    }
+    .edit-modal-close:hover { color: var(--red); }
+    .edit-modal h2 { font-size: 20px; font-weight: 700; color: var(--green); margin-bottom: 24px; }
+
+    .form-section-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #eee;
+    }
+    .form-section-title:first-of-type { margin-top: 0; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 7px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 10px 13px; border: 1.5px solid #ddd; border-radius: 6px;
+      font-size: 13px; font-family: 'Lato', sans-serif; color: var(--text);
+      background: var(--white); transition: border-color 0.2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23243C21' fill='none' stroke-width='1.8'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    }
+
+    .current-image-preview { margin-bottom: 12px; }
+    .current-image-preview img { height: 110px; border-radius: 7px; object-fit: cover; border: 2px solid #eee; }
+    .current-image-label { font-size: 10px; color: #999; margin-top: 5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .image-upload-area {
+      border: 2px dashed #ccc; border-radius: 8px; padding: 22px; text-align: center;
+      cursor: pointer; transition: border-color 0.2s; position: relative; background: #fafafa;
+    }
+    .image-upload-area:hover { border-color: var(--gold); background: rgba(210,172,43,0.04); }
+    .image-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; border: none; padding: 0;
+    }
+    .upload-text { font-size: 12px; color: #666; }
+    .upload-text strong { color: var(--green); }
+    .upload-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .new-image-preview { margin-top: 10px; display: none; }
+    .new-image-preview img { height: 100px; border-radius: 6px; border: 2px solid var(--gold); }
+
+    .form-actions {
+      display: flex; gap: 12px; align-items: center; margin-top: 28px;
+      padding-top: 20px; border-top: 1px solid #eee; flex-wrap: wrap;
+    }
+    .btn-save {
+      background: var(--gold); color: var(--white); border: none; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 12px 28px; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-save:hover { background: #b8960f; }
+    .btn-cancel-modal {
+      background: transparent; color: var(--text); border: 1.5px solid #ccc; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer; transition: border-color 0.2s;
+    }
+    .btn-cancel-modal:hover { border-color: var(--green); }
+    .btn-delete {
+      background: transparent; color: #c0392b; border: 1.5px solid #c0392b; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer; transition: background 0.2s, color 0.2s; margin-left: auto;
+    }
+    .btn-delete:hover { background: #c0392b; color: var(--white); }
+    .delete-confirm-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      z-index: 600; align-items: center; justify-content: center;
+    }
+    #deleteToggle { display: none; }
+    #deleteToggle:checked ~ .delete-confirm-overlay { display: flex; }
+    .delete-confirm-box {
+      background: var(--white); border-radius: 12px; padding: 36px 40px;
+      max-width: 400px; width: 100%; text-align: center; border-top: 4px solid #c0392b;
+    }
+    .delete-confirm-box h3 { font-size: 18px; font-weight: 700; color: #c0392b; margin-bottom: 10px; }
+    .delete-confirm-box p { font-size: 13px; color: #666; margin-bottom: 24px; }
+    .delete-actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-confirm-delete {
+      background: #c0392b; color: var(--white); border: none; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 24px; cursor: pointer;
+    }
+    .btn-confirm-delete:hover { background: #a93226; }
+    .btn-cancel-delete {
+      background: transparent; color: var(--text); border: 1.5px solid #ccc; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer;
+    }
+    .btn-cancel-delete:hover { border-color: var(--green); }
+
+    .success-toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 999;
+      background: var(--green); color: var(--white); border-radius: 8px;
+      padding: 14px 22px; font-size: 14px; font-weight: 700;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.2); display: none; align-items: center; gap: 10px;
+    }
+    .success-toast.show { display: flex; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="admin-dashboard.html" class="active">Admin</a>
+    </div>
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="admin-page">
+  <div class="admin-container">
+
+    <div class="admin-page-header">
+      <p class="admin-breadcrumb">
+        <a href="admin-dashboard.html">&#x2190; Admin Dashboard</a> &nbsp;/&nbsp; Modify Workshop
+      </p>
+      <h1>&#x1F527; Modify Existing Workshop</h1>
+      <p>Select a workshop below to edit its details, image, dates, seats, or pricing.</p>
+    </div>
+
+    <div class="workshops-admin-grid">
+
+      <!-- Workshop 1 -->
+      <div class="workshop-admin-card">
+        <div class="wac-img"><img src="images/p5_weaving.jpg" alt="Traditional Palm Weaving" /></div>
+        <div class="wac-body">
+          <p class="wac-tag">Basket Weaving</p>
+          <p class="wac-title">Traditional Palm Weaving</p>
+          <p class="wac-title-ar" lang="ar">ورشة الخوص التقليدية</p>
+          <p class="wac-meta">&#128205; Al-Ahsa Heritage Center</p>
+          <p class="wac-meta">&#8987; 3 hours &nbsp;|&nbsp; 12 seats</p>
+          <p class="wac-meta">&#128197; May 14, 2026</p>
+          <p class="wac-price"><small>SAR</small> 280</p>
+          <button class="wac-btn" onclick="openEdit('w1','Traditional Palm Weaving','ورشة الخوص التقليدية','Basket Weaving','Fatima Al-Ghamdi','Al-Ahsa Heritage Center, Al-Ahsa, Eastern Province','3','12','280','Learn the traditional Khousse palm-leaf weaving technique with a master artisan from Al-Ahsa. All materials are provided. Suitable for beginners.','p5_weaving.jpg')">&#x270F; Edit Workshop</button>
+        </div>
+      </div>
+
+      <!-- Workshop 2 -->
+      <div class="workshop-admin-card">
+        <div class="wac-img"><img src="images/p9_textile.jpg" alt="Sadu Weaving" /></div>
+        <div class="wac-body">
+          <p class="wac-tag">Textiles</p>
+          <p class="wac-title">Sadu Weaving Workshop</p>
+          <p class="wac-title-ar" lang="ar">ورشة نسيج السدو</p>
+          <p class="wac-meta">&#128205; Asir Cultural Center, Abha</p>
+          <p class="wac-meta">&#8987; 4 hours &nbsp;|&nbsp; 8 seats</p>
+          <p class="wac-meta">&#128197; May 21, 2026</p>
+          <p class="wac-price"><small>SAR</small> 340</p>
+          <button class="wac-btn" onclick="openEdit('w2','Sadu Weaving Workshop','ورشة نسيج السدو','Textiles','Fatima Al-Ghamdi','Asir Cultural Center, Abha, Asir Region','4','8','340','Master the iconic Sadu weaving — a UNESCO-recognized Bedouin craft. Learn to use a traditional ground loom and create your own Sadu-patterned piece with Fatima Al-Ghamdi.','p9_textile.jpg')">&#x270F; Edit Workshop</button>
+        </div>
+      </div>
+
+      <!-- Workshop 3 -->
+      <div class="workshop-admin-card">
+        <div class="wac-img"><img src="images/p2_mortar.jpg" alt="Brass Copper Crafting" /></div>
+        <div class="wac-body">
+          <p class="wac-tag">Metalwork</p>
+          <p class="wac-title">Brass &amp; Copper Crafting</p>
+          <p class="wac-title-ar" lang="ar">ورشة النحاس والبرونز</p>
+          <p class="wac-meta">&#128205; Riyadh Craft District</p>
+          <p class="wac-meta">&#8987; 5 hours &nbsp;|&nbsp; 6 seats</p>
+          <p class="wac-meta">&#128197; June 5, 2026</p>
+          <p class="wac-price"><small>SAR</small> 420</p>
+          <button class="wac-btn" onclick="openEdit('w3','Brass &amp; Copper Crafting','ورشة النحاس والبرونز','Metalwork','Hassan Al-Otaibi','Riyadh Craft District, Al-Murabba, Riyadh','5','6','420','Shape, engrave and polish traditional brass pieces in this immersive metalwork session with master craftsman Hassan Al-Otaibi. Take home your own handmade piece.','p2_mortar.jpg')">&#x270F; Edit Workshop</button>
+        </div>
+      </div>
+
+      <!-- Workshop 4 -->
+      <div class="workshop-admin-card">
+        <div class="wac-img"><img src="images/p10_clay.jpg" alt="Traditional Pottery" /></div>
+        <div class="wac-body">
+          <p class="wac-tag">Pottery</p>
+          <p class="wac-title">Traditional Pottery Workshop</p>
+          <p class="wac-title-ar" lang="ar">ورشة الفخار التقليدي</p>
+          <p class="wac-meta">&#128205; Al-Qatif Heritage Village</p>
+          <p class="wac-meta">&#8987; 3 hours &nbsp;|&nbsp; 10 seats</p>
+          <p class="wac-meta">&#128197; June 18, 2026</p>
+          <p class="wac-price"><small>SAR</small> 260</p>
+          <button class="wac-btn" onclick="openEdit('w4','Traditional Pottery Workshop','ورشة الفخار التقليدي','Pottery','Noura Al-Rashidi','Al-Qatif Heritage Village, Al-Qatif, Eastern Province','3','10','260','Shape and glaze your own clay piece under the guidance of Noura Al-Rashidi. Using locally sourced red clay, you will create a unique handmade piece to keep.','p10_clay.jpg')">&#x270F; Edit Workshop</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="edit-overlay" id="editOverlay" onclick="if(event.target===this)closeEdit()">
+  <div class="edit-modal">
+    <button class="edit-modal-close" onclick="closeEdit()" aria-label="Close">&times;</button>
+    <h2 id="editModalTitle">&#x270F; Edit Workshop</h2>
+
+    <p class="form-section-title">Workshop Banner Image</p>
+    <div class="current-image-preview">
+      <img id="currentImg" src="" alt="Current workshop image" />
+      <p class="current-image-label">Current Image</p>
+    </div>
+    <div class="image-upload-area">
+      <input type="file" id="editWorkshopImage" accept="image/*" onchange="previewEditImage(this)" />
+      <p class="upload-text"><strong>Click to replace image</strong> or drag &amp; drop</p>
+      <p class="upload-hint">JPG, PNG, WEBP — Max 5MB</p>
+    </div>
+    <div class="new-image-preview" id="editNewImgPreview">
+      <img id="editNewImg" src="" alt="New image preview" />
+      <p class="current-image-label" style="color:var(--gold);">&#x2713; New image selected</p>
+    </div>
+
+    <p class="form-section-title">Workshop Details</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="editTitle">Title (English)</label>
+        <input type="text" id="editTitle" />
+      </div>
+      <div class="form-group">
+        <label for="editTitleAr">Title (Arabic)</label>
+        <input type="text" id="editTitleAr" dir="rtl" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="editCategory">Category</label>
+        <select id="editCategory">
+          <option>Basket Weaving</option>
+          <option>Textiles</option>
+          <option>Metalwork</option>
+          <option>Pottery</option>
+          <option>Leather</option>
+          <option>Woodwork</option>
+          <option>Fragrance</option>
+          <option>Calligraphy</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editArtisan">Lead Artisan</label>
+        <input type="text" id="editArtisan" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="editDesc">Description</label>
+      <textarea id="editDesc"></textarea>
+    </div>
+
+    <p class="form-section-title">Location &amp; Logistics</p>
+    <div class="form-group">
+      <label for="editLocation">Full Location / Venue</label>
+      <input type="text" id="editLocation" />
+    </div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label for="editDuration">Duration (hours)</label>
+        <input type="number" id="editDuration" min="1" max="12" />
+      </div>
+      <div class="form-group">
+        <label for="editSeats">Available Seats</label>
+        <input type="number" id="editSeats" min="1" />
+      </div>
+      <div class="form-group">
+        <label for="editPrice">Price (SAR)</label>
+        <input type="number" id="editPrice" min="1" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-save" onclick="saveEdit()">&#x2705; Save Changes</button>
+      <button class="btn-cancel-modal" onclick="closeEdit()">Cancel</button>
+      <label for="deleteToggle" class="btn-delete">&#x1F5D1; Delete</label>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="deleteToggle" />
+<div class="delete-confirm-overlay">
+  <div class="delete-confirm-box">
+    <h3>&#x26A0; Delete Workshop?</h3>
+    <p>This action cannot be undone. Are you sure you want to permanently delete this workshop?</p>
+    <div class="delete-actions">
+      <button class="btn-confirm-delete">&#x1F5D1; Yes, Delete</button>
+      <label for="deleteToggle" class="btn-cancel-delete">Cancel</label>
+    </div>
+  </div>
+</div>
+
+<div class="success-toast" id="successToast">
+  &#x2705; &nbsp; Workshop updated successfully!
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="text-align:center;padding:20px 0;">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; Admin Portal.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function openEdit(id, title, titleAr, category, artisan, location, duration, seats, price, desc, img) {
+    document.getElementById('editModalTitle').textContent = '\u270F Edit: ' + title.replace(/&amp;/g, '&');
+    document.getElementById('editTitle').value = title.replace(/&amp;/g, '&');
+    document.getElementById('editTitleAr').value = titleAr;
+    document.getElementById('editCategory').value = category;
+    document.getElementById('editArtisan').value = artisan;
+    document.getElementById('editLocation').value = location;
+    document.getElementById('editDuration').value = duration;
+    document.getElementById('editSeats').value = seats;
+    document.getElementById('editPrice').value = price;
+    document.getElementById('editDesc').value = desc;
+    document.getElementById('currentImg').src = 'images/' + img;
+    document.getElementById('editNewImgPreview').style.display = 'none';
+    document.getElementById('editWorkshopImage').value = '';
+    document.getElementById('editOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEdit() {
+    document.getElementById('editOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function previewEditImage(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('editNewImg').src = e.target.result;
+        document.getElementById('editNewImgPreview').style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function saveEdit() {
+    closeEdit();
+    var toast = document.getElementById('successToast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 3200);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeEdit();
+  });
+</script>
+
+</body>
+</html>

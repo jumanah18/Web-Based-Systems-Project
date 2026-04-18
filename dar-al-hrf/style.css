@@ -4,7 +4,21 @@
    Brand colors: Year of Handicrafts 2026 Guide
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+/* =============================================
+   DAR AL HIRAF — دار الحرف
+   Style Sheet — Pure HTML/CSS
+   Brand colors: Year of Handicrafts 2026 Guide
+   ============================================= */
+@import url('https://fonts.cdnfonts.com/css/effra');
+
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('../dar-al-hrf/images/yohfont.otf?v=1') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 :root {
   --green:  #243C21;
@@ -19,10 +33,24 @@
 
 /* --- Reset --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body  { font-family: 'Lato', sans-serif; color: var(--text); background: var(--white); }
+body  { font-family: 'Effra', 'MyCustomFont', sans-serif; color: var(--text); background: var(--white); }
 a     { text-decoration: none; color: inherit; }
 ul    { list-style: none; }
 img   { display: block; max-width: 100%; }
+
+
+
+.logo-ar, 
+.hero-title-ar, 
+.pc-name-ar, 
+.wc-title, 
+.footer-brand-name, 
+.shop-header h1, 
+.d-name-ar, 
+.info-section-title, 
+.contact-title-ar {
+  font-family: 'MyCustomFont', sans-serif;
+}
 
 /* =============================================
    NAVBAR
@@ -50,13 +78,13 @@ img   { display: block; max-width: 100%; }
   gap: 2px;
 }
 .logo-ar {
-  font-family: 'Noto Naskh Arabic', serif;
+  font-family: 'MyCustomFont', serif;
   font-size: 20px;
   color: #ffffff;
   line-height: 1;
 }
 .logo-en {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Effra', sans-serif;
   font-size: 12px;
   color: var(--gold);
   letter-spacing: 0.14em;
@@ -113,7 +141,7 @@ img   { display: block; max-width: 100%; }
   outline: none;
   color: #fff;
   font-size: 12px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Effra', sans-serif;
   padding: 6px 12px;
   width: 180px;
 }
@@ -178,13 +206,14 @@ img   { display: block; max-width: 100%; }
   margin-bottom: 14px;
 }
 .hero-title-ar {
-  font-family: 'Noto Naskh Arabic', serif;
+  font-family: 'MyCustomFont', serif;
   font-size: 50px;
   color: var(--white);
   line-height: 1.2;
   margin-bottom: 2px;
 }
 .hero-title-en {
+  font-family: 'Effra', serif;
   font-size: 22px;
   font-weight: 300;
   color: rgba(255,255,255,0.8);
@@ -204,7 +233,7 @@ img   { display: block; max-width: 100%; }
   display: inline-block;
   padding: 11px 26px;
   border-radius: 4px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'MyCustomFont', sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -273,7 +302,7 @@ img   { display: block; max-width: 100%; }
   margin-bottom: 6px;
 }
 .section-top-left h2 {
-  font-family: 'Noto Naskh Arabic', serif;
+  font-family: 'MyCustomFont', serif;
   font-size: 34px;
   color: var(--green);
   direction: rtl;
@@ -355,6 +384,7 @@ h2.light { color: var(--white); }
   margin-bottom: 6px;
 }
 .pc-name {
+  font-family: 'Effra', serif;
   font-size: 15px;
   font-weight: 700;
   color: var(--brown);
@@ -362,7 +392,7 @@ h2.light { color: var(--white); }
   line-height: 1.4;
 }
 .pc-name-ar {
-  font-family: 'Noto Naskh Arabic', serif;
+  font-family: 'MyCustomFont', serif;
   font-size: 13px;
   color: #b5a98e;
   direction: rtl;
@@ -394,7 +424,7 @@ h2.light { color: var(--white); }
    ============================================= */
 .heritage-strip { background: var(--green); padding: 60px 0; text-align: center; }
 .heritage-strip h2 {
-  font-family: 'Noto Naskh Arabic', serif;
+  font-family: 'MyCustomFont', serif;
   font-size: 36px;
   color: var(--white);
   direction: rtl;
@@ -429,8 +459,8 @@ h2.light { color: var(--white); }
 .workshop-card:hover .wc-img img { transform: scale(1.05); }
 .wc-body { padding: 18px 20px 22px; }
 .wc-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-.wc-title { font-family: 'Noto Naskh Arabic', serif; font-size: 20px; color: var(--white); direction: rtl; margin-bottom: 4px; }
-.wc-title-en { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 10px; }
+.wc-title { font-family: 'MyCustomFont', serif; font-size: 20px; color: var(--white); direction: rtl; margin-bottom: 4px; }
+.wc-title-en { font-family: 'Effra', serif;font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 10px; }
 .wc-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 16px; }
 .wc-meta { display: flex; align-items: center; justify-content: space-between; }
 .wc-info { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: rgba(255,255,255,0.45); }
@@ -441,11 +471,11 @@ h2.light { color: var(--white); }
    ============================================= */
 .footer { background: var(--brown); padding: 50px 0 0; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
-.footer-brand-name { font-family: 'Noto Naskh Arabic', serif; font-size: 24px; color: var(--gold); direction: rtl; margin-bottom: 10px; }
-.footer-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; }
-.footer-col-title { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-.footer-links { display: flex; flex-direction: column; gap: 10px; }
-.footer-links a { font-size: 13px; color: rgba(255,255,255,0.45); transition: color 0.2s; }
+.footer-brand-name { font-family: 'MyCustomFont', serif; font-size: 24px; color: var(--gold); direction: rtl; margin-bottom: 10px; }
+.footer-desc {font-family: 'Effra', serif;  font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+.footer-col-title { font-family: 'Effra', serif; font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.footer-links { font-family: 'Effra', serif; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {font-family: 'Effra' serif; font-size: 13px; color: rgba(255,255,255,0.45); transition: color 0.2s; }
 .footer-links a:hover { color: var(--gold); }
 .footer-gold-bar { height: 3px; background: var(--gold); }
 .footer-bottom { padding: 18px 0; display: flex; justify-content: space-between; align-items: center; }
@@ -455,7 +485,7 @@ h2.light { color: var(--white); }
    SHOP PAGE
    ============================================= */
 .shop-header { background: var(--green); padding: 48px 0 38px; text-align: center; }
-.shop-header h1 { font-family: 'Noto Naskh Arabic', serif; font-size: 44px; color: var(--white); direction: rtl; margin-bottom: 6px; }
+.shop-header h1 { font-family: 'MyCustomFont', serif; font-size: 44px; color: var(--white); direction: rtl; margin-bottom: 6px; }
 .shop-header p { font-size: 14px; color: rgba(255,255,255,0.55); }
 .shop-content { padding: 44px 0 80px; background: var(--light); }
 
@@ -489,8 +519,8 @@ h2.light { color: var(--white); }
 .dthumb img { width: 100%; height: 100%; object-fit: cover; }
 
 .d-category { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-.d-name-ar { font-family: 'Noto Naskh Arabic', serif; font-size: 36px; color: var(--brown); direction: rtl; line-height: 1.2; margin-bottom: 4px; }
-.d-name-en { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+.d-name-ar { font-family: 'MyCustomFont', serif; font-size: 36px; color: var(--brown); direction: rtl; line-height: 1.2; margin-bottom: 4px; }
+.d-name-en { font-family: 'Effra', serif; font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
 .d-artisan { font-size: 13px; color: #777; margin-bottom: 20px; }
 .d-artisan strong { color: var(--green); }
 
@@ -510,7 +540,7 @@ h2.light { color: var(--white); }
 .trust-bar { display: flex; gap: 20px; border-top: 1px solid #eee; padding-top: 18px; font-size: 12px; color: #888; flex-wrap: wrap; }
 
 .tabs-wrap { background: var(--cream); padding: 55px 0 75px; }
-.info-section-title { font-family: 'Noto Naskh Arabic', serif; font-size: 26px; color: var(--green); margin-bottom: 16px; }
+.info-section-title { font-family: 'MyCustomFont', serif; font-size: 26px; color: var(--green); margin-bottom: 16px; }
 .tab-text { font-size: 14px; color: #555; line-height: 1.8; max-width: 720px; }
 
 .info-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
@@ -977,10 +1007,10 @@ fieldset {
    ============================================= */
    .search-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
    .search-header { background: linear-gradient(135deg, var(--green) 0%, #1a2f18 100%); border-radius: 16px; padding: 40px 32px; margin-bottom: 40px; text-align: center; }
-   .search-header h1 { font-family: 'Noto Naskh Arabic', serif; font-size: 28px; color: var(--white); direction: rtl; margin-bottom: 8px; }
+   .search-header h1 { font-family: 'MyCustomFont', serif; font-size: 28px; color: var(--white); direction: rtl; margin-bottom: 8px; }
    .search-header h2 { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.7); margin-bottom: 24px; }
    .search-box-wrapper { max-width: 600px; margin: 0 auto; position: relative; }
-   .search-box { width: 100%; padding: 16px 50px 16px 20px; font-size: 16px; border: none; border-radius: 50px; background: var(--white); color: var(--brown); outline: none; font-family: 'Lato', sans-serif; }
+   .search-box { width: 100%; padding: 16px 50px 16px 20px; font-size: 16px; border: none; border-radius: 50px; background: var(--white); color: var(--brown); outline: none; font-family: 'Effra', sans-serif; }
    .search-box::placeholder { color: #aaa; font-size: 14px; }
    .search-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--gold); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
    .search-btn:hover { background: #b8960f; }
@@ -988,11 +1018,11 @@ fieldset {
    .results-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0dcd4; }
    .results-count { font-size: 14px; color: #666; }
    .results-count strong { color: var(--gold); font-size: 18px; }
-   .sort-select { padding: 8px 16px; border: 1px solid #e0dcd4; border-radius: 8px; background: var(--white); font-size: 13px; color: var(--brown); cursor: pointer; outline: none; font-family: 'Lato', sans-serif; }
+   .sort-select { padding: 8px 16px; border: 1px solid #e0dcd4; border-radius: 8px; background: var(--white); font-size: 13px; color: var(--brown); cursor: pointer; outline: none; font-family: 'Effra', sans-serif; }
    .sort-select:focus { border-color: var(--gold); }
    .search-layout { display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
    .filters-sidebar { background: var(--white); border: 1px solid #e0dcd4; border-radius: 12px; padding: 20px; height: fit-content; position: sticky; top: 90px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-   .filter-title { font-family: 'Noto Naskh Arabic', serif; font-size: 18px; color: var(--green); direction: rtl; margin-bottom: 4px; }
+   .filter-title { font-family: 'MyCustomFont', serif; font-size: 18px; color: var(--green); direction: rtl; margin-bottom: 4px; }
    .filter-title-en { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #f0ede8; }
    .filter-group { margin-bottom: 24px; border-bottom: 1px solid #f0ede8; padding-bottom: 20px; }
    .filter-group:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
@@ -1002,9 +1032,9 @@ fieldset {
    .filter-option input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--gold); }
    .filter-option:hover { color: var(--green); }
    .price-range { display: flex; gap: 10px; margin-top: 8px; }
-   .price-input { flex: 1; padding: 8px 10px; border: 1px solid #e0dcd4; border-radius: 6px; font-size: 12px; outline: none; font-family: 'Lato', sans-serif; width: 70px; }
+   .price-input { flex: 1; padding: 8px 10px; border: 1px solid #e0dcd4; border-radius: 6px; font-size: 12px; outline: none; font-family: 'Effra', sans-serif; width: 70px; }
    .price-input:focus { border-color: var(--gold); }
-   .filter-btn { width: 100%; padding: 10px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: background 0.2s; font-family: 'Lato', sans-serif; }
+   .filter-btn { width: 100%; padding: 10px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: background 0.2s; font-family: 'Effra', sans-serif; }
    .filter-btn:hover { background: #1c3019; }
    .reset-filters { text-align: center; margin-top: 12px; }
    .reset-filters a { font-size: 12px; color: #999; text-decoration: underline; }
@@ -1037,7 +1067,7 @@ fieldset {
       ============================================= */
    .about-container { max-width: 1200px; margin: 0 auto; padding: 60px 24px 80px; }
    .about-hero { text-align: center; margin-bottom: 60px; }
-   .about-hero h1 { font-family: 'Noto Naskh Arabic', serif; font-size: 48px; color: var(--green); direction: rtl; margin-bottom: 16px; }
+   .about-hero h1 { font-family: 'MyCustomFont', serif; font-size: 48px; color: var(--green); direction: rtl; margin-bottom: 16px; }
    .about-hero h2 { font-size: 18px; font-weight: 400; color: #666; margin-bottom: 24px; }
    .about-hero-desc { max-width: 700px; margin: 0 auto; font-size: 16px; color: #555; line-height: 1.8; }
    .gold-divider { width: 80px; height: 3px; background: var(--gold); margin: 24px auto 0; }
@@ -1046,17 +1076,17 @@ fieldset {
    .mv-card:hover { transform: translateY(-5px); }
    .mv-icon { width: 70px; height: 70px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
    .mv-icon svg { width: 36px; height: 36px; stroke: var(--gold); stroke-width: 1.5; fill: none; }
-   .mv-card h3 { font-family: 'Noto Naskh Arabic', serif; font-size: 28px; color: var(--green); margin-bottom: 16px; }
+   .mv-card h3 { font-family: 'MyCustomFont', serif; font-size: 28px; color: var(--green); margin-bottom: 16px; }
    .mv-card p { font-size: 15px; color: #555; line-height: 1.7; }
    .story-section { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 70px; align-items: center; }
    .story-image { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
    .story-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
    .story-image:hover img { transform: scale(1.03); }
-   .story-content h3 { font-family: 'Noto Naskh Arabic', serif; font-size: 32px; color: var(--green); margin-bottom: 16px; }
+   .story-content h3 { font-family: 'MyCustomFont', serif; font-size: 32px; color: var(--green); margin-bottom: 16px; }
    .story-content .subtitle { font-size: 14px; color: var(--gold); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
    .story-content p { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 16px; }
    .values-section { text-align: center; margin-bottom: 70px; }
-   .values-section h3 { font-family: 'Noto Naskh Arabic', serif; font-size: 32px; color: var(--green); margin-bottom: 12px; }
+   .values-section h3 { font-family: 'MyCustomFont', serif; font-size: 32px; color: var(--green); margin-bottom: 12px; }
    .values-subtitle { font-size: 14px; color: #888; margin-bottom: 40px; }
    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
    .value-card { text-align: center; padding: 20px; }
@@ -1065,7 +1095,7 @@ fieldset {
    .value-card h4 { font-size: 18px; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
    .value-card p { font-size: 13px; color: #777; line-height: 1.6; }
    .team-section { text-align: center; margin-bottom: 70px; }
-   .team-section h3 { font-family: 'Noto Naskh Arabic', serif; font-size: 32px; color: var(--green); margin-bottom: 12px; }
+   .team-section h3 { font-family: 'MyCustomFont', serif; font-size: 32px; color: var(--green); margin-bottom: 12px; }
    .team-subtitle { font-size: 14px; color: #888; margin-bottom: 40px; }
    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
    .team-card { text-align: center; }
@@ -1080,7 +1110,7 @@ fieldset {
    .stat-number { font-size: 42px; font-weight: 700; color: var(--gold); display: block; }
    .stat-label { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
    .cta-section { background: var(--cream); border-radius: 20px; padding: 50px 40px; text-align: center; }
-   .cta-section h3 { font-family: 'Noto Naskh Arabic', serif; font-size: 28px; color: var(--green); margin-bottom: 16px; }
+   .cta-section h3 { font-family: 'MyCustomFont', serif; font-size: 28px; color: var(--green); margin-bottom: 16px; }
    .cta-section p { font-size: 15px; color: #666; margin-bottom: 24px; }
    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
    .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
@@ -1148,7 +1178,7 @@ fieldset {
   border: none;
   color: #fff;
   font-size: 13px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Effra', sans-serif;
   outline: none;
 }
 .footer-search-input::placeholder {
@@ -1187,7 +1217,7 @@ fieldset {
   border-radius: 30px;
   padding: 10px 20px;
   font-size: 13px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Effra', sans-serif;
   font-weight: 600;
   color: #555;
   cursor: pointer;
@@ -1288,7 +1318,7 @@ fieldset {
   padding: 13px;
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Effra', sans-serif;
   cursor: pointer;
   transition: background 0.2s;
   letter-spacing: 0.04em;
@@ -1307,7 +1337,7 @@ fieldset {
 }
 
 .contact-title-ar {
-    font-family: 'Noto Naskh Arabic', serif;
+    font-family: 'MyCustomFont', serif;
     font-size: 42px;
     color: var(--green);
     direction: rtl;

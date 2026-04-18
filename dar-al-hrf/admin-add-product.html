@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Add Product</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-page { min-height: calc(100vh - 68px); background: var(--cream); padding: 48px 24px 80px; }
+    .admin-container { max-width: 820px; margin: 0 auto; }
+    .admin-page-header {
+      margin-bottom: 36px;
+    }
+    .admin-breadcrumb {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .admin-breadcrumb a { color: var(--gold); font-weight: 700; text-decoration: none; }
+    .admin-breadcrumb a:hover { text-decoration: underline; }
+    .admin-page-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .admin-page-header p { font-size: 14px; color: #666; margin-top: 6px; }
+
+    .admin-form-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(36,60,33,0.09);
+      padding: 40px 44px;
+      border-top: 4px solid var(--gold);
+    }
+    .form-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 28px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+    }
+    .form-section-title:first-child { margin-top: 0; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .form-group label span.req { color: var(--red); margin-left: 2px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: 'Lato', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23243C21' fill='none' stroke-width='1.8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+    /* Image Upload */
+    .image-upload-area {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      background: #fafafa;
+    }
+    .image-upload-area:hover,
+    .image-upload-area.dragover {
+      border-color: var(--gold);
+      background: rgba(210,172,43,0.05);
+    }
+    .image-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 0;
+    }
+    .upload-icon { font-size: 36px; margin-bottom: 10px; }
+    .upload-text { font-size: 13px; color: #666; }
+    .upload-text strong { color: var(--green); }
+    .upload-hint { font-size: 11px; color: #aaa; margin-top: 6px; }
+    .image-preview {
+      margin-top: 16px;
+      display: none;
+    }
+    .image-preview img {
+      max-height: 220px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      margin: 0 auto;
+    }
+    .image-preview-label {
+      font-size: 11px;
+      color: #999;
+      margin-top: 8px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .badge-options { display: flex; gap: 12px; flex-wrap: wrap; }
+    .badge-opt {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .badge-opt input { width: auto; cursor: pointer; }
+    .badge-opt span { font-size: 13px; color: var(--text); }
+
+    .form-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #eee;
+      flex-wrap: wrap;
+    }
+    .btn-submit {
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 32px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #1c3019; }
+    .btn-cancel {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      text-decoration: none;
+    }
+    .btn-cancel:hover { border-color: var(--green); }
+
+    .success-banner {
+      background: #e8f5e9;
+      border: 1.5px solid #81c784;
+      color: #2e7d32;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 14px;
+      margin-bottom: 24px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+    .success-banner.visible { display: flex; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="admin-dashboard.html" class="active">Admin</a>
+    </div>
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="admin-page">
+  <div class="admin-container">
+
+    <div class="admin-page-header">
+      <p class="admin-breadcrumb">
+        <a href="admin-dashboard.html">&#x2190; Admin Dashboard</a> &nbsp;/&nbsp; Add Product
+      </p>
+      <h1>&#x2795; Add New Craft Product</h1>
+      <p>Fill in the details below to add a new handcrafted item to the Dar Al Hiraf shop.</p>
+    </div>
+
+    <div class="success-banner" id="successBanner">
+      <span style="font-size:20px;">&#x2705;</span>
+      <span>Product added successfully! It is now visible in the shop.</span>
+    </div>
+
+    <div class="admin-form-card">
+
+      <!-- Image Upload -->
+      <p class="form-section-title">Product Image</p>
+      <div class="form-group">
+        <label>Upload Product Photo <span class="req">*</span></label>
+        <div class="image-upload-area" id="uploadArea">
+          <input type="file" id="productImage" accept="image/*" onchange="previewImage(this)" />
+          <div class="upload-icon">&#x1F4F7;</div>
+          <p class="upload-text"><strong>Click to upload</strong> or drag &amp; drop an image</p>
+          <p class="upload-hint">Supports: JPG, PNG, WEBP &mdash; Max 5MB &mdash; Recommended 800×600px</p>
+        </div>
+        <div class="image-preview" id="imagePreview">
+          <img id="previewImg" src="" alt="Preview" />
+          <p class="image-preview-label">&#x2713; Image ready to upload</p>
+        </div>
+      </div>
+
+      <!-- Basic Info -->
+      <p class="form-section-title">Basic Information</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="productName">Product Name (English) <span class="req">*</span></label>
+          <input type="text" id="productName" placeholder="e.g. Woven Baskets & Embroidered Textiles" />
+        </div>
+        <div class="form-group">
+          <label for="productNameAr">Product Name (Arabic)</label>
+          <input type="text" id="productNameAr" placeholder="e.g. سلال وملابس مطرزة" dir="rtl" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productDesc">Product Description <span class="req">*</span></label>
+        <textarea id="productDesc" placeholder="Describe this handcrafted item — its origins, materials, technique, and what makes it special..."></textarea>
+      </div>
+
+      <!-- Pricing & Category -->
+      <p class="form-section-title">Pricing &amp; Category</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="productPrice">Price (SAR) <span class="req">*</span></label>
+          <input type="number" id="productPrice" placeholder="e.g. 320" min="1" />
+        </div>
+        <div class="form-group">
+          <label for="productCategory">Category <span class="req">*</span></label>
+          <select id="productCategory">
+            <option value="">Select a category...</option>
+            <option value="Textiles">Textiles</option>
+            <option value="Metalwork">Metalwork</option>
+            <option value="Pottery">Pottery</option>
+            <option value="Leather">Leather</option>
+            <option value="Fragrance">Fragrance</option>
+            <option value="Wood">Wood</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Artisan Info -->
+      <p class="form-section-title">Artisan Information</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="artisanName">Artisan Name <span class="req">*</span></label>
+          <input type="text" id="artisanName" placeholder="e.g. Fatima Al-Ghamdi" />
+        </div>
+        <div class="form-group">
+          <label for="artisanRegion">Region / City</label>
+          <input type="text" id="artisanRegion" placeholder="e.g. Al-Ahsa, Eastern Province" />
+        </div>
+      </div>
+
+      <!-- Badge -->
+      <p class="form-section-title">Product Badge</p>
+      <div class="form-group">
+        <label>Badge Label (optional)</label>
+        <div class="badge-options">
+          <label class="badge-opt">
+            <input type="radio" name="badge" value="" checked />
+            <span>None</span>
+          </label>
+          <label class="badge-opt">
+            <input type="radio" name="badge" value="featured" />
+            <span>&#x2B50; Featured</span>
+          </label>
+          <label class="badge-opt">
+            <input type="radio" name="badge" value="new" />
+            <span>&#x1F7E2; New</span>
+          </label>
+          <label class="badge-opt">
+            <input type="radio" name="badge" value="sale" />
+            <span>&#x1F525; Sale</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button class="btn-submit" onclick="submitProduct()">&#x2795; Add Product</button>
+        <a href="admin-dashboard.html" class="btn-cancel">Cancel</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="text-align:center;padding:20px 0;">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; Admin Portal.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function previewImage(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('imagePreview').style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Drag-over highlight
+  var area = document.getElementById('uploadArea');
+  area.addEventListener('dragover', function() { area.classList.add('dragover'); });
+  area.addEventListener('dragleave', function() { area.classList.remove('dragover'); });
+  area.addEventListener('drop', function() { area.classList.remove('dragover'); });
+
+  function submitProduct() {
+    var name = document.getElementById('productName').value.trim();
+    var desc = document.getElementById('productDesc').value.trim();
+    var price = document.getElementById('productPrice').value;
+    var cat = document.getElementById('productCategory').value;
+    var artisan = document.getElementById('artisanName').value.trim();
+    var img = document.getElementById('productImage').files.length;
+
+    if (!name || !desc || !price || !cat || !artisan || !img) {
+      alert('Please fill in all required fields and upload a product image.');
+      return;
+    }
+
+    // Show success
+    var banner = document.getElementById('successBanner');
+    banner.classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Reset form
+    document.getElementById('productName').value = '';
+    document.getElementById('productNameAr').value = '';
+    document.getElementById('productDesc').value = '';
+    document.getElementById('productPrice').value = '';
+    document.getElementById('productCategory').value = '';
+    document.getElementById('artisanName').value = '';
+    document.getElementById('artisanRegion').value = '';
+    document.getElementById('imagePreview').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-page { min-height: calc(100vh - 68px); background: var(--cream); padding: 48px 24px 80px; }
+    .admin-container { max-width: 1100px; margin: 0 auto; }
+    .admin-welcome-banner {
+      background: var(--green);
+      border-radius: 12px;
+      padding: 40px 48px;
+      color: var(--white);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      border-bottom: 4px solid var(--gold);
+    }
+    .admin-welcome-text h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .admin-welcome-text h1 span { color: var(--gold); }
+    .admin-welcome-text p { color: rgba(255,255,255,0.7); font-size: 14px; }
+    .admin-welcome-icon {
+      font-size: 56px;
+      line-height: 1;
+    }
+    .admin-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gold);
+    }
+    .admin-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .admin-action-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 20px rgba(36,60,33,0.08);
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .admin-action-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 32px rgba(36,60,33,0.14);
+    }
+    .aac-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+    .aac-icon.green { background: rgba(36,60,33,0.1); }
+    .aac-icon.gold { background: rgba(210,172,43,0.15); }
+    .aac-icon.red { background: rgba(144,28,36,0.1); }
+    .aac-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .aac-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1.3;
+    }
+    .aac-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+    }
+    .aac-btn {
+      margin-top: 4px;
+      display: inline-block;
+      background: var(--green);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 9px 18px;
+      border-radius: 4px;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+    .aac-btn:hover { background: #1c3019; }
+    .aac-btn.gold-btn { background: var(--gold); }
+    .aac-btn.gold-btn:hover { background: #b8960f; }
+
+    /* Stats row */
+    .admin-stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .admin-stat {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 22px 20px;
+      box-shadow: 0 2px 12px rgba(36,60,33,0.07);
+      text-align: center;
+    }
+    .admin-stat-num { font-size: 30px; font-weight: 700; color: var(--green); }
+    .admin-stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #999; margin-top: 4px; }
+
+    .admin-logout-bar {
+      text-align: right;
+      margin-bottom: 8px;
+    }
+    .admin-logout-btn {
+      background: transparent;
+      border: 1.5px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .admin-logout-btn:hover { background: var(--red); color: var(--white); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="admin-dashboard.html" class="active">Admin</a>
+    </div>
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="admin-page">
+  <div class="admin-container">
+
+    <div class="admin-logout-bar">
+      <a href="admin-login.html" class="admin-logout-btn">&#x2192; Logout</a>
+    </div>
+
+    <div class="admin-welcome-banner">
+      <div class="admin-welcome-text">
+        <h1>Hello, <span>Admin!</span> &#x1F44B;</h1>
+        <p>Welcome to the Dar Al Hiraf management portal — Year of Handicrafts 2026</p>
+      </div>
+      <div class="admin-welcome-icon">&#x1F6E0;</div>
+    </div>
+
+    <!-- Stats -->
+    <p class="admin-section-title">Store Overview</p>
+    <div class="admin-stats-row">
+      <div class="admin-stat"><div class="admin-stat-num">12</div><div class="admin-stat-label">Products</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">4</div><div class="admin-stat-label">Workshops</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">120+</div><div class="admin-stat-label">Artisans</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">5</div><div class="admin-stat-label">Categories</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">8K+</div><div class="admin-stat-label">Customers</div></div>
+    </div>
+
+    <!-- Main actions -->
+    <p class="admin-section-title">Manage Products &amp; Workshops</p>
+    <div class="admin-actions-grid">
+
+      <a href="admin-add-product.html" class="admin-action-card">
+        <div class="aac-icon green">&#x2795;</div>
+        <p class="aac-label">Products</p>
+        <p class="aac-title">Add New Craft Product</p>
+        <p class="aac-desc">Upload a new handcrafted item to the shop with image, price, artisan info, and category.</p>
+        <span class="aac-btn">Add Product</span>
+      </a>
+
+      <a href="admin-modify-product.html" class="admin-action-card">
+        <div class="aac-icon gold">&#x270F;</div>
+        <p class="aac-label">Products</p>
+        <p class="aac-title">Modify Existing Product</p>
+        <p class="aac-desc">Edit details, update the image, change the price or artisan for any existing craft product.</p>
+        <span class="aac-btn gold-btn">Modify Product</span>
+      </a>
+
+      <a href="admin-add-workshop.html" class="admin-action-card">
+        <div class="aac-icon green">&#x1F3DB;</div>
+        <p class="aac-label">Workshops</p>
+        <p class="aac-title">Add New Workshop</p>
+        <p class="aac-desc">Create a new workshop session with image, location, date, seats, and booking details.</p>
+        <span class="aac-btn">Add Workshop</span>
+      </a>
+
+      <a href="admin-modify-workshop.html" class="admin-action-card">
+        <div class="aac-icon red">&#x1F527;</div>
+        <p class="aac-label">Workshops</p>
+        <p class="aac-title">Modify Existing Workshop</p>
+        <p class="aac-desc">Update workshop details — change dates, seats, price, description, or replace the banner image.</p>
+        <span class="aac-btn" style="background:var(--red);">Modify Workshop</span>
+      </a>
+
+    </div>
+
+    <!-- Quick links -->
+    <p class="admin-section-title">Quick Links</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="shop.html" class="btn btn-green" style="font-size:12px;">View Shop</a>
+      <a href="workshops.html" class="btn btn-green" style="font-size:12px;">View Workshops</a>
+      <a href="index.html" class="btn btn-brown" style="font-size:12px;">Main Site</a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="text-align:center;padding:20px 0;">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; دار الحرف. Admin Portal.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

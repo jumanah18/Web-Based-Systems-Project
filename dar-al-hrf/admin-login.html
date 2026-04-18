@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Admin Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-login-page {
+      min-height: calc(100vh - 68px);
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+    .admin-login-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(36,60,33,0.13);
+      padding: 52px 48px 44px;
+      width: 100%;
+      max-width: 420px;
+      border-top: 4px solid var(--gold);
+    }
+    .admin-login-logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .admin-login-logo .logo-ar {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: 28px;
+      color: var(--green);
+      display: block;
+      line-height: 1;
+    }
+    .admin-login-logo .logo-en {
+      font-family: 'Lato', sans-serif;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: block;
+      margin-top: 4px;
+    }
+    .admin-login-logo .admin-badge {
+      display: inline-block;
+      margin-top: 12px;
+      background: var(--green);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+    .admin-login-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green);
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: 'Lato', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: var(--gold);
+    }
+    .login-error {
+      background: #fdecea;
+      color: #901C24;
+      border: 1px solid #f5c6cb;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .login-error.visible { display: block; }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .login-btn:hover { background: #1c3019; }
+    .login-divider {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #999;
+    }
+    .login-divider a {
+      color: var(--gold);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .login-divider a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="admin-login.html" class="active">Admin</a>
+    </div>
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="admin-login-page">
+  <div class="admin-login-card">
+    <div class="admin-login-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+      <span class="admin-badge">Admin Portal</span>
+    </div>
+    <p class="admin-login-title">Sign In to Admin</p>
+
+    <div class="login-error" id="loginError">
+      Invalid email or password. Please try again.
+    </div>
+
+    <div class="form-group">
+      <label for="adminEmail">Email Address</label>
+      <input type="email" id="adminEmail" placeholder="admin@daralhiraf.sa" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label for="adminPassword">Password</label>
+      <input type="password" id="adminPassword" placeholder="Enter your password" autocomplete="current-password" />
+    </div>
+
+    <button class="login-btn" onclick="handleLogin()">Sign In</button>
+
+    <p class="login-divider">
+      &larr; <a href="index.html">Back to main site</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  function handleLogin() {
+    var email = document.getElementById('adminEmail').value.trim();
+    var password = document.getElementById('adminPassword').value;
+    var errorEl = document.getElementById('loginError');
+    if (email === 'admin@daralhiraf.sa' && password === 'Admin@2026') {
+      errorEl.classList.remove('visible');
+      window.location.href = 'admin-dashboard.html';
+    } else {
+      errorEl.classList.add('visible');
+    }
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleLogin();
+  });
+</script>
+
+</body>
+</html>

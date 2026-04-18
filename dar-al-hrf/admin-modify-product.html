@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Modify Product</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-page { min-height: calc(100vh - 68px); background: var(--cream); padding: 48px 24px 80px; }
+    .admin-container { max-width: 1100px; margin: 0 auto; }
+    .admin-page-header { margin-bottom: 36px; }
+    .admin-breadcrumb { font-size: 12px; color: #888; margin-bottom: 10px; }
+    .admin-breadcrumb a { color: var(--gold); font-weight: 700; text-decoration: none; }
+    .admin-breadcrumb a:hover { text-decoration: underline; }
+    .admin-page-header h1 { font-size: 28px; font-weight: 700; color: var(--green); }
+    .admin-page-header p { font-size: 14px; color: #666; margin-top: 6px; }
+
+    .products-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .product-admin-card {
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: 0 3px 14px rgba(36,60,33,0.08);
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .product-admin-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .pac-img { height: 180px; overflow: hidden; position: relative; }
+    .pac-img img { width: 100%; height: 100%; object-fit: cover; }
+    .pac-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--gold);
+      color: var(--white);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .pac-badge.new-badge { background: var(--green); }
+    .pac-body { padding: 16px; }
+    .pac-cat { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .pac-name { font-size: 14px; font-weight: 700; color: var(--green); line-height: 1.3; margin-bottom: 4px; }
+    .pac-artisan { font-size: 12px; color: #888; margin-bottom: 10px; }
+    .pac-price { font-size: 16px; font-weight: 700; color: var(--green); margin-bottom: 12px; }
+    .pac-price small { font-size: 10px; font-weight: 400; color: #aaa; margin-right: 2px; }
+    .pac-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 9px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pac-btn:hover { background: #1c3019; }
+
+    /* Edit Modal */
+    .edit-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .edit-overlay.open { display: flex; }
+    .edit-modal {
+      background: var(--white);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 36px 40px;
+      border-top: 4px solid var(--gold);
+      position: relative;
+    }
+    .edit-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #aaa;
+      line-height: 1;
+    }
+    .edit-modal-close:hover { color: var(--red); }
+    .edit-modal h2 { font-size: 20px; font-weight: 700; color: var(--green); margin-bottom: 24px; }
+
+    .form-section-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #eee;
+    }
+    .form-section-title:first-of-type { margin-top: 0; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 7px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 10px 13px; border: 1.5px solid #ddd; border-radius: 6px;
+      font-size: 13px; font-family: 'Lato', sans-serif; color: var(--text);
+      background: var(--white); transition: border-color 0.2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23243C21' fill='none' stroke-width='1.8'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    }
+
+    .image-upload-area {
+      border: 2px dashed #ccc; border-radius: 8px; padding: 22px; text-align: center;
+      cursor: pointer; transition: border-color 0.2s; position: relative; background: #fafafa;
+    }
+    .image-upload-area:hover { border-color: var(--gold); background: rgba(210,172,43,0.04); }
+    .image-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+      border: none; padding: 0;
+    }
+    .upload-text { font-size: 12px; color: #666; }
+    .upload-text strong { color: var(--green); }
+    .upload-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .current-image-preview { margin-bottom: 12px; }
+    .current-image-preview img { height: 100px; border-radius: 6px; object-fit: cover; border: 2px solid #eee; }
+    .current-image-label { font-size: 10px; color: #999; margin-top: 5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .new-image-preview { margin-top: 10px; display: none; }
+    .new-image-preview img { height: 100px; border-radius: 6px; border: 2px solid var(--gold); }
+
+    .form-actions {
+      display: flex; gap: 12px; align-items: center; margin-top: 28px; padding-top: 20px;
+      border-top: 1px solid #eee; flex-wrap: wrap;
+    }
+    .btn-save {
+      background: var(--gold); color: var(--white); border: none; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 12px 28px; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-save:hover { background: #b8960f; }
+    .btn-cancel-modal {
+      background: transparent; color: var(--text); border: 1.5px solid #ccc; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer; transition: border-color 0.2s;
+    }
+    .btn-cancel-modal:hover { border-color: var(--green); }
+    .btn-delete {
+      background: transparent; color: #c0392b; border: 1.5px solid #c0392b; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer; transition: background 0.2s, color 0.2s; margin-left: auto;
+    }
+    .btn-delete:hover { background: #c0392b; color: var(--white); }
+    .delete-confirm-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      z-index: 600; align-items: center; justify-content: center;
+    }
+    #deleteToggle { display: none; }
+    #deleteToggle:checked ~ .delete-confirm-overlay { display: flex; }
+    .delete-confirm-box {
+      background: var(--white); border-radius: 12px; padding: 36px 40px;
+      max-width: 400px; width: 100%; text-align: center; border-top: 4px solid #c0392b;
+    }
+    .delete-confirm-box h3 { font-size: 18px; font-weight: 700; color: #c0392b; margin-bottom: 10px; }
+    .delete-confirm-box p { font-size: 13px; color: #666; margin-bottom: 24px; }
+    .delete-actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-confirm-delete {
+      background: #c0392b; color: var(--white); border: none; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 24px; cursor: pointer;
+    }
+    .btn-confirm-delete:hover { background: #a93226; }
+    .btn-cancel-delete {
+      background: transparent; color: var(--text); border: 1.5px solid #ccc; border-radius: 6px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 11px 20px; cursor: pointer;
+    }
+    .btn-cancel-delete:hover { border-color: var(--green); }
+
+    .success-toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 999;
+      background: var(--green); color: var(--white); border-radius: 8px;
+      padding: 14px 22px; font-size: 14px; font-weight: 700;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+      display: none; align-items: center; gap: 10px;
+      transition: opacity 0.3s;
+    }
+    .success-toast.show { display: flex; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="admin-dashboard.html" class="active">Admin</a>
+    </div>
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="admin-page">
+  <div class="admin-container">
+
+    <div class="admin-page-header">
+      <p class="admin-breadcrumb">
+        <a href="admin-dashboard.html">&#x2190; Admin Dashboard</a> &nbsp;/&nbsp; Modify Product
+      </p>
+      <h1>&#x270F; Modify Existing Product</h1>
+      <p>Select a product below to edit its details, image, price, or artisan information.</p>
+    </div>
+
+    <div class="products-admin-grid" id="productsGrid">
+
+      <!-- Product 1 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p1_baskets.jpg" alt="Woven Baskets" />
+          <span class="pac-badge">Featured</span>
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Textiles</p>
+          <p class="pac-name">Woven Baskets &amp; Embroidered Textiles</p>
+          <p class="pac-artisan">By: Fatima Al-Ghamdi</p>
+          <p class="pac-price"><small>SAR</small> 320</p>
+          <button class="pac-btn" onclick="openEdit('p1','Woven Baskets &amp; Embroidered Textiles','سلال وملابس مطرزة','Fatima Al-Ghamdi','Al-Ahsa, Eastern Province','320','Textiles','p1_baskets.jpg','Featured','Handwoven baskets and embroidered textiles by skilled artisans from Al-Ahsa.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p2_mortar.jpg" alt="Brass Mortar" />
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Metalwork</p>
+          <p class="pac-name">Brass Mortar &amp; Pestle</p>
+          <p class="pac-artisan">By: Hassan Al-Otaibi</p>
+          <p class="pac-price"><small>SAR</small> 495</p>
+          <button class="pac-btn" onclick="openEdit('p2','Brass Mortar &amp; Pestle','هاون نحاسي تقليدي','Hassan Al-Otaibi','Riyadh','495','Metalwork','p2_mortar.jpg','','Traditional brass mortar and pestle handcrafted by master metalsmith Hassan Al-Otaibi in Riyadh.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p3_hat.jpg" alt="Palm Leaf Hat" />
+          <span class="pac-badge new-badge">New</span>
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Textiles</p>
+          <p class="pac-name">Palm Leaf Sun Hat</p>
+          <p class="pac-artisan">By: Aisha Al-Mutairi</p>
+          <p class="pac-price"><small>SAR</small> 145</p>
+          <button class="pac-btn" onclick="openEdit('p3','Palm Leaf Sun Hat','قبعة سعف النخيل','Aisha Al-Mutairi','Madinah','145','Textiles','p3_hat.jpg','New','A traditional sun hat handwoven from date palm leaves, crafted by Aisha Al-Mutairi.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p4_khanjar.jpg" alt="Khanjar" />
+          <span class="pac-badge">Featured</span>
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Metalwork</p>
+          <p class="pac-name">Traditional Saudi Khanjar</p>
+          <p class="pac-artisan">By: Ibrahim Al-Dosari</p>
+          <p class="pac-price"><small>SAR</small> 980</p>
+          <button class="pac-btn" onclick="openEdit('p4','Traditional Saudi Khanjar','خنجر سعودي تقليدي','Ibrahim Al-Dosari','Najran','980','Metalwork','p4_khanjar.jpg','Featured','A ceremonial Saudi khanjar handcrafted from silver and steel by Ibrahim Al-Dosari of Najran.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p5_weaving.jpg" alt="Palm Weaving" />
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Textiles</p>
+          <p class="pac-name">Traditional Palm Weaving</p>
+          <p class="pac-artisan">By: Fatima Al-Ghamdi</p>
+          <p class="pac-price"><small>SAR</small> 210</p>
+          <button class="pac-btn" onclick="openEdit('p5','Traditional Palm Weaving','نسيج السعف التقليدي','Fatima Al-Ghamdi','Al-Ahsa, Eastern Province','210','Textiles','p5_weaving.jpg','','A beautifully woven piece using traditional Khousse palm-leaf weaving technique from Al-Ahsa.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p6_jewelry.jpg" alt="Silver Jewellery" />
+          <span class="pac-badge new-badge">New</span>
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Metalwork</p>
+          <p class="pac-name">Traditional Silver Jewellery</p>
+          <p class="pac-artisan">By: Maha Al-Shehri</p>
+          <p class="pac-price"><small>SAR</small> 640</p>
+          <button class="pac-btn" onclick="openEdit('p6','Traditional Silver Jewellery','حلي فضية تقليدية','Maha Al-Shehri','Jizan','640','Metalwork','p6_jewelry.jpg','New','Handcrafted traditional silver jewellery featuring intricate patterns inspired by Saudi tribal heritage.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p7_palmweave.jpg" alt="Palm Weave Basket" />
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Textiles</p>
+          <p class="pac-name">Palm Weave Decorative Basket</p>
+          <p class="pac-artisan">By: Aisha Al-Mutairi</p>
+          <p class="pac-price"><small>SAR</small> 175</p>
+          <button class="pac-btn" onclick="openEdit('p7','Palm Weave Decorative Basket','سلة خوص زخرفية','Aisha Al-Mutairi','Madinah','175','Textiles','p7_palmweave.jpg','','A decorative basket handwoven from natural palm leaves using traditional techniques.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p8_roses.jpg" alt="Rose Water" />
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Fragrance</p>
+          <p class="pac-name">Taif Rose Water &amp; Oud Set</p>
+          <p class="pac-artisan">By: Khalid Al-Zahrani</p>
+          <p class="pac-price"><small>SAR</small> 385</p>
+          <button class="pac-btn" onclick="openEdit('p8','Taif Rose Water &amp; Oud Set','ماء ورد الطائف وعود','Khalid Al-Zahrani','Taif, Makkah Region','385','Fragrance','p8_roses.jpg','','Premium Taif rose water and oud fragrance set, a signature gift from the City of Roses.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p9_textile.jpg" alt="Sadu Textile" />
+          <span class="pac-badge">Featured</span>
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Textiles</p>
+          <p class="pac-name">Sadu Woven Textile Strip</p>
+          <p class="pac-artisan">By: Fatima Al-Ghamdi</p>
+          <p class="pac-price"><small>SAR</small> 360</p>
+          <button class="pac-btn" onclick="openEdit('p9','Sadu Woven Textile Strip','شريط نسيج سدو تقليدي','Fatima Al-Ghamdi','Abha, Asir Region','360','Textiles','p9_textile.jpg','Featured','A UNESCO-recognized Sadu woven textile strip made using a traditional ground loom by Fatima Al-Ghamdi.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p10_clay.jpg" alt="Clay Pottery" />
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Pottery</p>
+          <p class="pac-name">Handmade Clay Pottery Jug</p>
+          <p class="pac-artisan">By: Noura Al-Rashidi</p>
+          <p class="pac-price"><small>SAR</small> 280</p>
+          <button class="pac-btn" onclick="openEdit('p10','Handmade Clay Pottery Jug','إبريق فخار طيني','Noura Al-Rashidi','Al-Qatif, Eastern Province','280','Pottery','p10_clay.jpg','','A handmade clay pottery jug shaped and glazed by Noura Al-Rashidi using locally sourced red clay.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 11 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p11_leather.jpg" alt="Leather Bag" />
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Leather</p>
+          <p class="pac-name">Handcrafted Leather Satchel</p>
+          <p class="pac-artisan">By: Ibrahim Al-Dosari</p>
+          <p class="pac-price"><small>SAR</small> 720</p>
+          <button class="pac-btn" onclick="openEdit('p11','Handcrafted Leather Satchel','حقيبة جلدية يدوية الصنع','Ibrahim Al-Dosari','Najran','720','Leather','p11_leather.jpg','','A hand-stitched leather satchel crafted from premium tanned leather with traditional Saudi embossed patterns.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+      <!-- Product 12 -->
+      <div class="product-admin-card">
+        <div class="pac-img">
+          <img src="images/p12_wooddoor.jpg" alt="Carved Wood Panel" />
+          <span class="pac-badge">Featured</span>
+        </div>
+        <div class="pac-body">
+          <p class="pac-cat">Wood</p>
+          <p class="pac-name">Carved Wooden Heritage Panel</p>
+          <p class="pac-artisan">By: Khalid Al-Zahrani</p>
+          <p class="pac-price"><small>SAR</small> 1,400</p>
+          <button class="pac-btn" onclick="openEdit('p12','Carved Wooden Heritage Panel','باب خشبي تقليدي منحوت','Khalid Al-Zahrani','Taif, Makkah Region','1400','Wood','p12_wooddoor.jpg','Featured','A large intricately carved wooden heritage panel inspired by traditional Saudi architectural motifs.')">&#x270F; Edit Product</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="edit-overlay" id="editOverlay" onclick="if(event.target===this)closeEdit()">
+  <div class="edit-modal">
+    <button class="edit-modal-close" onclick="closeEdit()" aria-label="Close">&times;</button>
+    <h2 id="editModalTitle">&#x270F; Edit Product</h2>
+
+    <p class="form-section-title">Product Image</p>
+    <div class="current-image-preview">
+      <img id="currentImg" src="" alt="Current product image" />
+      <p class="current-image-label">Current Image</p>
+    </div>
+    <div class="image-upload-area">
+      <input type="file" id="editProductImage" accept="image/*" onchange="previewEditImage(this)" />
+      <p class="upload-text"><strong>Click to replace image</strong> or drag &amp; drop</p>
+      <p class="upload-hint">JPG, PNG, WEBP — Max 5MB</p>
+    </div>
+    <div class="new-image-preview" id="editNewImgPreview">
+      <img id="editNewImg" src="" alt="New image preview" />
+      <p class="current-image-label" style="color:var(--gold);">&#x2713; New image selected</p>
+    </div>
+
+    <p class="form-section-title">Basic Information</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="editName">Product Name (English)</label>
+        <input type="text" id="editName" />
+      </div>
+      <div class="form-group">
+        <label for="editNameAr">Product Name (Arabic)</label>
+        <input type="text" id="editNameAr" dir="rtl" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="editDesc">Description</label>
+      <textarea id="editDesc"></textarea>
+    </div>
+
+    <p class="form-section-title">Pricing &amp; Category</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="editPrice">Price (SAR)</label>
+        <input type="number" id="editPrice" min="1" />
+      </div>
+      <div class="form-group">
+        <label for="editCategory">Category</label>
+        <select id="editCategory">
+          <option value="Textiles">Textiles</option>
+          <option value="Metalwork">Metalwork</option>
+          <option value="Pottery">Pottery</option>
+          <option value="Leather">Leather</option>
+          <option value="Fragrance">Fragrance</option>
+          <option value="Wood">Wood</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="form-section-title">Artisan Information</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="editArtisan">Artisan Name</label>
+        <input type="text" id="editArtisan" />
+      </div>
+      <div class="form-group">
+        <label for="editRegion">Region / City</label>
+        <input type="text" id="editRegion" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-save" onclick="saveEdit()">&#x2705; Save Changes</button>
+      <button class="btn-cancel-modal" onclick="closeEdit()">Cancel</button>
+      <label for="deleteToggle" class="btn-delete">&#x1F5D1; Delete</label>
+    </div>
+  </div>
+</div>
+
+<input type="checkbox" id="deleteToggle" />
+<div class="delete-confirm-overlay">
+  <div class="delete-confirm-box">
+    <h3>&#x26A0; Delete Product?</h3>
+    <p>This action cannot be undone. Are you sure you want to permanently delete this product?</p>
+    <div class="delete-actions">
+      <button class="btn-confirm-delete">&#x1F5D1; Yes, Delete</button>
+      <label for="deleteToggle" class="btn-cancel-delete">Cancel</label>
+    </div>
+  </div>
+</div>
+
+<div class="success-toast" id="successToast">
+  &#x2705; &nbsp; Product updated successfully!
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="text-align:center;padding:20px 0;">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; Admin Portal.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var currentProductId = '';
+
+  function openEdit(id, name, nameAr, artisan, region, price, category, img, badge, desc) {
+    currentProductId = id;
+    document.getElementById('editModalTitle').textContent = '\u270F Edit: ' + name.replace(/&amp;/g, '&');
+    document.getElementById('editName').value = name.replace(/&amp;/g, '&');
+    document.getElementById('editNameAr').value = nameAr;
+    document.getElementById('editArtisan').value = artisan;
+    document.getElementById('editRegion').value = region;
+    document.getElementById('editPrice').value = price;
+    document.getElementById('editDesc').value = desc;
+    document.getElementById('editCategory').value = category;
+    document.getElementById('currentImg').src = 'images/' + img;
+    document.getElementById('editNewImgPreview').style.display = 'none';
+    document.getElementById('editProductImage').value = '';
+    document.getElementById('editOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEdit() {
+    document.getElementById('editOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function previewEditImage(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('editNewImg').src = e.target.result;
+        document.getElementById('editNewImgPreview').style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function saveEdit() {
+    closeEdit();
+    var toast = document.getElementById('successToast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 3200);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeEdit();
+  });
+</script>
+
+</body>
+</html>
