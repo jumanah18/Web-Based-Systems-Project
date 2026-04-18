@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Order Confirmation & Tracking | تأكيد وتتبع الطلب</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="#">About</a>
+    </div>
+    <a href="shop.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-row">
+    <a href="index.html">Home</a>
+    <span class="bc-sep">/</span>
+    <a href="shop.html">Shop</a>
+    <span class="bc-sep">/</span>
+    <span class="bc-current">Order Tracking</span>
+  </div>
+</div>
+
+<!-- MAIN TRACKING CONTENT -->
+<div class="tracking-container">
+  
+  <!-- Success Header -->
+  <div class="success-header">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h1>تم تأكيد طلبك!</h1>
+    <h2>Your order has been confirmed</h2>
+    <div class="order-number">
+      رقم الطلب / Order # <span>DAR-2405-8732</span>
+    </div>
+  </div>
+
+  <!-- Two Column Grid -->
+  <div class="tracking-grid">
+    
+    <!-- LEFT COLUMN: Order Details & Shipping -->
+    <div>
+      <!-- Order Details Card -->
+      <div class="info-card">
+        <div class="card-title">تفاصيل الطلب</div>
+        <div class="card-title-en">ORDER DETAILS</div>
+        
+        <div class="order-details-list">
+          <div class="detail-row">
+            <span class="detail-label">Order Date</span>
+            <span class="detail-value">April 17, 2026</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Payment Method</span>
+            <span class="detail-value">Mada / Credit Card</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Payment Status</span>
+            <span class="detail-value" style="color: var(--gold);">Paid ✓</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Shipping Method</span>
+            <span class="detail-value">Saudi Post Express (2-4 days)</span>
+          </div>
+          <div class="detail-row total-row">
+            <span class="detail-label">Total Amount</span>
+            <span class="detail-value">SAR 1,235</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping Address Card -->
+      <div class="info-card" style="margin-top: 24px;">
+        <div class="card-title">عنوان الشحن</div>
+        <div class="card-title-en">SHIPPING ADDRESS</div>
+        
+        <div class="address-block">
+          <div class="address-line"><strong>Ahmed Al-Qahtani</strong></div>
+          <div class="address-line">شارع الأمير محمد بن فهد، حي المروج</div>
+          <div class="address-line">الرياض 12281، المملكة العربية السعودية</div>
+          <div class="address-line">+966 5X XXX XXXX</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Tracking Timeline -->
+    <div>
+      <div class="info-card">
+        <div class="card-title">حالة التوصيل</div>
+        <div class="card-title-en">TRACKING STATUS</div>
+        
+        <div class="timeline">
+          <!-- Step 1: Order Confirmed -->
+          <div class="timeline-item">
+            <div class="timeline-dot completed">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-status">Order Confirmed <small>April 17, 2026 · 10:32 AM</small></div>
+              <div class="timeline-desc">Your order has been received and payment is verified.</div>
+            </div>
+          </div>
+
+          <!-- Step 2: Processing (Current) -->
+          <div class="timeline-item">
+            <div class="timeline-dot current">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-status">Processing & Quality Check <small>In Progress</small></div>
+              <div class="timeline-desc">Artisan is preparing your handmade item. Quality check pending.</div>
+            </div>
+          </div>
+
+          <!-- Step 3: Shipped (Upcoming) -->
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                <path d="M16 6v12"></path>
+                <path d="M8 6v12"></path>
+              </svg>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-status">Shipped</div>
+              <div class="timeline-desc">Estimated: April 20–22, 2026. Tracking number will appear here.</div>
+            </div>
+          </div>
+
+          <!-- Step 4: Delivered (Upcoming) -->
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h3l2-4 3 6 2-4 2 4h3"></path>
+                <path d="M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-status">Delivered</div>
+              <div class="timeline-desc">You will receive a notification once delivered.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERED PRODUCTS SECTION -->
+  <div class="info-card" style="margin-top: 8px;">
+    <div class="card-title">المنتجات المطلوبة</div>
+    <div class="card-title-en">ORDERED ITEMS</div>
+    
+    <div class="products-list">
+      <!-- Product 1 -->
+      <div class="track-product-item">
+        <div class="track-product-img">
+          <img src="images/p1_baskets.jpg" alt="Woven Baskets">
+        </div>
+        <div class="track-product-info">
+          <div class="track-product-name">Woven Baskets & Embroidered Textiles</div>
+          <div class="track-product-name-ar">سلال وملابس مطرزة</div>
+          <div class="track-product-meta">
+            <span>Qty: 1</span>
+            <span>Artisan: Fatima Al-Ghamdi</span>
+            <span>SAR 320</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="track-product-item">
+        <div class="track-product-img">
+          <img src="images/p2_mortar.jpg" alt="Brass Mortar">
+        </div>
+        <div class="track-product-info">
+          <div class="track-product-name">Brass Mortar & Pestle</div>
+          <div class="track-product-name-ar">هاون نحاسي تقليدي</div>
+          <div class="track-product-meta">
+            <span>Qty: 1</span>
+            <span>Artisan: Hassan Al-Otaibi</span>
+            <span>SAR 495</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="track-product-item">
+        <div class="track-product-img">
+          <img src="images/p8_roses.jpg" alt="Taif Rose Water">
+        </div>
+        <div class="track-product-info">
+          <div class="track-product-name">Taif Rose Water</div>
+          <div class="track-product-name-ar">ماء ورد الطائف</div>
+          <div class="track-product-meta">
+            <span>Qty: 2</span>
+            <span>Artisan: Reem Al-Harbi</span>
+            <span>SAR 440</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="action-buttons">
+    <a href="shop.html" class="btn btn-gold">Continue Shopping</a>
+    <a href="index.html" class="btn btn-outline">Back to Home</a>
+    <a href="#" class="btn btn-green">Download Invoice</a>
+  </div>
+
+  <!-- HELP SECTION -->
+  <div class="help-section">
+    <h3>هل تحتاج مساعدة؟</h3>
+    <p>Need help with your order? Contact our support team.</p>
+    <div class="help-links">
+      <a href="#">Contact Support</a>
+      <a href="#">Shipping Policy</a>
+      <a href="#">Returns & Refunds</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand-name">دار الحرف</p>
+        <p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts rooted in heritage. Proudly part of The Year of Handicrafts 2026 initiative by the Ministry of Culture.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <div class="footer-links">
+          <a href="shop.html">All Products</a>
+          <a href="shop.html">Pottery</a>
+          <a href="shop.html">Textiles</a>
+          <a href="shop.html">Metalwork</a>
+          <a href="shop.html">Leather</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">More</p>
+        <div class="footer-links">
+          <a href="#">About Us</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="#">Gift Cards</a>
+          <a href="order-tracking.html" style="color: var(--gold);">Track Order</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <div class="footer-links">
+          <a href="#">Shipping &amp; Returns</a>
+          <a href="#">Contact Us</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Dar Al Hiraf — دار الحرف. All rights reserved.</p>
+      <p>A Ministry of Culture Initiative</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
