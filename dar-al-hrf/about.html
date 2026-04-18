@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — About Us | من نحن</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html" class="active">About</a>
+      <a href="#">Admin</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="about-container">
+  
+  <div class="about-hero">
+    <h1>من نحن</h1>
+    <h2>About Dar Al Hiraf</h2>
+    <div class="about-hero-desc">
+      منصة سعودية تهدف إلى ربط الحرفيين المحليين بمن يقدّرون الحرف اليدوية الأصيلة، 
+      مع الحفاظ على التراث السعودي وتعزيز الهوية الثقافية.
+    </div>
+    <div class="gold-divider"></div>
+  </div>
+  
+  <div class="mission-vision">
+    <div class="mv-card">
+      <div class="mv-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <h3>رسالتنا</h3>
+      <p>تمكين الحرفيين السعوديين وتوفير منصة لعرض منتجاتهم اليدوية الأصيلة، مع الحفاظ على التراث الثقافي ونقله للأجيال القادمة.</p>
+    </div>
+    <div class="mv-card">
+      <div class="mv-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h3>رؤيتنا</h3>
+      <p>أن نكون المنصة الرائدة في العالم العربي للحرف اليدوية التراثية، ونشر الوعي بأهمية الحفاظ على الهوية السعودية من خلال الحرف.</p>
+    </div>
+  </div>
+  
+  <div class="story-section">
+    <div class="story-image">
+      <img src="images/header.jpg" alt="Traditional Saudi Artisan">
+    </div>
+    <div class="story-content">
+      <h3>قصتنا</h3>
+      <div class="subtitle">Our Story</div>
+      <p>انطلقت دار الحرف في عام 2024 بدعم من وزارة الثقافة السعودية، كجزء من مبادرة "عام الحرف اليدوية 2026". بدأت قصتنا مع مجموعة من الحرفيين الموهوبين الذين كانوا يسعون للحفاظ على حرفهم اليدوية التقليدية وإيصالها إلى العالم.</p>
+      <p>اليوم، نفتخر بشراكة مع أكثر من 120 حرفي وحرفية من جميع مناطق المملكة، نعرض أكثر من 12 نوعاً من الحرف اليدوية الأصيلة، ونوفر ورش عمل تفاعلية لنقل هذه المهارات للأجيال القادمة.</p>
+    </div>
+  </div>
+  
+  <div class="values-section">
+    <h3>قيمنا</h3>
+    <div class="values-subtitle">Our Core Values</div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M20 12v8H4v-8M12 2v12m0 0-3-3m3 3 3-3"/>
+          </svg>
+        </div>
+        <h4>الأصالة</h4>
+        <p>نحرص على تقديم منتجات أصلية 100% مصنوعة يدوياً من قبل حرفيين سعوديين.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+        </div>
+        <h4>الجودة</h4>
+        <p>نضمن جودة عالية في كل منتج من خلال فحص دقيق قبل الشحن.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h4>الثقة</h4>
+        <p>نعمل بشفافية ونضمن حقوق الحرفيين والعملاء على حد سواء.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M4 4h16v16H4zM9 9h6v6H9z"/>
+          </svg>
+        </div>
+        <h4>الإبداع</h4>
+        <p>نشجع الحرفيين على الابتكار مع الحفاظ على التراث والتقاليد.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-stats">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <span class="stat-number">120+</span>
+        <span class="stat-label">حرفي سعودي</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">12</span>
+        <span class="stat-label">نوع من الحرف</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">18</span>
+        <span class="stat-label">منطقة سعودية</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">8K+</span>
+        <span class="stat-label">عميل سعيد</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-buttons">
+    <a href="shop.html" class="btn btn-gold">تسوق الآن</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand-name" lang="ar">دار الحرف</p>
+        <p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts rooted in heritage. Proudly part of The Year of Handicrafts 2026 initiative by the Ministry of Culture.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <div class="footer-links" role="list">
+          <a href="shop.html">All Products</a>
+          <a href="shop-pottery.html">Pottery</a>
+          <a href="shop-textiles.html">Textiles</a>
+          <a href="shop-metalwork.html">Metalwork</a>
+          <a href="shop-leather.html">Leather</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">More</p>
+        <div class="footer-links" role="list">
+          <a href="about.html">About Us</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="search.html">Search</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; دار الحرف. All rights reserved.</p>
+      <p>A Ministry of Culture Initiative</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart &mdash; Dar Al Hiraf</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .qty-range-wrap { display: flex; align-items: center; gap: 10px; }
+    .qty-range-wrap input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      width: 110px; height: 6px; border-radius: 3px;
+      background: #d8d2c5; outline: none; cursor: pointer;
+    }
+    .qty-range-wrap input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green); cursor: pointer;
+    }
+    .qty-range-wrap input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green); cursor: pointer; border: none;
+    }
+    .qty-val { min-width: 28px; text-align: center; font-weight: 700; font-size: 15px; color: var(--green); }
+    .row-price { font-weight: 700; color: var(--green); }
+    .btn-delete {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      font-size: 16px; color: #fff; cursor: pointer;
+      border: none; border-radius: 50%;
+      background: #c0392b;
+      transition: background 0.18s, transform 0.15s;
+      line-height: 1;
+    }
+    .btn-delete:hover { background: #96281b; transform: scale(1.1); }
+    .sum-val { font-weight: 700; color: var(--green); }
+    .sum-val-grand { font-weight: 700; font-size: 18px; color: var(--brown); }
+    .empty-cart-msg { display: none; text-align: center; padding: 60px 20px; }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="#">Admin</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    <a href="checkout.html" class="navbar-cart-btn active">Cart</a>
+  </div>
+</nav>
+
+<main id="main-content" class="section-light">
+  <div class="container checkout-container">
+    <div class="section-top">
+      <div class="section-top-left">
+        <p class="eyebrow">Your Cart</p>
+        <h2 style="text-align:left; color:var(--green);">Checkout</h2>
+        <div class="gold-line"></div>
+      </div>
+      <button class="btn btn-brown" style="font-size:11px;" onclick="clearAll()">Clear All Items</button>
+    </div>
+
+    <div class="empty-cart-msg" id="empty-msg">
+      <h2 class="logo-ar" style="color:var(--brown); font-size:32px;">السلة فارغة</h2>
+      <p style="margin-bottom:20px; color:#666;">Your cart is empty. Browse our crafts or workshops to add items.</p>
+      <div style="display:flex; gap:10px; justify-content:center;">
+        <a href="shop.html" class="btn btn-green">Browse Shop</a>
+        <a href="workshops.html" class="btn btn-gold">Browse Workshops</a>
+      </div>
+    </div>
+
+    <div class="cart-active-content" id="cart-content">
+      <table class="cart-table" id="cart-table">
+        <thead>
+          <tr><th>Item</th><th>Type</th><th>Price</th><th>Qty / Seats</th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr class="cart-row" data-price="320" data-type="product" id="row-p1">
+            <td><div class="item-flex"><img src="images/p1_baskets.jpg" class="item-img" alt="Woven Baskets"><div><p class="pc-name" style="margin:0;">Woven Baskets &amp; Embroidered Textiles</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Fatima Al-Ghamdi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 320</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p1')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="495" data-type="product" id="row-p2">
+            <td><div class="item-flex"><img src="images/p2_mortar.jpg" class="item-img" alt="Brass Mortar"><div><p class="pc-name" style="margin:0;">Brass Mortar &amp; Pestle</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Hassan Al-Otaibi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 495</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p2')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="145" data-type="product" id="row-p3">
+            <td><div class="item-flex"><img src="images/p3_hat.jpg" class="item-img" alt="Palm Leaf Hat"><div><p class="pc-name" style="margin:0;">Palm Leaf Sun Hat</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Aisha Al-Mutairi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 145</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p3')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="980" data-type="product" id="row-p4">
+            <td><div class="item-flex"><img src="images/p4_khanjar.jpg" class="item-img" alt="Khanjar"><div><p class="pc-name" style="margin:0;">Traditional Saudi Khanjar</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Ibrahim Al-Dosari</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 980</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p4')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="155" data-type="product" id="row-p5">
+            <td><div class="item-flex"><img src="images/p5_weaving.jpg" class="item-img" alt="Palm Basket"><div><p class="pc-name" style="margin:0;">Hand-Woven Palm Basket</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Aisha Al-Mutairi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 155</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p5')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="640" data-type="product" id="row-p6">
+            <td><div class="item-flex"><img src="images/p6_jewelry.jpg" class="item-img" alt="Silver Jewellery"><div><p class="pc-name" style="margin:0;">Traditional Silver Jewellery</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Maha Al-Shehri</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 640</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p6')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="195" data-type="product" id="row-p7">
+            <td><div class="item-flex"><img src="images/p7_palmweave.jpg" class="item-img" alt="Woven Palm Mat"><div><p class="pc-name" style="margin:0;">Woven Palm Mat</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Aisha Al-Mutairi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 195</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p7')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="220" data-type="product" id="row-p8">
+            <td><div class="item-flex"><img src="images/p8_roses.jpg" class="item-img" alt="Taif Rose Water"><div><p class="pc-name" style="margin:0;">Taif Rose Water</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Reem Al-Harbi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 220</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p8')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="360" data-type="product" id="row-p9">
+            <td><div class="item-flex"><img src="images/p9_textile.jpg" class="item-img" alt="Sadu Textile"><div><p class="pc-name" style="margin:0;">Sadu Woven Textile Strip</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Fatima Al-Ghamdi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 360</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p9')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="280" data-type="product" id="row-p10">
+            <td><div class="item-flex"><img src="images/p10_clay.jpg" class="item-img" alt="Clay Pottery Jug"><div><p class="pc-name" style="margin:0;">Handmade Clay Pottery Jug</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Noura Al-Rashidi</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 280</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p10')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="850" data-type="product" id="row-p11">
+            <td><div class="item-flex"><img src="images/p11_leather.jpg" class="item-img" alt="Camel Leather Bag"><div><p class="pc-name" style="margin:0;">Camel Leather Shoulder Bag</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Ibrahim Al-Dosari</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 850</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p11')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="1400" data-type="product" id="row-p12">
+            <td><div class="item-flex"><img src="images/p12_wooddoor.jpg" class="item-img" alt="Carved Wood Panel"><div><p class="pc-name" style="margin:0;">Carved Wooden Heritage Panel</p><p style="font-size:11px;color:#888;margin:2px 0 0;">By Khalid Al-Zahrani</p></div></div></td>
+            <td><span class="cart-type-badge product-badge">Product</span></td>
+            <td class="row-price">SAR 1,400</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-p12')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="280" data-type="workshop" id="row-w1">
+            <td><div class="item-flex"><img src="images/p5_weaving.jpg" class="item-img" alt="Palm Weaving Workshop"><div><p class="pc-name" style="margin:0;">Traditional Palm Weaving</p><p style="font-size:11px;color:#888;margin:2px 0 0;">Workshop &middot; Al-Ahsa &middot; 3 hrs</p></div></div></td>
+            <td><span class="cart-type-badge workshop-badge">Workshop</span></td>
+            <td class="row-price">SAR 280</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-w1')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="340" data-type="workshop" id="row-w2">
+            <td><div class="item-flex"><img src="images/p9_textile.jpg" class="item-img" alt="Sadu Workshop"><div><p class="pc-name" style="margin:0;">Sadu Weaving Workshop</p><p style="font-size:11px;color:#888;margin:2px 0 0;">Workshop &middot; Abha &middot; 4 hrs</p></div></div></td>
+            <td><span class="cart-type-badge workshop-badge">Workshop</span></td>
+            <td class="row-price">SAR 340</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-w2')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="420" data-type="workshop" id="row-w3">
+            <td><div class="item-flex"><img src="images/p2_mortar.jpg" class="item-img" alt="Metalwork Workshop"><div><p class="pc-name" style="margin:0;">Brass &amp; Copper Crafting</p><p style="font-size:11px;color:#888;margin:2px 0 0;">Workshop &middot; Riyadh &middot; 5 hrs</p></div></div></td>
+            <td><span class="cart-type-badge workshop-badge">Workshop</span></td>
+            <td class="row-price">SAR 420</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-w3')" title="Remove">🗑</button></td>
+          </tr>
+          <tr class="cart-row" data-price="260" data-type="workshop" id="row-w4">
+            <td><div class="item-flex"><img src="images/p10_clay.jpg" class="item-img" alt="Pottery Workshop"><div><p class="pc-name" style="margin:0;">Traditional Pottery Workshop</p><p style="font-size:11px;color:#888;margin:2px 0 0;">Workshop &middot; Al-Qatif &middot; 3 hrs</p></div></div></td>
+            <td><span class="cart-type-badge workshop-badge">Workshop</span></td>
+            <td class="row-price">SAR 260</td>
+            <td><div class="qty-range-wrap"><input type="range" min="1" max="20" value="1" oninput="updateRow(this)"><span class="qty-val">1</span></div></td>
+            <td><button class="btn-delete" onclick="removeRow('row-w4')" title="Remove">🗑</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="summary-card">
+        <p class="eyebrow" style="margin-bottom:22px; display:block;">Order Summary</p>
+        <div class="summary-line"><span>Products</span><span class="sum-val" id="sum-products">SAR 0</span></div>
+        <div class="summary-line"><span>Workshops</span><span class="sum-val" id="sum-workshops">SAR 0</span></div>
+        <div class="summary-line" style="border-bottom: 1px solid #e0dcd4; padding-bottom:14px; margin-bottom:0;"><span>Service Fee</span><span>SAR 15</span></div>
+        <div class="summary-total"><span>Total</span><span class="sum-val-grand" id="sum-grand">SAR 15</span></div>
+        <a href="purchase-completed.html" class="btn btn-gold" style="display:block; width:100%; margin-top:24px; padding:16px; border-radius:6px; letter-spacing:1px; text-align:center; font-size:13px;">Complete Purchase</a>
+        <div style="margin-top:16px; text-align:center;"><a href="shop.html" style="font-size:12px; color:#999; text-decoration:underline;">Continue Shopping</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand-name" lang="ar">دار الحرف</p>
+        <p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts rooted in heritage. Proudly part of The Year of Handicrafts 2026 initiative by the Ministry of Culture.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <div class="footer-links">
+          <a href="shop.html">All Products</a>
+          <a href="shop-pottery.html">Pottery</a>
+          <a href="shop-textiles.html">Textiles</a>
+          <a href="shop-metalwork.html">Metalwork</a>
+          <a href="shop-leather.html">Leather</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">More</p>
+        <div class="footer-links">
+          <a href="about.html">About Us</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; دار الحرف. All rights reserved.</p>
+      <p>A Ministry of Culture Initiative</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var SERVICE_FEE = 15;
+  function formatSAR(n) { return "SAR " + n.toLocaleString(); }
+  function updateRow(rangeInput) {
+    var qty = parseInt(rangeInput.value);
+    var row = rangeInput.closest(".cart-row");
+    var price = parseInt(row.dataset.price);
+    rangeInput.nextElementSibling.textContent = qty;
+    row.querySelector(".row-price").textContent = formatSAR(qty * price);
+    recalcTotals();
+  }
+  function removeRow(id) {
+    var row = document.getElementById(id);
+    if (row) { row.remove(); recalcTotals(); checkEmpty(); }
+  }
+  function clearAll() {
+    document.querySelectorAll(".cart-row").forEach(function(r) { r.remove(); });
+    recalcTotals(); checkEmpty();
+  }
+  function recalcTotals() {
+    var p = 0, w = 0;
+    document.querySelectorAll(".cart-row").forEach(function(row) {
+      var qty = parseInt(row.querySelector("input[type=range]").value);
+      var sub = qty * parseInt(row.dataset.price);
+      if (row.dataset.type === "product") p += sub; else w += sub;
+    });
+    document.getElementById("sum-products").textContent = formatSAR(p);
+    document.getElementById("sum-workshops").textContent = formatSAR(w);
+    document.getElementById("sum-grand").textContent = formatSAR(p + w + SERVICE_FEE);
+  }
+  function checkEmpty() {
+    if (!document.querySelector(".cart-row")) {
+      document.getElementById("cart-content").style.display = "none";
+      document.getElementById("empty-msg").style.display = "block";
+    }
+  }
+  recalcTotals();
+</script>
+</body>
+</html>

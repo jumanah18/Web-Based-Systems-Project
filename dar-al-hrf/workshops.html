@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Workshops</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html" class="active">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="#">Admin</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    
+<a href="checkout.html" class="navbar-cart-btn" aria-label="Shopping cart">Cart</a>  </div>
+</nav>
+
+<main id="main-content">
+
+  <!-- BACK ARROW -->
+  <div class="back-bar">
+    <div class="container">
+      <a href="index.html" class="back-link">&#8592; Back to Home</a>
+    </div>
+  </div>
+
+  <div class="shop-header">
+    <h1 lang="ar">ورش العمل</h1>
+    <p>Hands-on Saudi craft workshops led by master artisans across the Kingdom</p>
+  </div>
+
+  <!-- WORKSHOPS WITH BOOKING -->
+  <section class="section section-green">
+    <div class="container">
+      <div class="workshops-full-grid">
+
+        <!-- WORKSHOP 1 -->
+        <div class="workshop-full-card">
+          <div class="wf-img">
+            <img src="images/p5_weaving.jpg" alt="Traditional Palm Weaving workshop" />
+          </div>
+          <div class="wf-body">
+            <div class="wf-info">
+              <p class="wc-tag">Basket Weaving</p>
+              <p class="wc-title" lang="ar">ورشة الخوص التقليدية</p>
+              <p class="wc-title-en">Traditional Palm Weaving</p>
+              <p class="wc-desc">Learn the traditional Khousse palm-leaf weaving technique with a master artisan from Al-Ahsa. All materials are provided. Suitable for beginners.</p>
+
+              <div class="wf-details">
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128205;</span>
+                  <span><strong>Location:</strong> Al-Ahsa Heritage Center, Al-Ahsa, Eastern Province</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#8987;</span>
+                  <span><strong>Duration:</strong> 3 hours &nbsp;&nbsp; <strong>Seats:</strong> 12 available</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128176;</span>
+                  <span><strong>Price per person:</strong> <span class="wf-price">280 SAR</span></span>
+                </div>
+              </div>
+
+              <div class="wf-booking">
+                <p class="wf-booking-title">Select a Date &amp; Time</p>
+                <fieldset>
+                    <legend class="sr-only">Available sessions for Traditional Palm Weaving</legend>
+                    <div class="time-slots">
+                      <label class="time-slot">
+                        <input type="radio" name="session-w1" value="may14-10" />
+                        <span class="slot-box"><span class="slot-date">May 14, 2026</span><span class="slot-time">10:00 AM – 1:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w1" value="may14-2" />
+                        <span class="slot-box"><span class="slot-date">May 14, 2026</span><span class="slot-time">2:00 PM – 5:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w1" value="may21-10" />
+                        <span class="slot-box"><span class="slot-date">May 21, 2026</span><span class="slot-time">10:00 AM – 1:00 PM</span></span>
+                      </label>
+                    </div>
+                  </fieldset>
+                  <div class="booking-actions">
+                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
+                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                  
+                  <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKSHOP 2 -->
+        <div class="workshop-full-card">
+          <div class="wf-img">
+            <img src="images/p9_textile.jpg" alt="Sadu Weaving workshop" />
+          </div>
+          <div class="wf-body">
+            <div class="wf-info">
+              <p class="wc-tag">Textiles</p>
+              <p class="wc-title" lang="ar">ورشة نسيج السدو</p>
+              <p class="wc-title-en">Sadu Weaving Workshop</p>
+              <p class="wc-desc">Master the iconic Sadu weaving — a UNESCO-recognized Bedouin craft. Learn to use a traditional ground loom and create your own Sadu-patterned piece with Fatima Al-Ghamdi.</p>
+
+              <div class="wf-details">
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128205;</span>
+                  <span><strong>Location:</strong> Asir Cultural Center, Abha, Asir Region</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#8987;</span>
+                  <span><strong>Duration:</strong> 4 hours &nbsp;&nbsp; <strong>Seats:</strong> 8 available</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128176;</span>
+                  <span><strong>Price per person:</strong> <span class="wf-price">340 SAR</span></span>
+                </div>
+              </div>
+
+              <div class="wf-booking">
+                <p class="wf-booking-title">Select a Date &amp; Time</p>
+                <fieldset>
+                    <legend class="sr-only">Available sessions for Sadu Weaving</legend>
+                    <div class="time-slots">
+                      <label class="time-slot">
+                        <input type="radio" name="session-w2" value="may21-9" />
+                        <span class="slot-box"><span class="slot-date">May 21, 2026</span><span class="slot-time">9:00 AM – 1:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w2" value="jun4-9" />
+                        <span class="slot-box"><span class="slot-date">June 4, 2026</span><span class="slot-time">9:00 AM – 1:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w2" value="jun4-2" />
+                        <span class="slot-box"><span class="slot-date">June 4, 2026</span><span class="slot-time">2:00 PM – 6:00 PM</span></span>
+                      </label>
+                    </div>
+                  </fieldset>
+                  <div class="booking-actions">
+                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
+                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                  
+                  <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKSHOP 3 -->
+        <div class="workshop-full-card">
+          <div class="wf-img">
+            <img src="images/p2_mortar.jpg" alt="Brass and Copper Crafting workshop" />
+          </div>
+          <div class="wf-body">
+            <div class="wf-info">
+              <p class="wc-tag">Metalwork</p>
+              <p class="wc-title" lang="ar">ورشة النحاس والبرونز</p>
+              <p class="wc-title-en">Brass &amp; Copper Crafting</p>
+              <p class="wc-desc">Shape, engrave and polish traditional brass pieces in this immersive metalwork session with master craftsman Hassan Al-Otaibi. Take home your own handmade piece.</p>
+
+              <div class="wf-details">
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128205;</span>
+                  <span><strong>Location:</strong> Riyadh Craft District, Al-Murabba, Riyadh</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#8987;</span>
+                  <span><strong>Duration:</strong> 5 hours &nbsp;&nbsp; <strong>Seats:</strong> 6 available</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128176;</span>
+                  <span><strong>Price per person:</strong> <span class="wf-price">420 SAR</span></span>
+                </div>
+              </div>
+
+              <div class="wf-booking">
+                <p class="wf-booking-title">Select a Date &amp; Time</p>
+                <fieldset>
+                    <legend class="sr-only">Available sessions for Brass and Copper Crafting</legend>
+                    <div class="time-slots">
+                      <label class="time-slot">
+                        <input type="radio" name="session-w3" value="jun5-10" />
+                        <span class="slot-box"><span class="slot-date">June 5, 2026</span><span class="slot-time">10:00 AM – 3:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w3" value="jun19-10" />
+                        <span class="slot-box"><span class="slot-date">June 19, 2026</span><span class="slot-time">10:00 AM – 3:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w3" value="jul3-10" />
+                        <span class="slot-box"><span class="slot-date">July 3, 2026</span><span class="slot-time">10:00 AM – 3:00 PM</span></span>
+                      </label>
+                    </div>
+                  </fieldset>
+                  <div class="booking-actions">
+                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
+                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                  
+                  <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKSHOP 4 -->
+        <div class="workshop-full-card">
+          <div class="wf-img">
+            <img src="images/p10_clay.jpg" alt="Traditional Pottery workshop" />
+          </div>
+          <div class="wf-body">
+            <div class="wf-info">
+              <p class="wc-tag">Pottery</p>
+              <p class="wc-title" lang="ar">ورشة الفخار التقليدي</p>
+              <p class="wc-title-en">Traditional Pottery Workshop</p>
+              <p class="wc-desc">Shape and glaze your own clay piece under the guidance of Noura Al-Rashidi from the Eastern Province. Using locally sourced red clay, you'll create a unique handmade piece to keep.</p>
+
+              <div class="wf-details">
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128205;</span>
+                  <span><strong>Location:</strong> Al-Qatif Heritage Village, Al-Qatif, Eastern Province</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#8987;</span>
+                  <span><strong>Duration:</strong> 3 hours &nbsp;&nbsp; <strong>Seats:</strong> 10 available</span>
+                </div>
+                <div class="wf-detail-row">
+                  <span class="wf-detail-icon">&#128176;</span>
+                  <span><strong>Price per person:</strong> <span class="wf-price">260 SAR</span></span>
+                </div>
+              </div>
+
+              <div class="wf-booking">
+                <p class="wf-booking-title">Select a Date &amp; Time</p>
+                <fieldset>
+                    <legend class="sr-only">Available sessions for Traditional Pottery</legend>
+                    <div class="time-slots">
+                      <label class="time-slot">
+                        <input type="radio" name="session-w4" value="jun18-10" />
+                        <span class="slot-box"><span class="slot-date">June 18, 2026</span><span class="slot-time">10:00 AM – 1:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w4" value="jun18-2" />
+                        <span class="slot-box"><span class="slot-date">June 18, 2026</span><span class="slot-time">2:00 PM – 5:00 PM</span></span>
+                      </label>
+                      <label class="time-slot">
+                        <input type="radio" name="session-w4" value="jul2-10" />
+                        <span class="slot-box"><span class="slot-date">July 2, 2026</span><span class="slot-time">10:00 AM – 1:00 PM</span></span>
+                      </label>
+                    </div>
+                  </fieldset>
+                  <div class="booking-actions">
+                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
+                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                  
+                  <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /workshops-full-grid -->
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand-name" lang="ar">دار الحرف</p>
+        <p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts rooted in heritage. Proudly part of The Year of Handicrafts 2026 initiative by the Ministry of Culture.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <div class="footer-links" role="list">
+          <a href="shop.html" role="listitem">All Products</a>
+          <a href="shop-pottery.html" role="listitem">Pottery</a>
+          <a href="shop-textiles.html" role="listitem">Textiles</a>
+          <a href="shop-metalwork.html" role="listitem">Metalwork</a>
+          <a href="shop-leather.html" role="listitem">Leather</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">More</p>
+        <div class="footer-links" role="list">
+          <a href="#" role="listitem">About Us</a>
+          <a href="workshops.html" role="listitem">Workshops</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dar Al Hiraf &mdash; دار الحرف. All rights reserved.</p>
+      <p>A Ministry of Culture Initiative</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WORKSHOP NEED HELP MODAL -->
+<div class="help-overlay" id="workshopHelpOverlay" onclick="if(event.target===this)closeWorkshopHelp()">
+  <div class="help-modal" role="dialog" aria-modal="true" aria-labelledby="workshopHelpTitle">
+    <button class="help-close" onclick="closeWorkshopHelp()" aria-label="Close">&times;</button>
+    <div class="help-modal-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <h3 id="workshopHelpTitle">Need Help?</h3>
+    </div>
+    <div class="help-item">
+      <h4>What to Bring</h4>
+      <p>No experience needed — all materials and tools are provided by the artisan. Wear comfortable clothes you don't mind getting a little messy.</p>
+    </div>
+    <div class="help-item">
+      <h4>Cancellation Policy</h4>
+      <p>Free cancellation up to 48 hours before the session. Cancellations within 48 hours receive a 50% refund. No-shows are non-refundable.</p>
+    </div>
+    <div class="help-item">
+      <h4>Accessibility</h4>
+      <p>Please contact us before booking if you have accessibility requirements. We will do our best to accommodate all participants.</p>
+    </div>
+    <div class="help-item">
+      <h4>Have More Questions?</h4>
+      <p>Visit our <a href="about.html" style="color:var(--gold)">About page</a> or reach out via the Contact Us link in the footer. We're happy to help.</p>
+    </div>
+    <div class="help-modal-footer">
+      <button onclick="closeWorkshopHelp()">Got it, thanks!</button>
+    </div>
+  </div>
+</div>
+<script>
+  function openWorkshopHelp() { document.getElementById("workshopHelpOverlay").classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeWorkshopHelp() { document.getElementById("workshopHelpOverlay").classList.remove("open"); document.body.style.overflow=""; }
+  document.addEventListener("keydown", e => { if(e.key==="Escape") closeWorkshopHelp(); });
+</script>
+</body>
+</html>

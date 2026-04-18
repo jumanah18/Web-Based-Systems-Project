@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Search Results | نتائج البحث</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="#">Admin</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    
+    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <div class="breadcrumb-row">
+    <a href="index.html">Home</a>
+    <span class="bc-sep">/</span>
+    <span class="bc-current">Search Results</span>
+  </div>
+</div>
+
+<div class="search-container">
+  
+  <div class="search-header">
+    <h1>ابحث عن الحرف اليدوية</h1>
+    <h2>Search for authentic Saudi handicrafts</h2>
+    <div class="search-box-wrapper">
+      <input type="text" id="searchPageInput" class="search-box" placeholder="Search products, artisans, or workshops...">
+      <button onclick="performPageSearch()" class="search-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="results-info" id="resultsInfo">
+    <div class="results-count" id="resultsCount">Loading results...</div>
+    <select class="sort-select" id="sortSelect">
+      <option value="relevance">Sort by: Relevance</option>
+      <option value="price_asc">Price: Low to High</option>
+      <option value="price_desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <div class="search-layout">
+    
+    <aside class="filters-sidebar">
+      <div class="filter-title">تصفية النتائج</div>
+      <div class="filter-title-en">FILTERS</div>
+
+      <div class="filter-group">
+        <span class="filter-group-label">Type</span>
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" id="filterProducts" value="product" checked> Products</label>
+          <label class="filter-option"><input type="checkbox" id="filterWorkshops" value="workshop" checked> Workshops</label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group-label">Category</span>
+        <div class="filter-options" id="categoryFilters">
+          <label class="filter-option"><input type="checkbox" value="Textiles" checked> Textiles</label>
+          <label class="filter-option"><input type="checkbox" value="Pottery" checked> Pottery</label>
+          <label class="filter-option"><input type="checkbox" value="Metalwork" checked> Metalwork</label>
+          <label class="filter-option"><input type="checkbox" value="Wood" checked> Wood</label>
+          <label class="filter-option"><input type="checkbox" value="Leather" checked> Leather</label>
+          <label class="filter-option"><input type="checkbox" value="Fragrance" checked> Fragrance</label>
+          <label class="filter-option"><input type="checkbox" value="Basket Weaving" checked> Basket Weaving</label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group-label">Price Range (SAR)</span>
+        <div class="price-range">
+          <input type="number" id="minPrice" placeholder="Min" class="price-input" value="0">
+          <input type="number" id="maxPrice" placeholder="Max" class="price-input" value="2000">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group-label">Artisan</span>
+        <div class="filter-options" id="artisanFilters">
+          <label class="filter-option"><input type="checkbox" value="Fatima Al-Ghamdi" checked> Fatima Al-Ghamdi</label>
+          <label class="filter-option"><input type="checkbox" value="Aisha Al-Mutairi" checked> Aisha Al-Mutairi</label>
+          <label class="filter-option"><input type="checkbox" value="Hassan Al-Otaibi" checked> Hassan Al-Otaibi</label>
+          <label class="filter-option"><input type="checkbox" value="Ibrahim Al-Dosari" checked> Ibrahim Al-Dosari</label>
+          <label class="filter-option"><input type="checkbox" value="Maha Al-Shehri" checked> Maha Al-Shehri</label>
+          <label class="filter-option"><input type="checkbox" value="Reem Al-Harbi" checked> Reem Al-Harbi</label>
+          <label class="filter-option"><input type="checkbox" value="Noura Al-Rashidi" checked> Noura Al-Rashidi</label>
+          <label class="filter-option"><input type="checkbox" value="Khalid Al-Zahrani" checked> Khalid Al-Zahrani</label>
+        </div>
+      </div>
+
+      <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
+      <div class="reset-filters">
+        <a href="#" onclick="resetFilters(); return false;">Reset all filters</a>
+      </div>
+    </aside>
+
+    <div>
+      <div class="search-products-grid" id="resultsGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand-name">دار الحرف</p>
+        <p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts rooted in heritage. Proudly part of The Year of Handicrafts 2026 initiative by the Ministry of Culture.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <div class="footer-links">
+          <a href="shop.html">All Products</a>
+          <a href="shop-pottery.html">Pottery</a>
+          <a href="shop-textiles.html">Textiles</a>
+          <a href="shop-metalwork.html">Metalwork</a>
+          <a href="shop-leather.html">Leather</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">More</p>
+        <div class="footer-links">
+          <a href="about.html">About Us</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="search-results.html">Search</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <div class="footer-links">
+          <a href="#">Shipping &amp; Returns</a>
+          <a href="#">Contact Us</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Dar Al Hiraf — دار الحرف. All rights reserved.</p>
+      <p>A Ministry of Culture Initiative</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const searchDatabase = [
+    { type: 'product', name: 'Woven Baskets & Embroidered Textiles', nameAr: 'سلال وملابس مطرزة', category: 'Textiles', artisan: 'Fatima Al-Ghamdi', price: 320, image: 'p1_baskets.jpg', link: 'product-p1.html', keywords: ['woven', 'basket', 'textile', 'embroidery', 'fatima'] },
+    { type: 'product', name: 'Brass Mortar & Pestle', nameAr: 'هاون نحاسي تقليدي', category: 'Metalwork', artisan: 'Hassan Al-Otaibi', price: 495, image: 'p2_mortar.jpg', link: 'product-p2.html', keywords: ['brass', 'mortar', 'pestle', 'metalwork', 'hassan'] },
+    { type: 'product', name: 'Palm Leaf Sun Hat', nameAr: 'قبعة سعف النخيل', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 145, image: 'p3_hat.jpg', link: 'product-p3.html', keywords: ['palm', 'leaf', 'hat', 'sun', 'aisha'] },
+    { type: 'product', name: 'Traditional Saudi Khanjar', nameAr: 'خنجر سعودي تقليدي', category: 'Metalwork', artisan: 'Ibrahim Al-Dosari', price: 980, image: 'p4_khanjar.jpg', link: 'product-p4.html', keywords: ['khanjar', 'dagger', 'metalwork', 'ibrahim', 'traditional'] },
+    { type: 'product', name: 'Hand-Woven Palm Basket', nameAr: 'سلة منسوجة يدوياً', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 155, image: 'p5_weaving.jpg', link: 'product-p5.html', keywords: ['palm', 'basket', 'weaving', 'aisha'] },
+    { type: 'product', name: 'Traditional Silver Jewellery', nameAr: 'حلي فضية تقليدية', category: 'Metalwork', artisan: 'Maha Al-Shehri', price: 640, image: 'p6_jewelry.jpg', link: 'product-p6.html', keywords: ['silver', 'jewellery', 'necklace', 'maha'] },
+    { type: 'product', name: 'Woven Palm Mat', nameAr: 'حصيرة سعف النخيل', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 195, image: 'p7_palmweave.jpg', link: 'product-p7.html', keywords: ['palm', 'mat', 'weaving', 'aisha'] },
+    { type: 'product', name: 'Taif Rose Water', nameAr: 'ماء ورد الطائف', category: 'Fragrance', artisan: 'Reem Al-Harbi', price: 220, image: 'p8_roses.jpg', link: 'product-p8.html', keywords: ['taif', 'rose', 'water', 'fragrance', 'reem'] },
+    { type: 'product', name: 'Sadu Woven Textile Strip', nameAr: 'شريط نسيج سدو تقليدي', category: 'Textiles', artisan: 'Fatima Al-Ghamdi', price: 360, image: 'p9_textile.jpg', link: 'product-p9.html', keywords: ['sadu', 'weaving', 'textile', 'bedouin', 'fatima'] },
+    { type: 'product', name: 'Handmade Clay Pottery Jug', nameAr: 'إبريق فخار طيني', category: 'Pottery', artisan: 'Noura Al-Rashidi', price: 280, image: 'p10_clay.jpg', link: 'product-p10.html', keywords: ['clay', 'pottery', 'jug', 'noura'] },
+    { type: 'product', name: 'Camel Leather Shoulder Bag', nameAr: 'حقيبة جلد الجمل', category: 'Leather', artisan: 'Ibrahim Al-Dosari', price: 850, image: 'p11_leather.jpg', link: 'product-p11.html', keywords: ['leather', 'bag', 'camel', 'shoulder', 'ibrahim'] },
+    { type: 'product', name: 'Carved Wooden Heritage Panel', nameAr: 'باب خشبي تقليدي منحوت', category: 'Wood', artisan: 'Khalid Al-Zahrani', price: 1400, image: 'p12_wooddoor.jpg', link: 'product-p12.html', keywords: ['wood', 'carved', 'panel', 'khalid'] },
+    { type: 'workshop', name: 'Traditional Palm Weaving Workshop', nameAr: 'ورشة الخوص التقليدية', category: 'Basket Weaving', location: 'Al-Ahsa', date: 'May 14, 2026', duration: '3 hours', seats: '12 seats', price: 280, artisan: 'Master Artisan', image: 'p5_weaving.jpg', link: 'workshops.html', keywords: ['palm', 'weaving', 'workshop', 'ahsa', 'basket'] },
+    { type: 'workshop', name: 'Sadu Weaving Workshop', nameAr: 'ورشة نسيج السدو', category: 'Textiles', location: 'Asir', date: 'May 21, 2026', duration: '4 hours', seats: '8 seats', price: 340, artisan: 'Fatima Al-Ghamdi', image: 'p9_textile.jpg', link: 'workshops.html', keywords: ['sadu', 'weaving', 'workshop', 'abha', 'fatima'] },
+    { type: 'workshop', name: 'Brass & Copper Crafting Workshop', nameAr: 'ورشة النحاس والبرونز', category: 'Metalwork', location: 'Riyadh', date: 'June 5, 2026', duration: '5 hours', seats: '6 seats', price: 420, artisan: 'Hassan Al-Otaibi', image: 'p2_mortar.jpg', link: 'workshops.html', keywords: ['brass', 'copper', 'metalwork', 'workshop', 'riyadh'] },
+    { type: 'workshop', name: 'Traditional Pottery Workshop', nameAr: 'ورشة الفخار التقليدي', category: 'Pottery', location: 'Al-Qatif', date: 'June 18, 2026', duration: '3 hours', seats: '10 seats', price: 260, artisan: 'Noura Al-Rashidi', image: 'p10_clay.jpg', link: 'workshops.html', keywords: ['pottery', 'clay', 'workshop', 'qatif', 'noura'] },
+    { type: 'workshop', name: 'Traditional Leather Tooling Workshop', nameAr: 'ورشة الجلد التقليدي', category: 'Leather', location: 'Riyadh', date: 'July 3, 2026', duration: '4 hours', seats: '8 seats', price: 380, artisan: 'Ibrahim Al-Dosari', image: 'p11_leather.jpg', link: 'workshops.html', keywords: ['leather', 'tooling', 'workshop', 'riyadh', 'ibrahim'] },
+    { type: 'workshop', name: 'Taif Rose Fragrance Blending Workshop', nameAr: 'ورشة عطور الطائف', category: 'Fragrance', location: 'Taif', date: 'July 12, 2026', duration: '2 hours', seats: '15 seats', price: 220, artisan: 'Reem Al-Harbi', image: 'p8_roses.jpg', link: 'workshops.html', keywords: ['taif', 'rose', 'fragrance', 'workshop', 'reem'] }
+  ];
+
+  let currentSearchTerm = '';
+  let currentResults = [];
+
+  function getSearchTermFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('q') || '';
+  }
+
+  function performSearch(searchTerm) {
+    if (!searchTerm || searchTerm.trim() === '') return [];
+    const lowerTerm = searchTerm.toLowerCase().trim();
+    const results = [];
+    for (const item of searchDatabase) {
+      let score = 0;
+      if (item.name.toLowerCase() === lowerTerm) score += 10;
+      if (item.name.toLowerCase().includes(lowerTerm)) score += 5;
+      if (item.nameAr.toLowerCase().includes(lowerTerm)) score += 5;
+      if (item.category.toLowerCase().includes(lowerTerm)) score += 4;
+      if (item.artisan && item.artisan.toLowerCase().includes(lowerTerm)) score += 4;
+      if (item.location && item.location.toLowerCase().includes(lowerTerm)) score += 4;
+      for (const kw of item.keywords) {
+        if (kw.includes(lowerTerm)) score += 3;
+        if (lowerTerm.includes(kw)) score += 2;
+      }
+      if ((lowerTerm === 'workshop' || lowerTerm === 'workshops') && item.type === 'workshop') score += 8;
+      if ((lowerTerm === 'product' || lowerTerm === 'products') && item.type === 'product') score += 8;
+      const words = lowerTerm.split(' ');
+      for (const word of words) {
+        if (word.length > 2 && item.name.toLowerCase().includes(word)) score += 2;
+      }
+      if (score > 0) results.push({ ...item, relevanceScore: score });
+    }
+    results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    return results;
+  }
+
+  function applyFilters() {
+    let filtered = [...currentResults];
+    const showProducts = document.getElementById('filterProducts').checked;
+    const showWorkshops = document.getElementById('filterWorkshops').checked;
+    filtered = filtered.filter(item => (item.type === 'product' && showProducts) || (item.type === 'workshop' && showWorkshops));
+    const selectedCategories = Array.from(document.querySelectorAll('#categoryFilters input:checked')).map(cb => cb.value);
+    if (selectedCategories.length > 0) filtered = filtered.filter(item => selectedCategories.includes(item.category));
+    const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+    const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+    filtered = filtered.filter(item => item.price >= minPrice && item.price <= maxPrice);
+    const selectedArtisans = Array.from(document.querySelectorAll('#artisanFilters input:checked')).map(cb => cb.value);
+    if (selectedArtisans.length > 0) filtered = filtered.filter(item => item.type === 'product' ? selectedArtisans.includes(item.artisan) : true);
+
+    const sortBy = document.getElementById('sortSelect').value;
+    if (sortBy === 'price_asc') filtered.sort((a, b) => a.price - b.price);
+    else if (sortBy === 'price_desc') filtered.sort((a, b) => b.price - a.price);
+    displayResults(filtered);
+  }
+
+  function displayResults(results) {
+    const grid = document.getElementById('resultsGrid');
+    const resultsCount = document.getElementById('resultsCount');
+    if (results.length === 0) {
+      resultsCount.innerHTML = `<strong>0</strong> results found for <strong>"${currentSearchTerm}"</strong>`;
+      grid.innerHTML = `<div class="no-results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><h3>No results found</h3><p>Try: "weaving", "pottery", "metalwork", "workshop"</p></div>`;
+      return;
+    }
+    resultsCount.innerHTML = `<strong>${results.length}</strong> ${results.length === 1 ? 'result' : 'results'} found for <strong>"${currentSearchTerm}"</strong>`;
+    grid.innerHTML = results.map(item => `
+      <a href="${item.link}" class="product-card">
+        <div class="pc-img">
+          <img src="images/${item.image}" alt="${item.name}">
+          <span class="pc-badge ${item.type === 'workshop' ? 'gold' : ''}">${item.type === 'workshop' ? 'Workshop' : 'Product'}</span>
+        </div>
+        <div class="pc-body">
+          <p class="pc-cat">${item.category}</p>
+          <p class="pc-name">${item.name}</p>
+          <p class="pc-name-ar">${item.nameAr}</p>
+          <p class="pc-artisan">By: <strong>${item.artisan || 'Master Artisan'}</strong></p>
+          ${item.location ? `<p class="pc-artisan" style="font-size:11px;">📍 ${item.location} ${item.date ? '· ' + item.date : ''}</p>` : ''}
+          <div class="pc-footer"><span class="pc-price"><small>SAR</small> ${item.price}</span></div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function resetFilters() {
+    document.querySelectorAll('#categoryFilters input, #artisanFilters input').forEach(cb => cb.checked = true);
+    document.getElementById('filterProducts').checked = true;
+    document.getElementById('filterWorkshops').checked = true;
+    document.getElementById('minPrice').value = '0';
+    document.getElementById('maxPrice').value = '2000';
+    document.getElementById('sortSelect').value = 'relevance';
+    applyFilters();
+  }
+
+  function performPageSearch() {
+    const searchTerm = document.getElementById('searchPageInput').value;
+    if (searchTerm.trim() !== '') window.location.href = 'search.html?q=' + encodeURIComponent(searchTerm);
+  }
+
+  function init() {
+    currentSearchTerm = getSearchTermFromURL();
+    const searchInput = document.getElementById('searchPageInput');
+    if (searchInput) {
+      searchInput.value = currentSearchTerm;
+      searchInput.addEventListener('keypress', e => { if (e.key === 'Enter') performPageSearch(); });
+    }
+    if (currentSearchTerm && currentSearchTerm.trim() !== '') {
+      currentResults = performSearch(currentSearchTerm);
+      displayResults(currentResults);
+    } else {
+      document.getElementById('resultsCount').innerHTML = `<strong>0</strong> results found`;
+      document.getElementById('resultsGrid').innerHTML = `<div class="no-results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><h3>Enter a search term</h3><p>Search for products, artisans, or workshops above</p></div>`;
+    }
+  }
+
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+  window.performPageSearch = performPageSearch;
+  init();
+</script>
+
+</body>
+</html>

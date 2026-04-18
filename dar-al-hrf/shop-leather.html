@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Leather</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><span class="logo-ar" lang="ar">دار الحرف</span><span class="logo-en">Dar Al Hiraf</span></a>
+    <div class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="about.html">About</a>
+      <a href="#">Admin</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    
+    <a href="checkout.html" class="navbar-cart-btn" aria-label="Shopping cart, 0 items">Cart</a>
+  </div>
+</nav>
+<main id="main-content">
+
+<div class="back-bar"><div class="container"><a href="index.html" class="back-link">&larr; Back to Home</a></div></div>
+<div class="cat-strip">
+  <div class="cat-strip-inner">
+    <a href="shop.html" class="cat-item">All Crafts</a>
+    <a href="shop-pottery.html" class="cat-item">Pottery</a>
+    <a href="shop-textiles.html" class="cat-item">Textiles</a>
+    <a href="shop-metalwork.html" class="cat-item">Metalwork</a>
+    <a href="shop-leather.html" class="cat-item active">Leather</a>
+    <a href="shop-fragrance.html" class="cat-item">Fragrance</a>
+  </div>
+</div>
+<div class="shop-header">
+  <h1 lang="ar">الجلود</h1>
+  <p>1 handcrafted leather product</p>
+</div>
+<div class="shop-content">
+  <div class="container">
+    <div class="products-grid">
+      <a href="product-p11.html" class="product-card">
+        <div class="pc-img"><img src="images/p11_leather.jpg" alt="Leather Bag" /></div>
+        <div class="pc-body"><p class="pc-cat">Leather</p><p class="pc-name">Camel Leather Shoulder Bag</p><p class="pc-name-ar" lang="ar">حقيبة جلد الجمل</p><p class="pc-artisan">By: <strong>Ibrahim Al-Dosari</strong></p><div class="pc-footer"><span class="pc-price"><small>SAR</small> 850</span><a href="checkout.html" class="btn btn-green" style="font-size:10px;padding:6px 12px;">Add to Cart</a></div></div>
+      </a>
+    </div>
+  </div>
+</div>
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><p class="footer-brand-name" lang="ar">دار الحرف</p><p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts rooted in heritage. Proudly part of The Year of Handicrafts 2026 initiative by the Ministry of Culture.</p></div>
+      <div><p class="footer-col-title">Shop</p><div class="footer-links" role="list"><a role="listitem" href="shop.html">All Products</a><a href="shop-pottery.html">Pottery</a><a href="shop-textiles.html">Textiles</a><a href="shop-metalwork.html">Metalwork</a><a href="shop-leather.html">Leather</a></div></div>
+      <div>
+        <p class="footer-col-title">More</p>
+        <div class="footer-links" role="list">
+          <a href="about.html">About Us</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="search.html">Search</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container"><div class="footer-bottom"><p>&copy; 2026 Dar Al Hiraf &mdash; دار الحرف. All rights reserved.</p><p>A Ministry of Culture Initiative</p></div></div>
+</footer>
+</body>
+</html>
