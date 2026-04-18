@@ -5,7 +5,7 @@ A web-based e-commerce platform dedicated to celebrating and showcasing the arti
 This website serves as a bridge between traditional craftsmanship and modern digital accessibility. It is designed to preserve cultural heritage while providing a seamless shopping experience for enthusiasts of authentic handicrafts.
 # Key Features
 
-    Artisan Showcase: Dedicated pages to view handicrafts by category, region, or artist.
+    Artisan Showcase: Dedicated pages to view handicrafts by category, or artist.
 
     Secure Browsing: Intuitive catalog navigation with product details.
 
