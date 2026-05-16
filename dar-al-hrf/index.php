@@ -17,13 +17,13 @@ if (isset($_COOKIE['dh_purchases'])) {
 
 <nav class="navbar" aria-label="Main navigation">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo">
+    <a href="index.php" class="navbar-logo">
       <span class="logo-ar" lang="ar">دار الحرف</span>
       <span class="logo-en">Dar Al Hiraf</span>
     </a>
     <div class="navbar-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="shop.html">Shop</a>
+      <a href="index.php" class="active">Home</a>
+      <a href="shop.php">Shop</a>
       <a href="workshops.html">Workshops</a>
       <a href="about.html">About</a>
     </div>
@@ -36,7 +36,7 @@ if (isset($_COOKIE['dh_purchases'])) {
     
     
         <div class="navbar-right">
-      <a id="adminNavLink" href="admin-login.html" class="navbar-admin-link">Admin</a>
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
       <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
         <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-badge" id="cartBadge"></span>
@@ -57,7 +57,7 @@ if (isset($_COOKIE['dh_purchases'])) {
     <p class="hero-title-en">Dar Al Hiraf</p>
     <p class="hero-desc">Discover authentic handmade Saudi products by skilled local artisans. Each piece tells the story of our culture, heritage, and tradition.</p>
     <div class="hero-btns">
-      <a href="shop.html" class="btn btn-gold">Shop Now</a>
+      <a href="shop.php" class="btn btn-gold">Shop Now</a>
       <a href="workshops.html" class="btn btn-white-outline">Our Workshops</a>
     </div>
   </div>
@@ -65,12 +65,12 @@ if (isset($_COOKIE['dh_purchases'])) {
 
 <div class="cat-strip">
   <div class="cat-strip-inner">
-    <a href="shop.html" class="cat-item">All Crafts</a>
-    <a href="shop-pottery.html" class="cat-item">Pottery</a>
-    <a href="shop-textiles.html" class="cat-item">Textiles</a>
-    <a href="shop-metalwork.html" class="cat-item">Metalwork</a>
-    <a href="shop-leather.html" class="cat-item">Leather</a>
-    <a href="shop-fragrance.html" class="cat-item">Fragrance</a>
+    <a href="shop.php" class="cat-item">All Crafts</a>
+    <a href="shop.php" class="cat-item">Pottery</a>
+    <a href="shop.php" class="cat-item">Textiles</a>
+    <a href="shop.php" class="cat-item">Metalwork</a>
+    <a href="shop.php" class="cat-item">Leather</a>
+    <a href="shop.php" class="cat-item">Fragrance</a>
   </div>
 </div>
 
@@ -82,138 +82,37 @@ if (isset($_COOKIE['dh_purchases'])) {
         <h2>منتجات مختارة</h2>
         <div class="gold-line"></div>
       </div>
-      <a href="shop.html" class="btn btn-green">View All Products &rarr;</a>
+      <a href="shop.php" class="btn btn-green">View All Products &rarr;</a>
     </div>
     <div class="product-grid">
-      <a href="product.html?id=p1" class="product-card">
+      <?php
+      require_once 'db.php';
+      $featured = $pdo->query("SELECT * FROM products WHERE category != 'Workshop' ORDER BY pid ASC LIMIT 8")->fetchAll();
+      foreach ($featured as $p):
+        $isNew = $p['pid'] >= 13; // newly added products get NEW badge
+      ?>
+      <a href="product.php?id=<?php echo $p['pid']; ?>" class="product-card">
         <div class="image-container">
+          <?php if ($p['pid'] <= 4): ?>
           <span class="badge featured">FEATURED</span>
-          <img src="images/p1_baskets.jpg" alt="Woven Baskets & Embroidered Textiles">
-        </div>
-        <div class="product-info">
-          <p class="category">TEXTILES</p>
-          <h3 class="product-title">Woven Baskets &amp; Embroidered Textiles</h3>
-          <p class="author">By: Fatima Al-Ghamdi</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">320</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p1','Woven Baskets & Embroidered Textiles',320,1)">+ Add to Cart</button>
-        </div>
-      </a>
-      <a href="product.html?id=p4" class="product-card">
-        <div class="image-container">
-          <span class="badge featured">FEATURED</span>
-          <img src="images/p4_khanjar.jpg" alt="Traditional Saudi Khanjar">
-        </div>
-        <div class="product-info">
-          <p class="category">METALWORK</p>
-          <h3 class="product-title">Traditional Saudi Khanjar</h3>
-          <p class="author">By: Ibrahim Al-Dosari</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">980</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p4','Traditional Saudi Khanjar',980,1)">+ Add to Cart</button>
-        </div>
-      </a>
-      <a href="product.html?id=p9" class="product-card">
-        <div class="image-container">
-          <span class="badge featured">FEATURED</span>
-          <img src="images/p9_textile.jpg" alt="Sadu Woven Textile Strip">
-        </div>
-        <div class="product-info">
-          <p class="category">TEXTILES</p>
-          <h3 class="product-title">Sadu Woven Textile Strip</h3>
-          <p class="author">By: Fatima Al-Ghamdi</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">360</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p9','Sadu Woven Textile Strip',360,1)">+ Add to Cart</button>
-        </div>
-      </a>
-      <a href="product.html?id=p12" class="product-card">
-        <div class="image-container">
-          <span class="badge featured">FEATURED</span>
-          <img src="images/p12_wooddoor.jpg" alt="Carved Wooden Heritage Panel">
-        </div>
-        <div class="product-info">
-          <p class="category">WOOD</p>
-          <h3 class="product-title">Carved Wooden Heritage Panel</h3>
-          <p class="author">By: Khalid Al-Zahrani</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">1,400</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p12','Carved Wooden Heritage Panel',1400,1)">+ Add to Cart</button>
-        </div>
-      </a>
-      <a href="product.html?id=p2" class="product-card">
-        <div class="image-container">
-          
-          <img src="images/p2_mortar.jpg" alt="Brass Mortar & Pestle">
-        </div>
-        <div class="product-info">
-          <p class="category">METALWORK</p>
-          <h3 class="product-title">Brass Mortar &amp; Pestle</h3>
-          <p class="author">By: Hassan Al-Otaibi</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">495</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p2','Brass Mortar & Pestle',495,1)">+ Add to Cart</button>
-        </div>
-      </a>
-      <a href="product.html?id=p3" class="product-card">
-        <div class="image-container">
+          <?php elseif ($isNew): ?>
           <span class="badge new-item">NEW</span>
-          <img src="images/p3_hat.jpg" alt="Palm Leaf Sun Hat">
+          <?php endif; ?>
+          <img src="<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
         </div>
         <div class="product-info">
-          <p class="category">TEXTILES</p>
-          <h3 class="product-title">Palm Leaf Sun Hat</h3>
-          <p class="author">By: Aisha Al-Mutairi</p>
+          <p class="category"><?php echo strtoupper(htmlspecialchars($p['category'])); ?></p>
+          <h3 class="product-title"><?php echo htmlspecialchars($p['name']); ?></h3>
+          <p class="author">By: <?php echo htmlspecialchars($p['artisan']); ?></p>
           <div class="price-row">
             <span class="currency">SAR</span>
-            <span class="price">145</span>
+            <span class="price"><?php echo number_format($p['price'], 0); ?></span>
           </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p3','Palm Leaf Sun Hat',145,1)">+ Add to Cart</button>
+          <button class="view-btn" onclick="event.stopPropagation();Cart.add({id:<?php echo $p['pid']; ?>,name:<?php echo json_encode($p['name']); ?>,price:<?php echo (float)$p['price']; ?>,image:<?php echo json_encode($p['image']); ?>,artisan:<?php echo json_encode($p['artisan']); ?>,type:'product',qty:1})">+ Add to Cart</button>
         </div>
       </a>
-      <a href="product.html?id=p6" class="product-card">
-        <div class="image-container">
-          <span class="badge new-item">NEW</span>
-          <img src="images/p6_jewelry.jpg" alt="Traditional Silver Jewellery">
-        </div>
-        <div class="product-info">
-          <p class="category">METALWORK</p>
-          <h3 class="product-title">Traditional Silver Jewellery</h3>
-          <p class="author">By: Maha Al-Shehri</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">640</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p6','Traditional Silver Jewellery',640,1)">+ Add to Cart</button>
-        </div>
-      </a>
-      <a href="product.html?id=p10" class="product-card">
-        <div class="image-container">
-          
-          <img src="images/p10_clay.jpg" alt="Handmade Clay Pottery Jug">
-        </div>
-        <div class="product-info">
-          <p class="category">POTTERY</p>
-          <h3 class="product-title">Handmade Clay Pottery Jug</h3>
-          <p class="author">By: Noura Al-Rashidi</p>
-          <div class="price-row">
-            <span class="currency">SAR</span>
-            <span class="price">280</span>
-          </div>
-          <button class="view-btn" onclick="event.stopPropagation();addToCart('p10','Handmade Clay Pottery Jug',280,1)">+ Add to Cart</button>
-        </div>
-      </a>
-    </div>
+      <?php endforeach; ?>
+    </div></div>
   </div>
 </section>
 
@@ -294,11 +193,12 @@ if (isset($_COOKIE['dh_purchases'])) {
       <div>
         <p class="footer-col-title">Shop</p>
         <div class="footer-links" role="list">
-          <a href="shop.html">All Products</a>
-          <a href="shop-pottery.html">Pottery</a>
-          <a href="shop-textiles.html">Textiles</a>
-          <a href="shop-metalwork.html">Metalwork</a>
-          <a href="shop-leather.html">Leather</a>
+          <a href="shop.php">All Products</a>
+          <a href="shop.php">Pottery</a>
+          <a href="shop.php">Textiles</a>
+          <a href="shop.php">Metalwork</a>
+          <a href="shop.php">Leather</a>
+          <a href="shop.php">Fragrance</a>
         </div>
       </div>
       <div>
@@ -325,7 +225,7 @@ if (isset($_COOKIE['dh_purchases'])) {
     if(!link) return;
     if(sessionStorage.getItem('adminLoggedIn')){
       link.textContent = '→ Admin Dashboard';
-      link.href = 'admin-dashboard.html';
+      link.href = 'admin-dashboard.php';
     }
   })();
 </script>

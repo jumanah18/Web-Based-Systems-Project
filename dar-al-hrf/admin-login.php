@@ -175,24 +175,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       text-decoration: none;
     }
     .login-divider a:hover { text-decoration: underline; }
+
+    .form-group input.invalid {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+.form-group input.invalid:focus {
+  border-color: #bd2130;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
   </style>
 </head>
 <body>
 
 <nav class="navbar" aria-label="Main navigation">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo">
+    <a href="index.php" class="navbar-logo">
       <span class="logo-ar" lang="ar">دار الحرف</span>
       <span class="logo-en">Dar Al Hiraf</span>
     </a>
     <div class="navbar-nav">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
+      <a href="index.php">Home</a>
+      <a href="shop.php">Shop</a>
       <a href="workshops.html">Workshops</a>
       <a href="about.html">About</a>
     </div>
         <div class="navbar-right">
-      <a id="adminNavLink" href="admin-login.html" class="navbar-admin-link">Admin</a>
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
       <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
         <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-badge" id="cartBadge"></span>
@@ -209,43 +218,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     <p class="admin-login-title">Sign In to Admin</p>
 
-    <div class="login-error" id="loginError">
-      Invalid email or password. Please try again.
+    <div class="login-error <?php if($error) echo 'visible'; ?>" id="loginError">
+      <?php echo $error ? htmlspecialchars($error) : 'Invalid email or password. Please try again.'; ?>
     </div>
 
-    <div class="form-group">
-      <label for="adminEmail">Email Address</label>
-      <input type="email" id="adminEmail" placeholder="admin@daralhiraf.sa" autocomplete="email" />
-    </div>
-    <div class="form-group">
-      <label for="adminPassword">Password</label>
-      <input type="password" id="adminPassword" placeholder="Enter your password" autocomplete="current-password" />
-    </div>
-
-    <button class="login-btn" onclick="handleLogin()">Sign In</button>
+    <form id="loginForm" action="admin-login.php" method="POST">
+      <div class="form-group">
+        <label for="adminEmail">Email Address</label>
+        <input type="email" id="adminEmail" name="email" placeholder="admin@daralhiraf.sa" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" name="password" placeholder="Enter your password" autocomplete="current-password" />
+      </div>
+      <button type="button" class="login-btn" onclick="handleLogin()">Sign In</button>
+    </form>
 
     <p class="login-divider">
-      &larr; <a href="index.html">Back to main site</a>
+      &larr; <a href="index.php">Back to main site</a>
     </p>
   </div>
 </div>
 
 <script>
-  function handleLogin(){
-    var email=document.getElementById('adminEmail').value.trim();
-    var pw=document.getElementById('adminPassword').value;
-    var err=document.getElementById('loginError');
-    if(!email){err.textContent='Email is required.';err.classList.add('visible');return}
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent='Enter a valid email.';err.classList.add('visible');return}
-    if(!pw){err.textContent='Password is required.';err.classList.add('visible');return}
-    if(email==='admin@daralhiraf.sa'&&pw==='Admin@2026'){
+  // Get DOM elements
+  var emailInput = document.getElementById('adminEmail');
+  var passwordInput = document.getElementById('adminPassword');
+  var err        = document.getElementById('loginError');
+
+  // Strict regex matching your PHP backend rules
+  var emailRegex    = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/;
+
+  // Function to evaluate fields in real-time as the user types
+  function checkRealtimeValidation() {
+    var email = emailInput.value.trim();
+    var pw    = passwordInput.value;
+
+    // Only flag as wrong if the user has actually typed something 
+    var isEmailWrong    = email !== '' && !emailRegex.test(email);
+    var isPasswordWrong = pw !== '' && !passwordRegex.test(pw);
+
+    // Toggle red covering on Email textbox
+    if (isEmailWrong) {
+      emailInput.classList.add('invalid');
+    } else {
+      emailInput.classList.remove('invalid');
+    }
+
+    // Toggle red covering on Password textbox
+    if (isPasswordWrong) {
+      passwordInput.classList.add('invalid');
+    } else {
+      passwordInput.classList.remove('invalid');
+    }
+
+    // Live update the error message text box
+    if (isEmailWrong) {
+      err.textContent = 'Please enter a valid email address.';
+      err.classList.add('visible');
+    } else if (isPasswordWrong) {
+      err.textContent = 'Password must be at least 6 characters and contain a letter and number.';
+      err.classList.add('visible');
+    } else {
+      // Clear error text if both formats are currently valid (or empty)
       err.classList.remove('visible');
-      sessionStorage.setItem('adminLoggedIn','1');
-      window.location.href='admin-dashboard.html';
-    }else{err.textContent='Invalid email or password.';err.classList.add('visible')}
+    }
   }
+
+  // Handle final submission when clicking "Sign In"
+  function handleLogin() {
+    var email = emailInput.value.trim();
+    var pw    = passwordInput.value;
+
+    // Final hard-check for empty or broken email
+    if (!email || !emailRegex.test(email)) {
+      emailInput.classList.add('invalid');
+      err.textContent = !email ? 'Email is required.' : 'Please enter a valid email address.';
+      err.classList.add('visible');
+      emailInput.focus();
+      return;
+    }
+
+    // Final hard-check for empty or broken password
+    if (!pw || !passwordRegex.test(pw)) {
+      passwordInput.classList.add('invalid');
+      err.textContent = !pw ? 'Password is required.' : 'Password must be at least 6 characters and contain a letter and number.';
+      err.classList.add('visible');
+      passwordInput.focus();
+      return;
+    }
+
+    // Clear classes and submit safely if everything passes
+    err.classList.remove('visible');
+    document.getElementById('loginForm').submit();
+  }
+
+  // Attach real-time listeners for typing ('input' triggers on every keystroke)
+  emailInput.addEventListener('input', checkRealtimeValidation);
+  passwordInput.addEventListener('input', checkRealtimeValidation);
+
+  // Allow pressing "Enter" inside input fields to trigger handleLogin safely
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') handleLogin();
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleLogin();
+    }
   });
 </script>
 <script src="cart.js"></script>

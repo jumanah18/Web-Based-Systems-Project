@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dar Al Hiraf — Workshop</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .workshop-detail-hero { height: 380px; position:relative; overflow:hidden; }
+    .workshop-detail-hero img { width:100%; height:100%; object-fit:cover; }
+    .workshop-detail-hero .hero-overlay { position:absolute;inset:0;background:linear-gradient(to right,rgba(36,60,33,.85) 0%,rgba(36,60,33,.4) 60%,transparent 100%); }
+    .workshop-detail-hero .hero-content { position:absolute;top:0;left:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding:0 72px;max-width:620px; }
+    .wd-wrap { padding: 56px 0 80px; background: var(--green); }
+    .wd-grid { display:grid; grid-template-columns:1fr 380px; gap:48px; align-items:start; }
+    .wd-card { background:rgba(255,255,255,.07); border:1px solid rgba(210,172,43,.3); border-radius:12px; padding:32px; position:sticky; top:90px; }
+    .wd-card-title { font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px; }
+    .wd-price-big { font-size:36px;font-weight:800;color:var(--gold);margin-bottom:8px; }
+    .wd-price-sub { font-size:12px;color:rgba(255,255,255,.5);margin-bottom:24px; }
+    .wd-detail-row { display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,.8);margin-bottom:12px;line-height:1.5; }
+    .wd-detail-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
+    .wd-slots-title { font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:24px 0 14px; }
+    .slot-grid { display:flex;flex-direction:column;gap:10px;margin-bottom:22px; }
+    .slot-lbl { cursor:pointer; }
+    .slot-lbl input[type=radio] { position:absolute;opacity:0;width:0;height:0; }
+    .slot-lbl input[type=radio]:checked + .slot-box { border-color:var(--gold);background:rgba(210,172,43,.18); }
+    .slot-box { display:flex;flex-direction:column;padding:10px 16px;border:2px solid rgba(210,172,43,.3);border-radius:8px;background:rgba(255,255,255,.05);transition:all .2s; }
+    .slot-box:hover { border-color:rgba(210,172,43,.7); }
+    .slot-date { font-size:13px;font-weight:700;color:var(--white);margin-bottom:2px; }
+    .slot-time { font-size:12px;color:rgba(255,255,255,.55); }
+    .wd-desc { font-size:15px;color:rgba(255,255,255,.75);line-height:1.8;margin-bottom:28px; }
+    .wd-info-boxes { display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px; }
+    .wd-info-box { background:rgba(255,255,255,.07);border:1px solid rgba(210,172,43,.25);border-radius:8px;padding:18px; }
+    .wd-info-box-label { font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px; }
+    .wd-info-box p { font-size:13px;color:rgba(255,255,255,.6);line-height:1.55; }
+    #not-found { display:none;text-align:center;padding:80px 20px;background:var(--green); }
+    @media(max-width:900px){ .wd-grid{grid-template-columns:1fr}.wd-card{position:static}.workshop-detail-hero .hero-content{padding:0 28px} .wd-info-boxes{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="navbar" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.php" class="navbar-logo">
+      <span class="logo-ar" lang="ar">دار الحرف</span>
+      <span class="logo-en">Dar Al Hiraf</span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.php">Home</a>
+      <a href="shop.php">Shop</a>
+      <a href="workshops.html" class="active">Workshops</a>
+      <a href="about.html">About</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    <div class="navbar-right">
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
+      <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+  <div class="back-bar"><div class="container"><a href="workshops.html" class="back-link">&#8592; Back to Workshops</a></div></div>
+
+  <!-- Hero image -->
+  <div class="workshop-detail-hero" id="wd-hero" style="display:none;">
+    <img id="wd-hero-img" src="" alt=""/>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow" id="wd-tag"></p>
+      <h1 class="hero-title-ar" lang="ar" id="wd-title-ar"></h1>
+      <p class="hero-title-en" id="wd-title-en"></p>
+    </div>
+  </div>
+
+  <!-- Detail body -->
+  <div class="wd-wrap" id="wd-body" style="display:none;">
+    <div class="container">
+      <div class="wd-grid">
+
+        <!-- Left: description + info -->
+        <div>
+          <p class="wc-tag" style="margin-bottom:8px;" id="wd-tag2"></p>
+          <p class="wd-desc" id="wd-desc"></p>
+          <div class="wd-info-boxes">
+            <div class="wd-info-box"><p class="wd-info-box-label">Materials</p><p>All tools and materials are provided. Wear comfortable clothes suitable for hands-on craft work.</p></div>
+            <div class="wd-info-box"><p class="wd-info-box-label">Certificate</p><p>Participants receive a completion certificate signed by the artisan and Dar Al Hiraf.</p></div>
+            <div class="wd-info-box"><p class="wd-info-box-label">Policy</p><p>Free cancellation up to 48 hours before the session. Seat transfers are allowed.</p></div>
+          </div>
+        </div>
+
+        <!-- Right: booking card -->
+        <div class="wd-card">
+          <p class="wd-card-title">Session Details</p>
+          <div class="wd-price-big" id="wd-price"></div>
+          <p class="wd-price-sub">per person · all materials included</p>
+
+          <div class="wd-detail-row"><span class="wd-detail-icon">📍</span><span id="wd-location"></span></div>
+          <div class="wd-detail-row"><span class="wd-detail-icon">⏱</span><span id="wd-duration"></span></div>
+          <div class="wd-detail-row"><span class="wd-detail-icon">👥</span><span id="wd-seats"></span></div>
+
+          <p class="wd-slots-title">Choose a Session</p>
+          <fieldset style="border:none;padding:0;margin:0;">
+            <legend class="sr-only">Available sessions</legend>
+            <div class="slot-grid" id="wd-slots"></div>
+          </fieldset>
+
+          <button class="btn btn-gold" style="width:100%;margin-bottom:10px;font-size:13px;border:none;cursor:pointer;padding:14px;" onclick="bookWorkshop()">Book Session</button>
+          <button class="btn btn-outline-gold" style="width:100%;font-size:13px;cursor:pointer;padding:13px;" onclick="addWorkshopToCart()">+ Add to Cart</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="not-found" style="display:none;text-align:center;padding:80px 20px;background:var(--green);">
+    <h2 style="color:var(--white);margin-bottom:12px;">Workshop Not Found</h2>
+    <p style="color:rgba(255,255,255,.6);margin-bottom:24px;">This workshop doesn't exist or has ended.</p>
+    <a href="workshops.html" class="btn btn-gold">View All Workshops</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><p class="footer-brand-name" lang="ar">دار الحرف</p><p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts. Proudly part of The Year of Handicrafts 2026.</p></div>
+      <div><p class="footer-col-title">Shop</p><div class="footer-links"><a href="shop.php">All Products</a><a href="shop.php">Pottery</a><a href="shop.php">Textiles</a><a href="shop.php">Metalwork</a><a href="shop.php">Fragrance</a></div></div>
+      <div><p class="footer-col-title">More</p><div class="footer-links"><a href="about.html">About Us</a><a href="workshops.html">Workshops</a><a href="contact.html">Contact Us</a></div></div>
+    </div>
+  </div>
+  <div class="footer-gold-bar"></div>
+  <div class="container"><div class="footer-bottom"><p>&copy; 2026 Dar Al Hiraf — دار الحرف. All rights reserved.</p><p>A Ministry of Culture Initiative</p></div></div>
+</footer>
+
+<script>
+var WORKSHOPS = {
+  w1: {
+    tag:'Basket Weaving', titleAr:'ورشة الخوص التقليدية', titleEn:'Traditional Palm Weaving',
+    img:'images/p5_weaving.jpg', price:280, location:'Al-Ahsa Heritage Center, Al-Ahsa, Eastern Province',
+    duration:'3 hours', seats:'12 seats available',
+    desc:'Learn the traditional Khousse palm-leaf weaving technique with a master artisan from Al-Ahsa. Create your own woven piece to take home. All materials are provided. Suitable for complete beginners.',
+    slots:[{date:'May 14, 2026',time:'10:00 AM – 1:00 PM'},{date:'May 14, 2026',time:'2:00 PM – 5:00 PM'},{date:'May 21, 2026',time:'10:00 AM – 1:00 PM'}]
+  },
+  w2: {
+    tag:'Textiles', titleAr:'ورشة نسيج السدو', titleEn:'Sadu Weaving Workshop',
+    img:'images/p9_textile.jpg', price:340, location:'Asir Cultural Center, Abha, Asir Region',
+    duration:'4 hours', seats:'8 seats available',
+    desc:'Master the iconic Sadu weaving — a UNESCO-recognized Bedouin craft — with Fatima Al-Ghamdi in Abha. Learn to use a traditional ground loom and create your own Sadu-patterned piece.',
+    slots:[{date:'May 21, 2026',time:'9:00 AM – 1:00 PM'},{date:'May 28, 2026',time:'9:00 AM – 1:00 PM'},{date:'June 4, 2026',time:'2:00 PM – 6:00 PM'}]
+  },
+  w3: {
+    tag:'Metalwork', titleAr:'ورشة النحاس والبرونز', titleEn:'Brass & Copper Crafting',
+    img:'images/p2_mortar.jpg', price:420, location:'Riyadh Craft Institute, Riyadh',
+    duration:'5 hours', seats:'6 seats available',
+    desc:'Shape, engrave and polish traditional brass pieces with master metalsmith Hassan Al-Otaibi in Riyadh. Learn traditional Saudi metalwork techniques used for centuries across the Arabian Peninsula.',
+    slots:[{date:'June 5, 2026',time:'10:00 AM – 3:00 PM'},{date:'June 12, 2026',time:'10:00 AM – 3:00 PM'},{date:'June 19, 2026',time:'2:00 PM – 7:00 PM'}]
+  },
+  w4: {
+    tag:'Pottery', titleAr:'ورشة الفخار التقليدي', titleEn:'Traditional Pottery Workshop',
+    img:'images/p10_clay.jpg', price:320, location:'Al-Qatif Art Center, Eastern Province',
+    duration:'4 hours', seats:'10 seats available',
+    desc:'Shape and glaze beautiful clay vessels using traditional Saudi pottery techniques with Noura Al-Rashidi. Take home the piece you create, fired and finished, as a lasting memory.',
+    slots:[{date:'June 7, 2026',time:'10:00 AM – 2:00 PM'},{date:'June 14, 2026',time:'2:00 PM – 6:00 PM'},{date:'June 21, 2026',time:'10:00 AM – 2:00 PM'}]
+  }
+};
+
+var currentWorkshop = null, currentWid = null;
+
+function getWorkshopId(){
+  return new URLSearchParams(window.location.search).get('id');
+}
+
+function renderWorkshop(wid){
+  var w = WORKSHOPS[wid];
+  if(!w){ document.getElementById('not-found').style.display='block'; return; }
+  currentWorkshop=w; currentWid=wid;
+  document.title = 'Dar Al Hiraf — '+w.titleEn;
+
+  document.getElementById('wd-hero-img').src = w.img;
+  document.getElementById('wd-hero-img').alt = w.titleEn;
+  document.getElementById('wd-tag').textContent = w.tag.toUpperCase();
+  document.getElementById('wd-title-ar').textContent = w.titleAr;
+  document.getElementById('wd-title-en').textContent = w.titleEn;
+  document.getElementById('wd-tag2').textContent = w.tag.toUpperCase();
+  document.getElementById('wd-desc').textContent = w.desc;
+  document.getElementById('wd-price').textContent = w.price+' SAR';
+  document.getElementById('wd-location').textContent = w.location;
+  document.getElementById('wd-duration').textContent = w.duration;
+  document.getElementById('wd-seats').textContent = w.seats;
+
+  var slotsEl = document.getElementById('wd-slots');
+  slotsEl.innerHTML = w.slots.map(function(s,i){
+    return '<label class="slot-lbl"><input type="radio" name="slot" value="'+i+'"'+(i===0?' checked':'')+'/><div class="slot-box"><span class="slot-date">'+s.date+'</span><span class="slot-time">'+s.time+'</span></div></label>';
+  }).join('');
+
+  document.getElementById('wd-hero').style.display='block';
+  document.getElementById('wd-body').style.display='block';
+}
+
+function bookWorkshop(){
+  if(!currentWorkshop) return;
+  var checked = document.querySelector('input[name=slot]:checked');
+  if(!checked){ alert('Please select a session date first.'); return; }
+  addToCart(currentWid, currentWorkshop.titleEn, currentWorkshop.price, 1);
+  window.location.href='checkout.html';
+}
+
+function addWorkshopToCart(){
+  if(!currentWorkshop) return;
+  addToCart(currentWid, currentWorkshop.titleEn, currentWorkshop.price, 1);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var wid=getWorkshopId();
+  if(wid) renderWorkshop(wid);
+  else document.getElementById('not-found').style.display='block';
+});
+</script>
+<script>
+  (function(){var l=document.getElementById('adminNavLink');if(!l)return;if(sessionStorage.getItem('adminLoggedIn')){l.textContent='\u2192 Logout';l.className='admin-logout-nav-btn';l.addEventListener('click',function(){sessionStorage.removeItem('adminLoggedIn')});}})();
+</script>
+<script>
+  (function(){
+    var link = document.getElementById('adminNavLink');
+    if(!link) return;
+    if(sessionStorage.getItem('adminLoggedIn')){
+      link.textContent = '→ Admin Dashboard';
+      link.href = 'admin-dashboard.php';
+    }
+  })();
+</script>
+<script src="cart.js"></script>
+</body>
+</html>

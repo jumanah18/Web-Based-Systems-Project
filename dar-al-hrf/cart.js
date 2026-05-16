@@ -93,10 +93,12 @@ const Cart = (() => {
 
     for (let i = 0; i < cart.length; i++) {
       var item = cart[i];
+      var num  = i + 1;
       var row  = document.createElement('tr');
       row.className = 'cart-row';
       row.id        = 'row-' + item.id;
       row.innerHTML =
+        '<td class="cart-num">' + num + '</td>' +
         '<td>' +
           '<div class="item-flex">' +
             '<img src="' + item.image + '" class="item-img" alt="' + item.name + '">' +

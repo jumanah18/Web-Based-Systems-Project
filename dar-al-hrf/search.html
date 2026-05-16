@@ -10,16 +10,15 @@
 
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo">
+    <a href="index.php" class="navbar-logo">
       <span class="logo-ar">دار الحرف</span>
       <span class="logo-en">Dar Al Hiraf</span>
     </a>
     <div class="navbar-nav">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
+      <a href="index.php">Home</a>
+      <a href="shop.php">Shop</a>
       <a href="workshops.html">Workshops</a>
       <a href="about.html">About</a>
-      <a href="#">Admin</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
       <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
@@ -28,13 +27,21 @@
       </button>
     </form>
     
-    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+        <div class="navbar-right">
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
+      <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </a>
+    </div>
   </div>
 </nav>
 
+</div>
+
 <div class="breadcrumb">
   <div class="breadcrumb-row">
-    <a href="index.html">Home</a>
+    <a href="index.php">Home</a>
     <span class="bc-sep">/</span>
     <span class="bc-current">Search Results</span>
   </div>
@@ -136,12 +143,13 @@
       </div>
       <div>
         <p class="footer-col-title">Shop</p>
-        <div class="footer-links">
-          <a href="shop.html">All Products</a>
-          <a href="shop-pottery.html">Pottery</a>
-          <a href="shop-textiles.html">Textiles</a>
-          <a href="shop-metalwork.html">Metalwork</a>
-          <a href="shop-leather.html">Leather</a>
+        <div class="footer-links" role="list">
+          <a href="shop.php">All Products</a>
+          <a href="shop.php">Pottery</a>
+          <a href="shop.php">Textiles</a>
+          <a href="shop.php">Metalwork</a>
+          <a href="shop.php">Leather</a>
+          <a href="shop.php">Fragrance</a>
         </div>
       </div>
       <div>
@@ -167,18 +175,18 @@
 
 <script>
   const searchDatabase = [
-    { type: 'product', name: 'Woven Baskets & Embroidered Textiles', nameAr: 'سلال وملابس مطرزة', category: 'Textiles', artisan: 'Fatima Al-Ghamdi', price: 320, image: 'p1_baskets.jpg', link: 'product-p1.html', keywords: ['woven', 'basket', 'textile', 'embroidery', 'fatima'] },
-    { type: 'product', name: 'Brass Mortar & Pestle', nameAr: 'هاون نحاسي تقليدي', category: 'Metalwork', artisan: 'Hassan Al-Otaibi', price: 495, image: 'p2_mortar.jpg', link: 'product-p2.html', keywords: ['brass', 'mortar', 'pestle', 'metalwork', 'hassan'] },
-    { type: 'product', name: 'Palm Leaf Sun Hat', nameAr: 'قبعة سعف النخيل', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 145, image: 'p3_hat.jpg', link: 'product-p3.html', keywords: ['palm', 'leaf', 'hat', 'sun', 'aisha'] },
-    { type: 'product', name: 'Traditional Saudi Khanjar', nameAr: 'خنجر سعودي تقليدي', category: 'Metalwork', artisan: 'Ibrahim Al-Dosari', price: 980, image: 'p4_khanjar.jpg', link: 'product-p4.html', keywords: ['khanjar', 'dagger', 'metalwork', 'ibrahim', 'traditional'] },
-    { type: 'product', name: 'Hand-Woven Palm Basket', nameAr: 'سلة منسوجة يدوياً', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 155, image: 'p5_weaving.jpg', link: 'product-p5.html', keywords: ['palm', 'basket', 'weaving', 'aisha'] },
-    { type: 'product', name: 'Traditional Silver Jewellery', nameAr: 'حلي فضية تقليدية', category: 'Metalwork', artisan: 'Maha Al-Shehri', price: 640, image: 'p6_jewelry.jpg', link: 'product-p6.html', keywords: ['silver', 'jewellery', 'necklace', 'maha'] },
-    { type: 'product', name: 'Woven Palm Mat', nameAr: 'حصيرة سعف النخيل', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 195, image: 'p7_palmweave.jpg', link: 'product-p7.html', keywords: ['palm', 'mat', 'weaving', 'aisha'] },
-    { type: 'product', name: 'Taif Rose Water', nameAr: 'ماء ورد الطائف', category: 'Fragrance', artisan: 'Reem Al-Harbi', price: 220, image: 'p8_roses.jpg', link: 'product-p8.html', keywords: ['taif', 'rose', 'water', 'fragrance', 'reem'] },
-    { type: 'product', name: 'Sadu Woven Textile Strip', nameAr: 'شريط نسيج سدو تقليدي', category: 'Textiles', artisan: 'Fatima Al-Ghamdi', price: 360, image: 'p9_textile.jpg', link: 'product-p9.html', keywords: ['sadu', 'weaving', 'textile', 'bedouin', 'fatima'] },
-    { type: 'product', name: 'Handmade Clay Pottery Jug', nameAr: 'إبريق فخار طيني', category: 'Pottery', artisan: 'Noura Al-Rashidi', price: 280, image: 'p10_clay.jpg', link: 'product-p10.html', keywords: ['clay', 'pottery', 'jug', 'noura'] },
-    { type: 'product', name: 'Camel Leather Shoulder Bag', nameAr: 'حقيبة جلد الجمل', category: 'Leather', artisan: 'Ibrahim Al-Dosari', price: 850, image: 'p11_leather.jpg', link: 'product-p11.html', keywords: ['leather', 'bag', 'camel', 'shoulder', 'ibrahim'] },
-    { type: 'product', name: 'Carved Wooden Heritage Panel', nameAr: 'باب خشبي تقليدي منحوت', category: 'Wood', artisan: 'Khalid Al-Zahrani', price: 1400, image: 'p12_wooddoor.jpg', link: 'product-p12.html', keywords: ['wood', 'carved', 'panel', 'khalid'] },
+    { type: 'product', name: 'Woven Baskets & Embroidered Textiles', nameAr: 'سلال وملابس مطرزة', category: 'Textiles', artisan: 'Fatima Al-Ghamdi', price: 320, image: 'p1_baskets.jpg', link: 'product.php?id=1', keywords: ['woven', 'basket', 'textile', 'embroidery', 'fatima'] },
+    { type: 'product', name: 'Brass Mortar & Pestle', nameAr: 'هاون نحاسي تقليدي', category: 'Metalwork', artisan: 'Hassan Al-Otaibi', price: 495, image: 'p2_mortar.jpg', link: 'product.php?id=2', keywords: ['brass', 'mortar', 'pestle', 'metalwork', 'hassan'] },
+    { type: 'product', name: 'Palm Leaf Sun Hat', nameAr: 'قبعة سعف النخيل', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 145, image: 'p3_hat.jpg', link: 'product.php?id=3', keywords: ['palm', 'leaf', 'hat', 'sun', 'aisha'] },
+    { type: 'product', name: 'Traditional Saudi Khanjar', nameAr: 'خنجر سعودي تقليدي', category: 'Metalwork', artisan: 'Ibrahim Al-Dosari', price: 980, image: 'p4_khanjar.jpg', link: 'product.php?id=4', keywords: ['khanjar', 'dagger', 'metalwork', 'ibrahim', 'traditional'] },
+    { type: 'product', name: 'Hand-Woven Palm Basket', nameAr: 'سلة منسوجة يدوياً', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 155, image: 'p5_weaving.jpg', link: 'product.php?id=5', keywords: ['palm', 'basket', 'weaving', 'aisha'] },
+    { type: 'product', name: 'Traditional Silver Jewellery', nameAr: 'حلي فضية تقليدية', category: 'Metalwork', artisan: 'Maha Al-Shehri', price: 640, image: 'p6_jewelry.jpg', link: 'product.php?id=6', keywords: ['silver', 'jewellery', 'necklace', 'maha'] },
+    { type: 'product', name: 'Woven Palm Mat', nameAr: 'حصيرة سعف النخيل', category: 'Textiles', artisan: 'Aisha Al-Mutairi', price: 195, image: 'p7_palmweave.jpg', link: 'product.php?id=7', keywords: ['palm', 'mat', 'weaving', 'aisha'] },
+    { type: 'product', name: 'Taif Rose Water', nameAr: 'ماء ورد الطائف', category: 'Fragrance', artisan: 'Reem Al-Harbi', price: 220, image: 'p8_roses.jpg', link: 'product.php?id=8', keywords: ['taif', 'rose', 'water', 'fragrance', 'reem'] },
+    { type: 'product', name: 'Sadu Woven Textile Strip', nameAr: 'شريط نسيج سدو تقليدي', category: 'Textiles', artisan: 'Fatima Al-Ghamdi', price: 360, image: 'p9_textile.jpg', link: 'product.php?id=9', keywords: ['sadu', 'weaving', 'textile', 'bedouin', 'fatima'] },
+    { type: 'product', name: 'Handmade Clay Pottery Jug', nameAr: 'إبريق فخار طيني', category: 'Pottery', artisan: 'Noura Al-Rashidi', price: 280, image: 'p10_clay.jpg', link: 'product.php?id=10', keywords: ['clay', 'pottery', 'jug', 'noura'] },
+    { type: 'product', name: 'Camel Leather Shoulder Bag', nameAr: 'حقيبة جلد الجمل', category: 'Leather', artisan: 'Ibrahim Al-Dosari', price: 850, image: 'p11_leather.jpg', link: 'product.php?id=11', keywords: ['leather', 'bag', 'camel', 'shoulder', 'ibrahim'] },
+    { type: 'product', name: 'Carved Wooden Heritage Panel', nameAr: 'باب خشبي تقليدي منحوت', category: 'Wood', artisan: 'Khalid Al-Zahrani', price: 1400, image: 'p12_wooddoor.jpg', link: 'product.php?id=12', keywords: ['wood', 'carved', 'panel', 'khalid'] },
     { type: 'workshop', name: 'Traditional Palm Weaving Workshop', nameAr: 'ورشة الخوص التقليدية', category: 'Basket Weaving', location: 'Al-Ahsa', date: 'May 14, 2026', duration: '3 hours', seats: '12 seats', price: 280, artisan: 'Master Artisan', image: 'p5_weaving.jpg', link: 'workshops.html', keywords: ['palm', 'weaving', 'workshop', 'ahsa', 'basket'] },
     { type: 'workshop', name: 'Sadu Weaving Workshop', nameAr: 'ورشة نسيج السدو', category: 'Textiles', location: 'Asir', date: 'May 21, 2026', duration: '4 hours', seats: '8 seats', price: 340, artisan: 'Fatima Al-Ghamdi', image: 'p9_textile.jpg', link: 'workshops.html', keywords: ['sadu', 'weaving', 'workshop', 'abha', 'fatima'] },
     { type: 'workshop', name: 'Brass & Copper Crafting Workshop', nameAr: 'ورشة النحاس والبرونز', category: 'Metalwork', location: 'Riyadh', date: 'June 5, 2026', duration: '5 hours', seats: '6 seats', price: 420, artisan: 'Hassan Al-Otaibi', image: 'p2_mortar.jpg', link: 'workshops.html', keywords: ['brass', 'copper', 'metalwork', 'workshop', 'riyadh'] },
@@ -305,6 +313,16 @@
   window.performPageSearch = performPageSearch;
   init();
 </script>
-
+<script>
+  (function(){
+    var link = document.getElementById('adminNavLink');
+    if(!link) return;
+    if(sessionStorage.getItem('adminLoggedIn')){
+      link.textContent = '→ Admin Dashboard';
+      link.href = 'admin-dashboard.php';
+    }
+  })();
+</script>
+<script src="cart.js"></script>
 </body>
 </html>

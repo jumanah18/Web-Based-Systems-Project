@@ -11,16 +11,15 @@
 
 <nav class="navbar" aria-label="Main navigation">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo">
+    <a href="index.php" class="navbar-logo">
       <span class="logo-ar" lang="ar">دار الحرف</span>
       <span class="logo-en">Dar Al Hiraf</span>
     </a>
     <div class="navbar-nav">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
+      <a href="index.php">Home</a>
+      <a href="shop.php">Shop</a>
       <a href="workshops.html" class="active">Workshops</a>
       <a href="about.html">About</a>
-      <a href="#">Admin</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
       <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
@@ -29,15 +28,23 @@
       </button>
     </form>
     
-<a href="checkout.html" class="navbar-cart-btn" aria-label="Shopping cart">Cart</a>  </div>
+    <div class="navbar-right">
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
+      <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </a>
+    </div>  </div>
 </nav>
+
+</div>
 
 <main id="main-content">
 
   <!-- BACK ARROW -->
   <div class="back-bar">
     <div class="container">
-      <a href="index.html" class="back-link">&#8592; Back to Home</a>
+      <a href="index.php" class="back-link">&#8592; Back to Home</a>
     </div>
   </div>
 
@@ -52,7 +59,7 @@
       <div class="workshops-full-grid">
 
         <!-- WORKSHOP 1 -->
-        <div class="workshop-full-card">
+        <div class="workshop-full-card" id="workshop-1">
           <div class="wf-img">
             <img src="images/p5_weaving.jpg" alt="Traditional Palm Weaving workshop" />
           </div>
@@ -98,8 +105,8 @@
                     </div>
                   </fieldset>
                   <div class="booking-actions">
-                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
-                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                    
+                    <button class="btn btn-outline-gold" onclick="addToCart('w1','Traditional Palm Weaving',280,1)">+ Add to Cart</button>
                   
                   <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
                   </div>
@@ -109,7 +116,7 @@
         </div>
 
         <!-- WORKSHOP 2 -->
-        <div class="workshop-full-card">
+        <div class="workshop-full-card" id="workshop-2">
           <div class="wf-img">
             <img src="images/p9_textile.jpg" alt="Sadu Weaving workshop" />
           </div>
@@ -155,8 +162,8 @@
                     </div>
                   </fieldset>
                   <div class="booking-actions">
-                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
-                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                    
+                    <button class="btn btn-outline-gold" onclick="addToCart('w2','Sadu Weaving Workshop',340,1)">+ Add to Cart</button>
                   
                   <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
                   </div>
@@ -166,7 +173,7 @@
         </div>
 
         <!-- WORKSHOP 3 -->
-        <div class="workshop-full-card">
+        <div class="workshop-full-card" id="workshop-3">
           <div class="wf-img">
             <img src="images/p2_mortar.jpg" alt="Brass and Copper Crafting workshop" />
           </div>
@@ -212,8 +219,8 @@
                     </div>
                   </fieldset>
                   <div class="booking-actions">
-                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
-                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                    
+                    <button class="btn btn-outline-gold" onclick="addToCart('w3','Brass & Copper Crafting',420,1)">+ Add to Cart</button>
                   
                   <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
                   </div>
@@ -223,7 +230,7 @@
         </div>
 
         <!-- WORKSHOP 4 -->
-        <div class="workshop-full-card">
+        <div class="workshop-full-card" id="workshop-4">
           <div class="wf-img">
             <img src="images/p10_clay.jpg" alt="Traditional Pottery workshop" />
           </div>
@@ -269,8 +276,8 @@
                     </div>
                   </fieldset>
                   <div class="booking-actions">
-                    <a href="checkout.html" class="btn btn-gold">Book Session</a>
-                    <a href="checkout.html" class="btn btn-outline-gold">Add to Cart</a>
+                    
+                    <button class="btn btn-outline-gold" onclick="addToCart('w4','Traditional Pottery Workshop',320,1)">+ Add to Cart</button>
                   
                   <button class="help-btn" onclick="openWorkshopHelp()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Need Help?</button>
                   </div>
@@ -294,11 +301,13 @@
       <div>
         <p class="footer-col-title">Shop</p>
         <div class="footer-links" role="list">
-          <a href="shop.html" role="listitem">All Products</a>
-          <a href="shop-pottery.html" role="listitem">Pottery</a>
-          <a href="shop-textiles.html" role="listitem">Textiles</a>
-          <a href="shop-metalwork.html" role="listitem">Metalwork</a>
-          <a href="shop-leather.html" role="listitem">Leather</a>
+          <a href="shop.php" role="listitem">All Products</a>
+          <a href="shop.php" role="listitem">Pottery</a>
+          <a href="shop.php" role="listitem">Textiles</a>
+          <a href="shop.php" role="listitem">Metalwork</a>
+          <a href="shop.php" role="listitem">Leather</a>
+          <a href="shop.php" role="listitem">Fragrance</a>
+
         </div>
       </div>
       <div>
@@ -354,5 +363,16 @@
   function closeWorkshopHelp() { document.getElementById("workshopHelpOverlay").classList.remove("open"); document.body.style.overflow=""; }
   document.addEventListener("keydown", e => { if(e.key==="Escape") closeWorkshopHelp(); });
 </script>
+<script>
+  (function(){
+    var link = document.getElementById('adminNavLink');
+    if(!link) return;
+    if(sessionStorage.getItem('adminLoggedIn')){
+      link.textContent = '→ Admin Dashboard';
+      link.href = 'admin-dashboard.php';
+    }
+  })();
+</script>
+<script src="cart.js"></script>
 </body>
 </html>
