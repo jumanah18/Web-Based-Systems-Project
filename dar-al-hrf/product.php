@@ -10,6 +10,9 @@ if (!$product) {
     header('Location: shop.php');
     exit;
 }
+
+// Check stock status
+$inStock = isset($product['quantity']) && (int)$product['quantity'] > 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,26 +97,28 @@ if (!$product) {
               <span class="d-meta-val"><?php echo htmlspecialchars($product['material']); ?></span>
             </div>
             <?php endif; ?>
-            <?php if (!empty($product['quantity'])): ?>
             <div class="d-meta-row">
-              <span class="d-meta-key">In Stock</span>
-              <span class="d-meta-val"><?php echo (int)$product['quantity']; ?> available
+              <span class="d-meta-key">Availability</span>
+              <span class="d-meta-val">
+                <?php echo $inStock ? (int)$product['quantity'] . ' available' : '<span style="color:red; font-weight:bold;">Out of Stock</span>'; ?>
               </span>
             </div>
-            <?php endif; ?>
           </div>
 
           <!-- Quantity -->
           <div class="d-meta-row" style="margin-bottom:18px;align-items:center;gap:14px;">
             <span class="d-meta-key">Quantity</span>
-            <input type="number" id="qtyInput" value="1" min="1"
+            <input type="number" id="qtyInput" 
+                   value="<?php echo $inStock ? '1' : '0'; ?>" 
+                   min="<?php echo $inStock ? '1' : '0'; ?>"
                    max="<?php echo (int)($product['quantity'] ?? 99); ?>"
+                   <?php echo !$inStock ? 'disabled' : ''; ?>
                    style="width:70px;padding:8px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;text-align:center;" />
           </div>
 
           <div class="d-btns">
-            <button class="btn btn-green" onclick="handleAddToCart()" style="font-size:14px;padding:14px 24px;">
-              &#x1F6D2; Add to Cart
+            <button class="btn btn-green" onclick="handleAddToCart()" <?php echo !$inStock ? 'disabled style="opacity:0.6; cursor:not-allowed;"' : ''; ?> style="font-size:14px;padding:14px 24px;">
+              &#x1F6D2; <?php echo $inStock ? 'Add to Cart' : 'Out of Stock'; ?>
             </button>
             <a href="checkout.html" class="btn btn-gold" style="font-size:14px;padding:14px 24px;text-align:center;">
               Checkout &rarr;
@@ -131,10 +136,10 @@ if (!$product) {
     </div>
   </div>
 
-  <!-- Help popup trigger (Task 14) -->
+  <!-- Help popup trigger -->
   <div style="position:fixed;bottom:24px;left:24px;z-index:999;">
     <button onclick="document.getElementById('helpModal').style.display='flex'"
-            style="background:var(--green);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.2);"
+            style="background:var(--green);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.2); "
             aria-label="Help">?</button>
   </div>
   <div id="helpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
@@ -169,7 +174,7 @@ if (!$product) {
         <p class="footer-col-title">More</p>
         <div class="footer-links">
           <a href="about.html">About Us</a>
-          <a href="contact.html">Contact Us</a>
+          <a href="contact.php">Contact Us</a>
         </div>
       </div>
     </div>
@@ -179,20 +184,35 @@ if (!$product) {
   </div>
 </footer>
 
+<script src="cart.js"></script>
 <script>
   function handleAddToCart() {
-    var qty = parseInt(document.getElementById('qtyInput').value) || 1;
-    Cart.add({
-      id:      <?php echo $product['pid']; ?>,
-      name:    <?php echo json_encode($product['name']); ?>,
-      price:   <?php echo (float)$product['price']; ?>,
-      image:   <?php echo json_encode($product['image']); ?>,
-      artisan: <?php echo json_encode($product['artisan']); ?>,
-      type:    'product',
-      qty:     qty
-    });
+    var qtyInput = document.getElementById('qtyInput');
+    if (qtyInput.disabled) return;
+
+    var qty = parseInt(qtyInput.value) || 1;
+    
+    // Safety check against manual HTML manipulation of 'max' attributes
+    var maxQty = <?php echo (int)($product['quantity'] ?? 99); ?>;
+    if (qty > maxQty) {
+        alert('Cannot add more than ' + maxQty + ' items to the cart.');
+        return;
+    }
+
+    if (typeof Cart !== 'undefined' && Cart.add) {
+        Cart.add({
+          id:      <?php echo json_encode((int)$product['pid']); ?>,
+          name:    <?php echo json_encode($product['name']); ?>,
+          price:   <?php echo json_encode((float)$product['price']); ?>,
+          image:   <?php echo json_encode($product['image']); ?>,
+          artisan: <?php echo json_encode($product['artisan']); ?>,
+          type:    'product',
+          qty:     qty
+        });
+    } else {
+        console.error("Cart system failed to load.");
+    }
   }
 </script>
-<script src="cart.js"></script>
 </body>
 </html>

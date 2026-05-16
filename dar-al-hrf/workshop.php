@@ -1,9 +1,47 @@
+<?php
+require 'db.php';
+
+// 1. Get and sanitize the workshop ID from the URL (e.g., w1, w2, etc.)
+$wid = isset($_GET['id']) ? trim($_GET['id']) : '';
+
+if (empty($wid)) {
+    $workshopNotFound = true;
+} else {
+    // 2. Fetch the workshop details from the database
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE pid = ? AND category = 'Workshop'");
+    $stmt->execute([$wid]);
+    $product = $stmt->fetch();
+
+    if (!$product) {
+        $workshopNotFound = true;
+    } else {
+        $workshopNotFound = false;
+        
+        // Check structural seat capacity status
+        $seatsAvailable = isset($product['quantity']) ? (int)$product['quantity'] : 0;
+        $isSoldOut = ($seatsAvailable <= 0);
+
+        // 3. Parse dynamic attributes
+        if (!empty($product['slots_json'])) {
+            $slots = json_decode($product['slots_json'], true);
+        } else {
+            // Fallback default mock slots if database structural layouts do not contain schedules yet
+            $slots = [
+                ['date' => 'May 24, 2026', 'time' => '10:00 AM – 2:00 PM'],
+                ['date' => 'May 31, 2026', 'time' => '2:00 PM – 6:00 PM']
+            ];
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dar Al Hiraf — Workshop</title>
+  <title>
+    <?php echo !$workshopNotFound ? htmlspecialchars($product['name']) . " | Dar Al Hiraf" : "Workshop Not Found"; ?>
+  </title>
   <link rel="stylesheet" href="style.css"/>
   <style>
     .workshop-detail-hero { height: 380px; position:relative; overflow:hidden; }
@@ -32,7 +70,8 @@
     .wd-info-box { background:rgba(255,255,255,.07);border:1px solid rgba(210,172,43,.25);border-radius:8px;padding:18px; }
     .wd-info-box-label { font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px; }
     .wd-info-box p { font-size:13px;color:rgba(255,255,255,.6);line-height:1.55; }
-    #not-found { display:none;text-align:center;padding:80px 20px;background:var(--green); }
+    #not-found { text-align:center;padding:80px 20px;background:var(--green); }
+    .btn-disabled { opacity: 0.4; cursor: not-allowed !important; }
     @media(max-width:900px){ .wd-grid{grid-template-columns:1fr}.wd-card{position:static}.workshop-detail-hero .hero-content{padding:0 28px} .wd-info-boxes{grid-template-columns:1fr} }
   </style>
 </head>
@@ -70,26 +109,32 @@
 <main id="main-content">
   <div class="back-bar"><div class="container"><a href="workshops.php" class="back-link">&#8592; Back to Workshops</a></div></div>
 
-  <!-- Hero image -->
-  <div class="workshop-detail-hero" id="wd-hero" style="display:none;">
-    <img id="wd-hero-img" src="" alt=""/>
+  <?php if ($workshopNotFound): ?>
+  <div id="not-found">
+    <h2 style="color:var(--white);margin-bottom:12px;">Workshop Not Found</h2>
+    <p style="color:rgba(255,255,255,.6);margin-bottom:24px;">This workshop doesn't exist or has ended.</p>
+    <a href="workshops.php" class="btn btn-gold">View All Workshops</a>
+  </div>
+
+  <?php else: ?>
+  <div class="workshop-detail-hero" id="wd-hero">
+    <img id="wd-hero-img" src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>"/>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow" id="wd-tag"></p>
-      <h1 class="hero-title-ar" lang="ar" id="wd-title-ar"></h1>
-      <p class="hero-title-en" id="wd-title-en"></p>
+      <p class="hero-eyebrow" id="wd-tag"><?php echo htmlspecialchars(strtoupper($product['material'] ?? 'Crafts')); ?></p>
+      <h1 class="hero-title-ar" lang="ar" id="wd-title-ar"><?php echo htmlspecialchars($product['name_ar'] ?? 'ورشة العمل'); ?></h1>
+      <p class="hero-title-en" id="wd-title-en"><?php echo htmlspecialchars($product['name']); ?></p>
     </div>
   </div>
 
-  <!-- Detail body -->
-  <div class="wd-wrap" id="wd-body" style="display:none;">
+  <div class="wd-wrap" id="wd-body">
     <div class="container">
       <div class="wd-grid">
 
-        <!-- Left: description + info -->
+        <!-- Left Column -->
         <div>
-          <p class="wc-tag" style="margin-bottom:8px;" id="wd-tag2"></p>
-          <p class="wd-desc" id="wd-desc"></p>
+          <p class="wc-tag" style="margin-bottom:8px;" id="wd-tag2"><?php echo htmlspecialchars(strtoupper($product['material'] ?? 'Crafts')); ?></p>
+          <p class="wd-desc" id="wd-desc"><?php echo nl2br(htmlspecialchars($product['description'])); ?></p>
           <div class="wd-info-boxes">
             <div class="wd-info-box"><p class="wd-info-box-label">Materials</p><p>All tools and materials are provided. Wear comfortable clothes suitable for hands-on craft work.</p></div>
             <div class="wd-info-box"><p class="wd-info-box-label">Certificate</p><p>Participants receive a completion certificate signed by the artisan and Dar Al Hiraf.</p></div>
@@ -97,35 +142,50 @@
           </div>
         </div>
 
-        <!-- Right: booking card -->
+        <!-- Right Column: Interactive Session Card -->
         <div class="wd-card">
           <p class="wd-card-title">Session Details</p>
-          <div class="wd-price-big" id="wd-price"></div>
+          <div class="wd-price-big" id="wd-price">SAR <?php echo number_format($product['price'], 2); ?></div>
           <p class="wd-price-sub">per person · all materials included</p>
 
-          <div class="wd-detail-row"><span class="wd-detail-icon">📍</span><span id="wd-location"></span></div>
-          <div class="wd-detail-row"><span class="wd-detail-icon">⏱</span><span id="wd-duration"></span></div>
-          <div class="wd-detail-row"><span class="wd-detail-icon">👥</span><span id="wd-seats"></span></div>
+          <div class="wd-detail-row"><span class="wd-detail-icon">📍</span><span id="wd-location"><?php echo htmlspecialchars($product['location'] ?? 'Dar Al Hiraf Studio'); ?></span></div>
+          <div class="wd-detail-row"><span class="wd-detail-icon">⏱</span><span id="wd-duration"><?php echo htmlspecialchars($product['duration'] ?? 'Flexible hours'); ?></span></div>
+          <div class="wd-detail-row">
+            <span class="wd-detail-icon">👥</span>
+            <span id="wd-seats">
+              <?php echo $isSoldOut ? '<span style="color:#ff6b6b; font-weight:bold;">Sold Out</span>' : $seatsAvailable . ' seats available'; ?>
+            </span>
+          </div>
 
           <p class="wd-slots-title">Choose a Session</p>
-          <fieldset style="border:none;padding:0;margin:0;">
+          <fieldset style="border:none;padding:0;margin:0;" <?php echo $isSoldOut ? 'disabled' : ''; ?>>
             <legend class="sr-only">Available sessions</legend>
-            <div class="slot-grid" id="wd-slots"></div>
+            <div class="slot-grid" id="wd-slots">
+              <?php foreach ($slots as $index => $slot): ?>
+                <label class="slot-lbl">
+                  <input type="radio" name="slot" value="<?php echo $index; ?>" data-date="<?php echo htmlspecialchars($slot['date']); ?>" <?php echo ($index === 0 && !$isSoldOut) ? 'checked' : ''; ?>/>
+                  <div class="slot-box">
+                    <span class="slot-date"><?php echo htmlspecialchars($slot['date']); ?></span>
+                    <span class="slot-time"><?php echo htmlspecialchars($slot['time']); ?></span>
+                  </div>
+                </label>
+              <?php endforeach; ?>
+            </div>
           </fieldset>
 
-          <button class="btn btn-gold" style="width:100%;margin-bottom:10px;font-size:13px;border:none;cursor:pointer;padding:14px;" onclick="bookWorkshop()">Book Session</button>
-          <button class="btn btn-outline-gold" style="width:100%;font-size:13px;cursor:pointer;padding:13px;" onclick="addWorkshopToCart()">+ Add to Cart</button>
+          <!-- Dynamic actions controlled via stock visibility -->
+          <?php if($isSoldOut): ?>
+            <button class="btn btn-gold btn-disabled" style="width:100%;margin-bottom:10px;font-size:13px;border:none;padding:14px;" disabled>Sold Out</button>
+          <?php else: ?>
+            <button class="btn btn-gold" style="width:100%;margin-bottom:10px;font-size:13px;border:none;cursor:pointer;padding:14px;" onclick="bookWorkshop()">Book Session</button>
+            <button class="btn btn-outline-gold" style="width:100%;font-size:13px;cursor:pointer;padding:13px;" onclick="addWorkshopToCart()">+ Add to Cart</button>
+          <?php endif; ?>
         </div>
 
       </div>
     </div>
   </div>
-
-  <div id="not-found" style="display:none;text-align:center;padding:80px 20px;background:var(--green);">
-    <h2 style="color:var(--white);margin-bottom:12px;">Workshop Not Found</h2>
-    <p style="color:rgba(255,255,255,.6);margin-bottom:24px;">This workshop doesn't exist or has ended.</p>
-    <a href="workshops.php" class="btn btn-gold">View All Workshops</a>
-  </div>
+  <?php endif; ?>
 </main>
 
 <footer class="footer">
@@ -133,100 +193,68 @@
     <div class="footer-grid">
       <div><p class="footer-brand-name" lang="ar">دار الحرف</p><p class="footer-desc">A platform connecting Saudi artisans with those who cherish authentic handmade crafts. Proudly part of The Year of Handicrafts 2026.</p></div>
       <div><p class="footer-col-title">Shop</p><div class="footer-links"><a href="shop.php">All Products</a><a href="shop.php">Pottery</a><a href="shop.php">Textiles</a><a href="shop.php">Metalwork</a><a href="shop.php">Fragrance</a></div></div>
-      <div><p class="footer-col-title">More</p><div class="footer-links"><a href="about.html">About Us</a><a href="workshops.php">Workshops</a><a href="contact.html">Contact Us</a></div></div>
+      <div><p class="footer-col-title">More</p><div class="footer-links"><a href="about.html">About Us</a><a href="workshops.php">Workshops</a><a href="contact.php">Contact Us</a></div></div>
     </div>
   </div>
   <div class="footer-gold-bar"></div>
   <div class="container"><div class="footer-bottom"><p>&copy; 2026 Dar Al Hiraf — دار الحرف. All rights reserved.</p><p>A Ministry of Culture Initiative</p></div></div>
 </footer>
 
+<!-- Load cart core engine before executing page click bindings -->
+<script src="cart.js"></script>
+
 <script>
-var WORKSHOPS = {
-  w1: {
-    tag:'Basket Weaving', titleAr:'ورشة الخوص التقليدية', titleEn:'Traditional Palm Weaving',
-    img:'images/p5_weaving.jpg', price:280, location:'Al-Ahsa Heritage Center, Al-Ahsa, Eastern Province',
-    duration:'3 hours', seats:'12 seats available',
-    desc:'Learn the traditional Khousse palm-leaf weaving technique with a master artisan from Al-Ahsa. Create your own woven piece to take home. All materials are provided. Suitable for complete beginners.',
-    slots:[{date:'May 14, 2026',time:'10:00 AM – 1:00 PM'},{date:'May 14, 2026',time:'2:00 PM – 5:00 PM'},{date:'May 21, 2026',time:'10:00 AM – 1:00 PM'}]
-  },
-  w2: {
-    tag:'Textiles', titleAr:'ورشة نسيج السدو', titleEn:'Sadu Weaving Workshop',
-    img:'images/p9_textile.jpg', price:340, location:'Asir Cultural Center, Abha, Asir Region',
-    duration:'4 hours', seats:'8 seats available',
-    desc:'Master the iconic Sadu weaving — a UNESCO-recognized Bedouin craft — with Fatima Al-Ghamdi in Abha. Learn to use a traditional ground loom and create your own Sadu-patterned piece.',
-    slots:[{date:'May 21, 2026',time:'9:00 AM – 1:00 PM'},{date:'May 28, 2026',time:'9:00 AM – 1:00 PM'},{date:'June 4, 2026',time:'2:00 PM – 6:00 PM'}]
-  },
-  w3: {
-    tag:'Metalwork', titleAr:'ورشة النحاس والبرونز', titleEn:'Brass & Copper Crafting',
-    img:'images/p2_mortar.jpg', price:420, location:'Riyadh Craft Institute, Riyadh',
-    duration:'5 hours', seats:'6 seats available',
-    desc:'Shape, engrave and polish traditional brass pieces with master metalsmith Hassan Al-Otaibi in Riyadh. Learn traditional Saudi metalwork techniques used for centuries across the Arabian Peninsula.',
-    slots:[{date:'June 5, 2026',time:'10:00 AM – 3:00 PM'},{date:'June 12, 2026',time:'10:00 AM – 3:00 PM'},{date:'June 19, 2026',time:'2:00 PM – 7:00 PM'}]
-  },
-  w4: {
-    tag:'Pottery', titleAr:'ورشة الفخار التقليدي', titleEn:'Traditional Pottery Workshop',
-    img:'images/p10_clay.jpg', price:320, location:'Al-Qatif Art Center, Eastern Province',
-    duration:'4 hours', seats:'10 seats available',
-    desc:'Shape and glaze beautiful clay vessels using traditional Saudi pottery techniques with Noura Al-Rashidi. Take home the piece you create, fired and finished, as a lasting memory.',
-    slots:[{date:'June 7, 2026',time:'10:00 AM – 2:00 PM'},{date:'June 14, 2026',time:'2:00 PM – 6:00 PM'},{date:'June 21, 2026',time:'10:00 AM – 2:00 PM'}]
+var currentWorkshop = <?php echo !$workshopNotFound ? json_encode([
+  'id' => (int)$product['pid'],
+  'titleEn' => $product['name'],
+  'price' => (float)$product['price'],
+  'img' => $product['image']
+]) : 'null'; ?>;
+
+function executeCartAddition() {
+  if (!currentWorkshop) return false;
+  
+  var checked = document.querySelector('input[name=slot]:checked');
+  if (!checked) { 
+    alert('Please select an available session date first.'); 
+    return false; 
   }
-};
-
-var currentWorkshop = null, currentWid = null;
-
-function getWorkshopId(){
-  return new URLSearchParams(window.location.search).get('id');
-}
-
-function renderWorkshop(wid){
-  var w = WORKSHOPS[wid];
-  if(!w){ document.getElementById('not-found').style.display='block'; return; }
-  currentWorkshop=w; currentWid=wid;
-  document.title = 'Dar Al Hiraf — '+w.titleEn;
-
-  document.getElementById('wd-hero-img').src = w.img;
-  document.getElementById('wd-hero-img').alt = w.titleEn;
-  document.getElementById('wd-tag').textContent = w.tag.toUpperCase();
-  document.getElementById('wd-title-ar').textContent = w.titleAr;
-  document.getElementById('wd-title-en').textContent = w.titleEn;
-  document.getElementById('wd-tag2').textContent = w.tag.toUpperCase();
-  document.getElementById('wd-desc').textContent = w.desc;
-  document.getElementById('wd-price').textContent = w.price+' SAR';
-  document.getElementById('wd-location').textContent = w.location;
-  document.getElementById('wd-duration').textContent = w.duration;
-  document.getElementById('wd-seats').textContent = w.seats;
-
-  var slotsEl = document.getElementById('wd-slots');
-  slotsEl.innerHTML = w.slots.map(function(s,i){
-    return '<label class="slot-lbl"><input type="radio" name="slot" value="'+i+'"'+(i===0?' checked':'')+'/><div class="slot-box"><span class="slot-date">'+s.date+'</span><span class="slot-time">'+s.time+'</span></div></label>';
-  }).join('');
-
-  document.getElementById('wd-hero').style.display='block';
-  document.getElementById('wd-body').style.display='block';
+  
+  var selectedDate = checked.getAttribute('data-date');
+  
+  // Guard configuration for handling cart operations safely
+  if (typeof Cart !== 'undefined' && Cart.add) {
+    Cart.add({
+      id: currentWorkshop.id,
+      name: currentWorkshop.titleEn + " (" + selectedDate + ")",
+      price: currentWorkshop.price,
+      image: currentWorkshop.img,
+      type: 'workshop',
+      qty: 1
+    });
+    return true;
+  } else {
+    alert('The cart platform encountered an error. Please reload the page.');
+    return false;
+  }
 }
 
 function bookWorkshop(){
-  if(!currentWorkshop) return;
-  var checked = document.querySelector('input[name=slot]:checked');
-  if(!checked){ alert('Please select a session date first.'); return; }
-  addToCart(currentWid, currentWorkshop.titleEn, currentWorkshop.price, 1);
-  window.location.href='checkout.html';
+  if(executeCartAddition()){
+    window.location.href = 'checkout.html';
+  }
 }
 
 function addWorkshopToCart(){
-  if(!currentWorkshop) return;
-  addToCart(currentWid, currentWorkshop.titleEn, currentWorkshop.price, 1);
+  if(executeCartAddition()){
+    // Visual feedback indicator notice if optional helper method exists inside cart.js
+    if (typeof updateCartBadge === 'function') {
+        updateCartBadge();
+    }
+  }
 }
+</script>
 
-document.addEventListener('DOMContentLoaded',function(){
-  var wid=getWorkshopId();
-  if(wid) renderWorkshop(wid);
-  else document.getElementById('not-found').style.display='block';
-});
-</script>
-<script>
-  (function(){var l=document.getElementById('adminNavLink');if(!l)return;if(sessionStorage.getItem('adminLoggedIn')){l.textContent='\u2192 Logout';l.className='admin-logout-nav-btn';l.addEventListener('click',function(){sessionStorage.removeItem('adminLoggedIn')});}})();
-</script>
 <script>
   (function(){
     var link = document.getElementById('adminNavLink');
@@ -234,9 +262,9 @@ document.addEventListener('DOMContentLoaded',function(){
     if(sessionStorage.getItem('adminLoggedIn')){
       link.textContent = '→ Admin Dashboard';
       link.href = 'admin-dashboard.php';
+      link.className = 'admin-logout-nav-btn';
     }
   })();
 </script>
-<script src="cart.js"></script>
 </body>
 </html>

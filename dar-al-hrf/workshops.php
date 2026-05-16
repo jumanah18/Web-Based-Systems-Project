@@ -186,7 +186,7 @@ try {
         <div class="footer-links" role="list">
           <a href="about.html" role="listitem">About Us</a>
           <a href="workshops.php" role="listitem">Workshops</a>
-          <a href="contact.html">Contact Us</a>
+          <a href="contact.php">Contact Us</a>
         </div>
       </div>
     </div>

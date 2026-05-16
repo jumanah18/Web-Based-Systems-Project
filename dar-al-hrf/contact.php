@@ -38,8 +38,6 @@
   </div>
 </nav>
 
-</div>
-
 <div class="breadcrumb">
   <div class="breadcrumb-row">
     <a href="index.php">Home</a>
@@ -89,6 +87,44 @@
             width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy">
           </iframe>
         </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="contact-form-panel">
+        <h3 class="form-title">Send Us a Message</h3>
+        <div class="gold-line" style="margin-bottom: 24px;"></div>
+
+        <?php if(isset($_GET['success'])): ?>
+          <div style="background:#e8f5e9; color:#2e7d32; padding:14px 18px; border-radius:8px; margin-bottom:20px; font-weight:700;">
+            ✅ Message sent!
+          </div>
+        <?php endif; ?>
+
+        <form action="send.php" method="POST" class="contact-form">
+          
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="How can we help?">
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit-btn">Send Message →</button>
+
+        </form>
       </div>
 
     </div>
