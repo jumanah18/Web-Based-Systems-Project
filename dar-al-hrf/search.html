@@ -17,7 +17,7 @@
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
       <a href="about.html">About</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
@@ -157,7 +157,7 @@
         <div class="footer-links">
           <a href="about.html">About Us</a>
           <a href="contact.html">Contact Us</a>
-          <a href="workshops.html">Workshops</a>
+          <a href="workshops.php">Workshops</a>
           <a href="search-results.html">Search</a>
         </div>
       </div>
@@ -187,12 +187,12 @@
     { type: 'product', name: 'Handmade Clay Pottery Jug', nameAr: 'إبريق فخار طيني', category: 'Pottery', artisan: 'Noura Al-Rashidi', price: 280, image: 'p10_clay.jpg', link: 'product.php?id=10', keywords: ['clay', 'pottery', 'jug', 'noura'] },
     { type: 'product', name: 'Camel Leather Shoulder Bag', nameAr: 'حقيبة جلد الجمل', category: 'Leather', artisan: 'Ibrahim Al-Dosari', price: 850, image: 'p11_leather.jpg', link: 'product.php?id=11', keywords: ['leather', 'bag', 'camel', 'shoulder', 'ibrahim'] },
     { type: 'product', name: 'Carved Wooden Heritage Panel', nameAr: 'باب خشبي تقليدي منحوت', category: 'Wood', artisan: 'Khalid Al-Zahrani', price: 1400, image: 'p12_wooddoor.jpg', link: 'product.php?id=12', keywords: ['wood', 'carved', 'panel', 'khalid'] },
-    { type: 'workshop', name: 'Traditional Palm Weaving Workshop', nameAr: 'ورشة الخوص التقليدية', category: 'Basket Weaving', location: 'Al-Ahsa', date: 'May 14, 2026', duration: '3 hours', seats: '12 seats', price: 280, artisan: 'Master Artisan', image: 'p5_weaving.jpg', link: 'workshops.html', keywords: ['palm', 'weaving', 'workshop', 'ahsa', 'basket'] },
-    { type: 'workshop', name: 'Sadu Weaving Workshop', nameAr: 'ورشة نسيج السدو', category: 'Textiles', location: 'Asir', date: 'May 21, 2026', duration: '4 hours', seats: '8 seats', price: 340, artisan: 'Fatima Al-Ghamdi', image: 'p9_textile.jpg', link: 'workshops.html', keywords: ['sadu', 'weaving', 'workshop', 'abha', 'fatima'] },
-    { type: 'workshop', name: 'Brass & Copper Crafting Workshop', nameAr: 'ورشة النحاس والبرونز', category: 'Metalwork', location: 'Riyadh', date: 'June 5, 2026', duration: '5 hours', seats: '6 seats', price: 420, artisan: 'Hassan Al-Otaibi', image: 'p2_mortar.jpg', link: 'workshops.html', keywords: ['brass', 'copper', 'metalwork', 'workshop', 'riyadh'] },
-    { type: 'workshop', name: 'Traditional Pottery Workshop', nameAr: 'ورشة الفخار التقليدي', category: 'Pottery', location: 'Al-Qatif', date: 'June 18, 2026', duration: '3 hours', seats: '10 seats', price: 260, artisan: 'Noura Al-Rashidi', image: 'p10_clay.jpg', link: 'workshops.html', keywords: ['pottery', 'clay', 'workshop', 'qatif', 'noura'] },
-    { type: 'workshop', name: 'Traditional Leather Tooling Workshop', nameAr: 'ورشة الجلد التقليدي', category: 'Leather', location: 'Riyadh', date: 'July 3, 2026', duration: '4 hours', seats: '8 seats', price: 380, artisan: 'Ibrahim Al-Dosari', image: 'p11_leather.jpg', link: 'workshops.html', keywords: ['leather', 'tooling', 'workshop', 'riyadh', 'ibrahim'] },
-    { type: 'workshop', name: 'Taif Rose Fragrance Blending Workshop', nameAr: 'ورشة عطور الطائف', category: 'Fragrance', location: 'Taif', date: 'July 12, 2026', duration: '2 hours', seats: '15 seats', price: 220, artisan: 'Reem Al-Harbi', image: 'p8_roses.jpg', link: 'workshops.html', keywords: ['taif', 'rose', 'fragrance', 'workshop', 'reem'] }
+    { type: 'workshop', name: 'Traditional Palm Weaving Workshop', nameAr: 'ورشة الخوص التقليدية', category: 'Basket Weaving', location: 'Al-Ahsa', date: 'May 14, 2026', duration: '3 hours', seats: '12 seats', price: 280, artisan: 'Master Artisan', image: 'p5_weaving.jpg', link: 'workshops.php', keywords: ['palm', 'weaving', 'workshop', 'ahsa', 'basket'] },
+    { type: 'workshop', name: 'Sadu Weaving Workshop', nameAr: 'ورشة نسيج السدو', category: 'Textiles', location: 'Asir', date: 'May 21, 2026', duration: '4 hours', seats: '8 seats', price: 340, artisan: 'Fatima Al-Ghamdi', image: 'p9_textile.jpg', link: 'workshops.php', keywords: ['sadu', 'weaving', 'workshop', 'abha', 'fatima'] },
+    { type: 'workshop', name: 'Brass & Copper Crafting Workshop', nameAr: 'ورشة النحاس والبرونز', category: 'Metalwork', location: 'Riyadh', date: 'June 5, 2026', duration: '5 hours', seats: '6 seats', price: 420, artisan: 'Hassan Al-Otaibi', image: 'p2_mortar.jpg', link: 'workshops.php', keywords: ['brass', 'copper', 'metalwork', 'workshop', 'riyadh'] },
+    { type: 'workshop', name: 'Traditional Pottery Workshop', nameAr: 'ورشة الفخار التقليدي', category: 'Pottery', location: 'Al-Qatif', date: 'June 18, 2026', duration: '3 hours', seats: '10 seats', price: 260, artisan: 'Noura Al-Rashidi', image: 'p10_clay.jpg', link: 'workshops.php', keywords: ['pottery', 'clay', 'workshop', 'qatif', 'noura'] },
+    { type: 'workshop', name: 'Traditional Leather Tooling Workshop', nameAr: 'ورشة الجلد التقليدي', category: 'Leather', location: 'Riyadh', date: 'July 3, 2026', duration: '4 hours', seats: '8 seats', price: 380, artisan: 'Ibrahim Al-Dosari', image: 'p11_leather.jpg', link: 'workshops.php', keywords: ['leather', 'tooling', 'workshop', 'riyadh', 'ibrahim'] },
+    { type: 'workshop', name: 'Taif Rose Fragrance Blending Workshop', nameAr: 'ورشة عطور الطائف', category: 'Fragrance', location: 'Taif', date: 'July 12, 2026', duration: '2 hours', seats: '15 seats', price: 220, artisan: 'Reem Al-Harbi', image: 'p8_roses.jpg', link: 'workshops.php', keywords: ['taif', 'rose', 'fragrance', 'workshop', 'reem'] }
   ];
 
   let currentSearchTerm = '';

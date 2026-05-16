@@ -20,7 +20,7 @@
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php" class="active">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
       <a href="about.html">About</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
@@ -104,7 +104,7 @@
         <p class="footer-col-title">More</p>
         <div class="footer-links" role="list">
           <a href="about.html">About Us</a>
-          <a href="workshops.html">Workshops</a>
+          <a href="workshops.php">Workshops</a>
           <a href="contact.html">Contact Us</a>
         </div>
       </div>

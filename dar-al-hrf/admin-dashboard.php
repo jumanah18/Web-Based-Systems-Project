@@ -24,7 +24,7 @@ if (!isset($_SESSION['admin_id'])) {
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
       <a href="about.html">About</a>
     </div>
         <div class="navbar-right">
@@ -108,7 +108,7 @@ if (!isset($_SESSION['admin_id'])) {
     <p class="admin-section-title">Quick Links</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
       <a href="shop.php" class="btn btn-green" style="font-size:12px;">View Shop</a>
-      <a href="workshops.html" class="btn btn-green" style="font-size:12px;">View Workshops</a>
+      <a href="workshops.php" class="btn btn-green" style="font-size:12px;">View Workshops</a>
       <a href="index.php" class="btn btn-brown" style="font-size:12px;">Main Site</a>
     </div>
 

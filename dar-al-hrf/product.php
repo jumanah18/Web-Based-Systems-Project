@@ -32,7 +32,7 @@ if (!$product) {
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php" class="active">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
       <a href="about.html">About</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
@@ -162,7 +162,7 @@ if (!$product) {
         <p class="footer-col-title">Shop</p>
         <div class="footer-links">
           <a href="shop.php">All Products</a>
-          <a href="workshops.html">Workshops</a>
+          <a href="workshops.php">Workshops</a>
         </div>
       </div>
       <div>

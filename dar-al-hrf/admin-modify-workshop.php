@@ -91,7 +91,7 @@ $workshops = $pdo->query("SELECT * FROM products WHERE category = 'Workshop' ORD
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
       <a href="about.html">About</a>
     </div>
     <div class="navbar-right">

@@ -24,7 +24,7 @@ if (isset($_COOKIE['dh_purchases'])) {
     <div class="navbar-nav">
       <a href="index.php" class="active">Home</a>
       <a href="shop.php">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
       <a href="about.html">About</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
@@ -58,7 +58,7 @@ if (isset($_COOKIE['dh_purchases'])) {
     <p class="hero-desc">Discover authentic handmade Saudi products by skilled local artisans. Each piece tells the story of our culture, heritage, and tradition.</p>
     <div class="hero-btns">
       <a href="shop.php" class="btn btn-gold">Shop Now</a>
-      <a href="workshops.html" class="btn btn-white-outline">Our Workshops</a>
+      <a href="workshops.php" class="btn btn-white-outline">Our Workshops</a>
     </div>
   </div>
 </section>
@@ -139,7 +139,7 @@ if (isset($_COOKIE['dh_purchases'])) {
       </div>
     </div>
     <div class="workshops-grid">
-      <a href="workshops.html#workshop-1" class="workshop-card">
+      <a href="workshops.php#workshop-1" class="workshop-card">
         <div class="wc-img"><img src="images/p5_weaving.jpg" alt="Basket Weaving" /></div>
         <div class="wc-body">
           <p class="wc-tag">Basket Weaving</p>
@@ -152,7 +152,7 @@ if (isset($_COOKIE['dh_purchases'])) {
           </div>
         </div>
       </a>
-      <a href="workshops.html#workshop-2" class="workshop-card">
+      <a href="workshops.php#workshop-2" class="workshop-card">
         <div class="wc-img"><img src="images/p9_textile.jpg" alt="Sadu Weaving" /></div>
         <div class="wc-body">
           <p class="wc-tag">Textiles</p>
@@ -165,7 +165,7 @@ if (isset($_COOKIE['dh_purchases'])) {
           </div>
         </div>
       </a>
-      <a href="workshops.html#workshop-3" class="workshop-card">
+      <a href="workshops.php#workshop-3" class="workshop-card">
         <div class="wc-img"><img src="images/p2_mortar.jpg" alt="Metalwork" /></div>
         <div class="wc-body">
           <p class="wc-tag">Metalwork</p>
@@ -205,7 +205,7 @@ if (isset($_COOKIE['dh_purchases'])) {
         <p class="footer-col-title">More</p>
         <div class="footer-links" role="list">
           <a href="about.html">About Us</a>
-          <a href="workshops.html">Workshops</a>
+          <a href="workshops.php">Workshops</a>
           <a href="contact.html">Contact Us</a>
         </div>
       </div>
