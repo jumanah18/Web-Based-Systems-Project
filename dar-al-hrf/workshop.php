@@ -113,10 +113,10 @@ if (empty($wid)) {
 </head>
 <body>
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Main navigation">
   <div class="navbar-inner">
     <a href="index.php" class="navbar-logo">
-      <span class="logo-ar">دار الحرف</span>
+      <span class="logo-ar" lang="ar">دار الحرف</span>
       <span class="logo-en">Dar Al Hiraf</span>
     </a>
     <div class="navbar-nav">
@@ -124,6 +124,20 @@ if (empty($wid)) {
       <a href="shop.php">Shop</a>
       <a href="workshops.php" class="active">Workshops</a>
       <a href="about.html">About</a>
+    </div>
+    <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
+      <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
+      <button class="navbar-search-btn" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </form>
+    
+    <div class="navbar-right">
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
+      <a href="checkout.php" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </a>
     </div>
   </div>
 </nav>
