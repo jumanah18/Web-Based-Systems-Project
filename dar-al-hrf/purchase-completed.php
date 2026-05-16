@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// Optional Vanilla Guard: If they didn't just come from an active checkout, 
+// redirect them to the home page so they can't bookmark/refresh a fake purchase screen.
+/*
+if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], 'checkout.php') === false) {
+    header('Location: index.php');
+    exit;
+}
+*/
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,7 +115,7 @@
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php">Shop</a>
-      <a href="workshops.html">Workshops</a>
+      <a href="workshops.php">Workshops</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
       <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
@@ -111,7 +124,7 @@
       </button>
     </form>
     
-        <div class="navbar-right">
+    <div class="navbar-right">
       <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
       <a href="checkout.php" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
         <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
@@ -144,7 +157,7 @@
 
       <div class="success-actions">
         <a href="shop.php" class="btn btn-green">Continue Shopping</a>
-        <a href="workshops.html" class="btn btn-gold">Explore Workshops</a>
+        <a href="workshops.php" class="btn btn-gold">Explore Workshops</a>
       </div>
 
     </div>
@@ -173,7 +186,7 @@
         <p class="footer-col-title">More</p>
         <div class="footer-links">
           <a href="about.html">About Us</a>
-          <a href="workshops.html">Workshops</a>
+          <a href="workshops.php">Workshops</a>
           <a href="contact.php">Contact Us</a>
         </div>
       </div>
@@ -187,7 +200,10 @@
     </div>
   </div>
 </footer>
+
+<script src="cart.js"></script>
 <script>
+  // Admin dynamic navbar menu handler
   (function(){
     var link = document.getElementById('adminNavLink');
     if(!link) return;
@@ -196,7 +212,23 @@
       link.href = 'admin-dashboard.php';
     }
   })();
+
+  // Clear out front-end Javascript local tracking memory objects completely 
+  // since the backend has completed checkout operations
+  if (typeof Cart !== 'undefined' && typeof Cart.clear === 'function') {
+      Cart.clear();
+  } else if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('cart');
+      localStorage.removeItem('shopping_cart');
+  }
+  
+  // Instantly clear the visible header badge count indicator if update utility exists
+  if (typeof updateCartBadge === 'function') {
+      updateCartBadge();
+  } else {
+      var badge = document.getElementById('cartBadge');
+      if (badge) badge.textContent = '';
+  }
 </script>
-<script src="cart.js"></script>
 </body>
 </html>

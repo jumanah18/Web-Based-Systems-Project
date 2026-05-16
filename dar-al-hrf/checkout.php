@@ -170,8 +170,7 @@ if (!empty($cartItems)) {
               $itemImage = !empty($item['image']) ? $item['image'] : 'images/default.jpg';
               $artisanName = !empty($item['artisan']) ? $item['artisan'] : 'Dar Al Hiraf Artisan';
               
-              // Force the cart key to safely be treated as a clean string literal instance
-              $safeCartKey =strval($indexKey);
+              $safeCartKey = strval($indexKey);
             ?>
               <tr>
                 <td><?php echo $counter++; ?></td>
@@ -214,7 +213,13 @@ if (!empty($cartItems)) {
           <div class="summary-line"><span>Workshops</span><span class="sum-val" id="sum-workshops">SAR <?php echo number_format($workshopsSubtotal, 2); ?></span></div>
           <div class="summary-line" style="border-bottom: 1px solid #e0dcd4; padding-bottom:14px; margin-bottom:0;"><span>Service Fee</span><span>SAR <?php echo number_format($serviceFee, 2); ?></span></div>
           <div class="summary-total"><span>Total</span><span class="sum-val-grand" id="sum-grand">SAR <?php echo number_format($grandTotal, 2); ?></span></div>
-          <a href="purchase-completed.html" class="btn btn-gold" style="display:block; width:100%; margin-top:24px; padding:16px; border-radius:6px; letter-spacing:1px; text-align:center; font-size:13px;">Complete Purchase</a>
+          
+          <form method="POST" action="process-purchase.php" style="margin-top:24px;">
+            <button type="submit" class="btn btn-gold" style="display:block; width:100%; padding:16px; border:none; border-radius:6px; letter-spacing:1px; text-align:center; font-size:13px; font-weight:700; cursor:pointer;">
+              Complete Purchase
+            </button>
+          </form>
+
           <div style="margin-top:16px; text-align:center;"><a href="shop.php" style="font-size:12px; color:#999; text-decoration:underline;">Continue Shopping</a></div>
         </div>
       </div>
