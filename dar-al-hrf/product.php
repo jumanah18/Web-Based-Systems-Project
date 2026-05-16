@@ -46,7 +46,7 @@ $inStock = isset($product['quantity']) && (int)$product['quantity'] > 0;
     </form>
     <div class="navbar-right">
       <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
-      <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
+      <a href="checkout.php" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
         <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-badge" id="cartBadge"></span>
       </a>
@@ -120,7 +120,7 @@ $inStock = isset($product['quantity']) && (int)$product['quantity'] > 0;
             <button class="btn btn-green" onclick="handleAddToCart()" <?php echo !$inStock ? 'disabled style="opacity:0.6; cursor:not-allowed;"' : ''; ?> style="font-size:14px;padding:14px 24px;">
               &#x1F6D2; <?php echo $inStock ? 'Add to Cart' : 'Out of Stock'; ?>
             </button>
-            <a href="checkout.html" class="btn btn-gold" style="font-size:14px;padding:14px 24px;text-align:center;">
+            <a href="checkout.php" class="btn btn-gold" style="font-size:14px;padding:14px 24px;text-align:center;">
               Checkout &rarr;
             </a>
           </div>
