@@ -42,7 +42,7 @@
   <div class="breadcrumb-row">
     <a href="index.php">Home</a>
     <span class="bc-sep">/</span>
-    <a href="contact.html">Contact Us</a>
+    <a href="contact.php">Contact Us</a>
   </div>
 </div>
 
@@ -153,7 +153,7 @@
         <p class="footer-col-title">More</p>
         <div class="footer-links">
           <a href="about.html">About Us</a>
-          <a href="contact.html">Contact Us</a>
+          <a href="contact.php">Contact Us</a>
           <a href="workshops.html">Workshops</a>
         </div>
       </div>
