@@ -10,16 +10,15 @@
 
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo">
+    <a href="index.php" class="navbar-logo">
       <span class="logo-ar">دار الحرف</span>
       <span class="logo-en">Dar Al Hiraf</span>
     </a>
     <div class="navbar-nav">
       <a href="index.php">Home</a>
       <a href="shop.php">Shop</a>
-      <a href="workshops.php">Workshops</a>
+      <a href="workshops.html">Workshops</a>
       <a href="about.html" class="active">About</a>
-      <a href="admin-login.php">Admin</a>
     </div>
     <form class="navbar-search" onsubmit="event.preventDefault();var v=this.querySelector('input').value.trim();if(v)window.location.href='search.html?q='+encodeURIComponent(v);" role="search">
       <input class="navbar-search-input" type="search" placeholder="Search..." aria-label="Search">
@@ -28,16 +27,30 @@
       </button>
     </form>
     
-    <a href="checkout.html" class="navbar-cart-btn">Cart</a>
+    <div class="navbar-right">
+      <a id="adminNavLink" href="admin-login.php" class="navbar-admin-link">Admin</a>
+      <a href="checkout.html" class="navbar-cart-btn" id="cartBtn" aria-label="View cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" stroke="#1a1a1a" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge"></span>
+      </a>
+    </div>
   </div>
 </nav>
+
+</div>
+
+<div class="back-bar">
+  <div class="container">
+    <a href="index.php" class="back-link">&larr; Back to Home</a>
+  </div>
+</div>
 
 <div class="about-container">
   
   <div class="about-hero">
     <h1>من نحن</h1>
     <h2>About Dar Al Hiraf</h2>
-    <div class="about-hero-desc">
+    <div dir="rtl" class="about-hero-desc">
       منصة سعودية تهدف إلى ربط الحرفيين المحليين بمن يقدّرون الحرف اليدوية الأصيلة، 
       مع الحفاظ على التراث السعودي وتعزيز الهوية الثقافية.
     </div>
@@ -52,7 +65,7 @@
         </svg>
       </div>
       <h3>رسالتنا</h3>
-      <p>تمكين الحرفيين السعوديين وتوفير منصة لعرض منتجاتهم اليدوية الأصيلة، مع الحفاظ على التراث الثقافي ونقله للأجيال القادمة.</p>
+      <p dir="rtl">تمكين الحرفيين السعوديين وتوفير منصة لعرض منتجاتهم اليدوية الأصيلة، مع الحفاظ على التراث الثقافي ونقله للأجيال القادمة.</p>
     </div>
     <div class="mv-card">
       <div class="mv-icon">
@@ -62,7 +75,7 @@
         </svg>
       </div>
       <h3>رؤيتنا</h3>
-      <p>أن نكون المنصة الرائدة في العالم العربي للحرف اليدوية التراثية، ونشر الوعي بأهمية الحفاظ على الهوية السعودية من خلال الحرف.</p>
+      <p dir="rtl">أن نكون المنصة الرائدة في العالم العربي للحرف اليدوية التراثية، ونشر الوعي بأهمية الحفاظ على الهوية السعودية من خلال الحرف.</p>
     </div>
   </div>
   
@@ -73,8 +86,8 @@
     <div class="story-content">
       <h3>قصتنا</h3>
       <div class="subtitle">Our Story</div>
-      <p>انطلقت دار الحرف في عام 2024 بدعم من وزارة الثقافة السعودية، كجزء من مبادرة "عام الحرف اليدوية 2026". بدأت قصتنا مع مجموعة من الحرفيين الموهوبين الذين كانوا يسعون للحفاظ على حرفهم اليدوية التقليدية وإيصالها إلى العالم.</p>
-      <p>اليوم، نفتخر بشراكة مع أكثر من 120 حرفي وحرفية من جميع مناطق المملكة، نعرض أكثر من 12 نوعاً من الحرف اليدوية الأصيلة، ونوفر ورش عمل تفاعلية لنقل هذه المهارات للأجيال القادمة.</p>
+      <p dir="rtl">انطلقت دار الحرف في عام 2024 بدعم من وزارة الثقافة السعودية، كجزء من مبادرة "عام الحرف اليدوية 2026". بدأت قصتنا مع مجموعة من الحرفيين الموهوبين الذين كانوا يسعون للحفاظ على حرفهم اليدوية التقليدية وإيصالها إلى العالم.</p>
+      <p dir="rtl">اليوم، نفتخر بشراكة مع أكثر من 120 حرفي وحرفية من جميع مناطق المملكة، نعرض أكثر من 12 نوعاً من الحرف اليدوية الأصيلة، ونوفر ورش عمل تفاعلية لنقل هذه المهارات للأجيال القادمة.</p>
     </div>
   </div>
   
@@ -89,7 +102,7 @@
           </svg>
         </div>
         <h4>الأصالة</h4>
-        <p>نحرص على تقديم منتجات أصلية 100% مصنوعة يدوياً من قبل حرفيين سعوديين.</p>
+        <p dir="rtl">نحرص على تقديم منتجات أصلية 100% مصنوعة يدوياً من قبل حرفيين سعوديين.</p>
       </div>
       <div class="value-card">
         <div class="value-icon">
@@ -98,7 +111,7 @@
           </svg>
         </div>
         <h4>الجودة</h4>
-        <p>نضمن جودة عالية في كل منتج من خلال فحص دقيق قبل الشحن.</p>
+        <p dir="rtl">نضمن جودة عالية في كل منتج من خلال فحص دقيق قبل الشحن.</p>
       </div>
       <div class="value-card">
         <div class="value-icon">
@@ -108,7 +121,7 @@
           </svg>
         </div>
         <h4>الثقة</h4>
-        <p>نعمل بشفافية ونضمن حقوق الحرفيين والعملاء على حد سواء.</p>
+        <p dir="rtl">نعمل بشفافية ونضمن حقوق الحرفيين والعملاء على حد سواء.</p>
       </div>
       <div class="value-card">
         <div class="value-icon">
@@ -117,7 +130,7 @@
           </svg>
         </div>
         <h4>الإبداع</h4>
-        <p>نشجع الحرفيين على الابتكار مع الحفاظ على التراث والتقاليد.</p>
+        <p dir="rtl">نشجع الحرفيين على الابتكار مع الحفاظ على التراث والتقاليد.</p>
       </div>
     </div>
   </div>
@@ -159,20 +172,20 @@
       <div>
         <p class="footer-col-title">Shop</p>
         <div class="footer-links" role="list">
-          <a href="shop.html">All Products</a>
-          <a href="shop-pottery.html">Pottery</a>
-          <a href="shop-textiles.html">Textiles</a>
-          <a href="shop-metalwork.html">Metalwork</a>
-          <a href="shop-leather.html">Leather</a>
+          <a href="shop.php">All Products</a>
+          <a href="shop.php">Pottery</a>
+          <a href="shop.php">Textiles</a>
+          <a href="shop.php">Metalwork</a>
+          <a href="shop.php">Leather</a>
+          <a href="shop.php">Fragrance</a>
         </div>
       </div>
       <div>
         <p class="footer-col-title">More</p>
         <div class="footer-links" role="list">
           <a href="about.html">About Us</a>
-          <a href="workshops.php">Workshops</a>
-          <a href="search.html">Search</a>
-          <a href="contact.php">Contact Us</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="contact.html">Contact Us</a>
         </div>
       </div>
     </div>
@@ -185,6 +198,16 @@
     </div>
   </div>
 </footer>
-
+<script>
+  (function(){
+    var link = document.getElementById('adminNavLink');
+    if(!link) return;
+    if(sessionStorage.getItem('adminLoggedIn')){
+      link.textContent = '→ Admin Dashboard';
+      link.href = 'admin-dashboard.php';
+    }
+  })();
+</script>
+<script src="cart.js"></script>
 </body>
 </html>
