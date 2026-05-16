@@ -1,51 +1,67 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require 'db.php';
 
 // Fallback if cart session isn't initialized
 $cartItems = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
-
-// We will update the session quantities live if they exceed current stock
 $cartUpdated = false;
 
 if (!empty($cartItems)) {
-    foreach ($cartItems as $index => $item) {
-        // We only enforce inventory limits for standard products, not workshops
-        if (isset($item['type']) && $item['type'] === 'product') {
+    foreach ($cartItems as $indexKey => $item) {
+        // Look for 'pid' (workshops) OR fallback to 'id' (standard products)
+        $productId = 0;
+        if (isset($item['pid'])) {
+            $productId = (int)$item['pid'];
+        } elseif (isset($item['id'])) {
+            $productId = (int)$item['id'];
+        }
+        
+        if ($productId <= 0) {
+            continue;
+        }
+
+        // Standardize the session entry: Ensure 'pid' is always populated
+        if (!isset($_SESSION['cart'][$indexKey]['pid'])) {
+            $_SESSION['cart'][$indexKey]['pid'] = $productId;
+            $cartItems[$indexKey]['pid'] = $productId;
+        }
+
+        // Query the source of truth database for up-to-the-minute stock/seats
+        $stmt = $pdo->prepare("SELECT quantity, artisan FROM products WHERE pid = ?");
+        $stmt->execute([$productId]);
+        $product = $stmt->fetch();
+        
+        if ($product) {
+            $currentStock = (int)$product['quantity'];
             
-            // Query the source of truth database for up-to-the-minute stock
-            $stmt = $pdo->prepare("SELECT quantity FROM products WHERE pid = ?");
-            $stmt->execute([(int)$item['id']]);
-            $product = $stmt->fetch();
-            
-            if ($product) {
-                $currentStock = (int)$product['quantity'];
-                
-                // If stock dropped or user manipulated the count, clamp it
-                if ($item['qty'] > $currentStock) {
-                    $_SESSION['cart'][$index]['qty'] = $currentStock;
-                    $cartItems[$index]['qty'] = $currentStock;
-                    $cartUpdated = true;
-                }
-                
-                // Attach real stock to the item array so the HTML slider can read it
-                $cartItems[$index]['maxStock'] = $currentStock;
-            } else {
-                // Product no longer exists in DB, drop it from cart
-                unset($_SESSION['cart'][$index]);
-                unset($cartItems[$index]);
+            // If stock/seats dropped, clamp it to the maximum available limit
+            if ($item['qty'] > $currentStock) {
+                $_SESSION['cart'][$indexKey]['qty'] = $currentStock;
+                $cartItems[$indexKey]['qty'] = $currentStock;
                 $cartUpdated = true;
             }
+            
+            // Re-verify and bind live inventory levels to the item tracking space
+            $_SESSION['cart'][$indexKey]['maxStock'] = $currentStock;
+            $cartItems[$indexKey]['maxStock'] = $currentStock;
+            
+            // Make sure artisan data matches current database value
+            if (!empty($product['artisan'])) {
+                $_SESSION['cart'][$indexKey]['artisan'] = $product['artisan'];
+                $cartItems[$indexKey]['artisan'] = $product['artisan'];
+            }
         } else {
-            // Default max limit for workshops (e.g., remaining available seats)
-            $cartItems[$index]['maxStock'] = 10; 
+            // Drop completely if product/workshop no longer exists in DB
+            unset($_SESSION['cart'][$indexKey]);
+            unset($cartItems[$indexKey]);
+            $cartUpdated = true;
         }
     }
     
-    // Re-index array if any items were dropped
     if ($cartUpdated) {
-        $_SESSION['cart'] = array_values($_SESSION['cart']);
-        $cartItems = array_values($cartItems);
+        $cartItems = $_SESSION['cart'];
     }
 }
 ?>
@@ -115,7 +131,6 @@ if (!empty($cartItems)) {
     </div>
 
     <?php if (empty($cartItems)): ?>
-      <!-- EMPTY CART VIEW -->
       <div class="empty-cart-msg" id="empty-msg">
         <h2 class="logo-ar" style="color:var(--brown); font-size:32px;">السلة فارغة</h2>
         <p style="margin-bottom:20px; color:#666;">Your cart is empty. Browse our crafts or workshops to add items.</p>
@@ -125,7 +140,6 @@ if (!empty($cartItems)) {
         </div>
       </div>
     <?php else: ?>
-      <!-- ACTIVE CART VIEW -->
       <div class="cart-active-content" id="cart-content">
         <table class="cart-table" id="cart-table">
           <thead>
@@ -135,44 +149,55 @@ if (!empty($cartItems)) {
             <?php 
             $productsSubtotal = 0;
             $workshopsSubtotal = 0;
+            $counter = 1;
             
-            foreach ($cartItems as $index => $item): 
-              $itemPrice = (float)$item['price'];
-              $itemQty = (int)$item['qty'];
+            foreach ($cartItems as $indexKey => $item): 
+              $itemPrice = isset($item['price']) ? (float)$item['price'] : 0.0;
+              $itemQty = isset($item['qty']) ? (int)$item['qty'] : 1;
+              $maxStock = isset($item['maxStock']) ? (int)$item['maxStock'] : 10;
+              
+              if ($maxStock < 1) { $maxStock = 1; }
+              if ($itemQty > $maxStock) { $itemQty = $maxStock; }
+              
               $rowTotal = $itemPrice * $itemQty;
               
-              if ($item['type'] === 'workshop') {
+              if (isset($item['type']) && $item['type'] === 'workshop') {
                   $workshopsSubtotal += $rowTotal;
               } else {
                   $productsSubtotal += $rowTotal;
               }
+              
+              $itemImage = !empty($item['image']) ? $item['image'] : 'images/default.jpg';
+              $artisanName = !empty($item['artisan']) ? $item['artisan'] : 'Dar Al Hiraf Artisan';
+              
+              // Force the cart key to safely be treated as a clean string literal instance
+              $safeCartKey =strval($indexKey);
             ?>
               <tr>
-                <td><?php echo $index + 1; ?></td>
+                <td><?php echo $counter++; ?></td>
                 <td>
                   <div style="display:flex; align-items:center; gap:10px;">
-                    <img src="<?php echo htmlspecialchars($item['image']); ?>" width="40" height="40" style="border-radius:4px; object-fit:cover;" alt="">
+                    <img src="<?php echo htmlspecialchars($itemImage); ?>" width="40" height="40" style="border-radius:4px; object-fit:cover;" alt="">
                     <div>
-                      <div style="font-weight:600;"><?php echo htmlspecialchars($item['name']); ?></div>
-                      <div style="font-size:12px; color:#777;">by <?php echo htmlspecialchars($item['artisan']); ?></div>
+                      <div style="font-weight:600; text-align: left;"><?php echo htmlspecialchars($item['name']); ?></div>
+                      <div style="font-size:12px; color:#777; text-align: left;">by <?php echo htmlspecialchars($artisanName); ?></div>
                     </div>
                   </div>
                 </td>
-                <td style="text-transform: capitalize;"><?php echo htmlspecialchars($item['type']); ?></td>
+                <td style="text-transform: capitalize;"><?php echo htmlspecialchars($item['type'] ?? 'product'); ?></td>
                 <td>SAR <?php echo number_format($itemPrice, 2); ?></td>
                 <td>
                   <div class="qty-range-wrap">
-                    <!-- The Slider range max is safely configured directly by backend database metrics -->
                     <input type="range" 
                            min="1" 
-                           max="<?php echo (int)$item['maxStock']; ?>" 
+                           max="<?php echo $maxStock; ?>" 
                            value="<?php echo $itemQty; ?>" 
-                           oninput="updateCartQuantity(<?php echo $item['id']; ?>, this.value, this)" />
+                           oninput="updateCartQuantity('<?php echo htmlspecialchars($safeCartKey); ?>', this.value, this)" />
                     <span class="qty-val"><?php echo $itemQty; ?></span>
                   </div>
                 </td>
                 <td>
-                  <button class="btn-delete" onclick="removeCartItem(<?php echo $item['id']; ?>)">&times;</button>
+                  <button class="btn-delete" onclick="removeCartItem('<?php echo htmlspecialchars($safeCartKey); ?>')">&times;</button>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -198,50 +223,41 @@ if (!empty($cartItems)) {
 </main>
 
 <script>
-// Live update handler when slider shifts
-function updateCartQuantity(id, newQty, sliderElement) {
-    // Show new value instantly in text bubble next to slider track
+function updateCartQuantity(cartKey, newQty, sliderElement) {
     sliderElement.nextElementSibling.textContent = newQty;
 
-    // Fire AJAX request to modify session values on the server instantly
     fetch('update-cart-item.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, qty: parseInt(newQty) })
+        body: JSON.stringify({ cart_key: cartKey, qty: parseInt(newQty) })
     })
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            // Refresh totals dynamically on interface
             document.getElementById('sum-products').textContent = 'SAR ' + data.productsSubtotal;
             document.getElementById('sum-workshops').textContent = 'SAR ' + data.workshopsSubtotal;
             document.getElementById('sum-grand').textContent = 'SAR ' + data.grandTotal;
         } else {
             alert(data.message || 'Error adjusting quantity.');
-            location.reload(); // Fallback reset
+            location.reload();
         }
     });
 }
 
-function removeCartItem(id) {
+function removeCartItem(cartKey) {
     if (!confirm("Remove item from cart?")) return;
-
-    // Halt any scrolling/sliding event emissions instantly
-    if (window.event) {
-        window.event.stopPropagation();
-        window.event.preventDefault();
-    }
 
     fetch('cart_remove.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id })
+        body: JSON.stringify({ cart_key: String(cartKey) })
     })
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            // Reload the layout entirely so the table rows wipe out completely
             window.location.reload(); 
+        } else {
+            alert(data.message || 'Could not delete item.');
         }
     })
     .catch(err => console.error("Error matching removal matrix:", err));
