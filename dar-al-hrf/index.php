@@ -206,7 +206,7 @@ if (isset($_COOKIE['dh_purchases'])) {
         <div class="footer-links" role="list">
           <a href="about.html">About Us</a>
           <a href="workshops.php">Workshops</a>
-          <a href="contact.html">Contact Us</a>
+          <a href="contact.php">Contact Us</a>
         </div>
       </div>
     </div>
