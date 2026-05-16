@@ -138,18 +138,18 @@ try {
                           </label>
                         <?php endforeach; ?>
                       </div>
-                    </fieldset>
-                    
+                      </fieldset>
                     <div class="booking-actions">
-                      <button class="btn btn-outline-gold" onclick="handleWorkshopAddToCart(<?php echo $workshop['pid']; ?>, <?php echo json_encode($workshop['name']); ?>, <?php echo (float)$workshop['price']; ?>, <?php echo json_encode($workshop['image']); ?>, <?php echo json_encode($workshop['artisan']); ?>)">
-                        + Add to Cart
-                      </button>
+                      <a href="workshop.php?id=<?php echo $workshop['pid']; ?>" class="btn btn-outline-gold" style="text-align: center; display: block; text-decoration: none; width: 100%;">
+                          View Details &amp; Book
+                      </a>
+  
                       <button class="help-btn" onclick="openWorkshopHelp()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                         </svg> Need Help?
                       </button>
-                    </div>
+                      </div>
                   </div>
                 </div>
               </div>
